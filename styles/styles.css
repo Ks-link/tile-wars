@@ -81,10 +81,20 @@ a:active {}
 /* Main
 --------------------------------------------- */
 
+#canvas {
+	/* position: relative; */
+	background-color: #fafafa;
+	display: block;
+	margin: 2rem auto;
+}
+
 #gameboard {
+	/* position: absolute;
+	top: 0;
+	left: 0; */
 	display: grid;
-	grid-template-columns: repeat(10, 3rem);
-	grid-template-rows: repeat(10, 3rem);
+	grid-template-columns: repeat(10, 3.75rem);
+	grid-template-rows: repeat(10, 3.75rem);
 	background-color: #fafafa;
 	max-width: max-content;
 	margin: 2rem auto;
@@ -94,11 +104,6 @@ div {
 	border: 1px solid black;
 }
 
-#canvas {
-	background-color: #fafafa;
-	display: block;
-	margin: 2rem auto;
-}
 
 /* Footer
 --------------------------------------------- */

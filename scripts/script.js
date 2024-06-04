@@ -21,6 +21,7 @@ function createGrid(cols, rows) {
         grid[c] = [];
         for (let r = 0; r < rows; r++) {
             grid[c][r] = 0;
+            // grid[c][r] = document.querySelector("div");
         }
     }
     return grid;
