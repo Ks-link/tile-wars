@@ -20,6 +20,26 @@ class Cell {
         this.filled = false;
         this.size = canvas.width / gameBoard.cols;
     }
+
+    emptyCell(colIndex, rowIndex) {
+        ctx.beginPath();
+        ctx.rect(this.size * rowIndex, this.size * colIndex, this.size, this.size);
+        ctx.fillStyle = "#fff";
+        ctx.fill();
+        ctx.strokeStyle = "#000";
+        ctx.stroke();
+        ctx.closePath();
+    }
+
+    fillCell(colIndex, rowIndex) {
+        ctx.beginPath();
+        ctx.rect(this.size * rowIndex, this.size * colIndex, this.size, this.size);
+        ctx.fillStyle = "#000";
+        ctx.fill();
+        ctx.strokeStyle = "#fff";
+        ctx.stroke();
+        ctx.closePath();
+    }
 }
 
 function createGrid(cols, rows) {
@@ -30,34 +50,26 @@ function createGrid(cols, rows) {
             const cell = new Cell();
             grid[c][r] = cell;
 
-            //draw grid
-            ctx.beginPath();
-            ctx.rect(cell.size * r, cell.size * c, cell.size, cell.size);
-            ctx.strokeStyle = "#000";
-            ctx.stroke();
-            // ctx.closePath();
-
             // example of targetting cell
             if (c === 1 && r === 1) {
                 cell.filled = true;
             }
 
-            if (c > 4) {
+            if (c >= gameBoard.rows / 2) {
                 cell.filled = true;
             }
 
-            if (c === 8 && r === 8) {
+            if (c === gameBoard.cols - 2 && r === gameBoard.cols - 2) {
                 cell.filled = false;
             }
 
+
+            //draw grid
+            // fill all selected cells
             if (cell.filled) {
-                // ctx.beginPath();
-                ctx.rect(cell.size * r, cell.size * c, cell.size, cell.size);
-                ctx.fillStyle = "#000";
-                ctx.fill();
-                ctx.strokeStyle = "#fff";
-                ctx.stroke();
-                ctx.closePath();
+                cell.fillCell(c, r);
+            } else {
+                cell.emptyCell(c, r);
             }
 
         }
@@ -65,9 +77,10 @@ function createGrid(cols, rows) {
     return grid;
 }
 
+// setInterval(createGrid, 10);
 const gameGrid = createGrid(gameBoard.cols, gameBoard.rows);
 
-function drawGrid() {
-    // ctx.beginPath();
-    // ctx.rect();
-}
+// function drawGrid() {
+// ctx.beginPath();
+// ctx.rect();
+// }
