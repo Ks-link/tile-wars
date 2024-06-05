@@ -4,8 +4,8 @@ const ctx = canvas.getContext("2d");
 
 
 const gameBoard = {
-    cols: 20,
-    rows: 20,
+    cols: 10,
+    rows: 10,
     // cellSize: canvas.width / 10,
 };
 
@@ -76,8 +76,8 @@ function createGrid(cols, rows) {
     }
     return grid;
 }
-// setInterval(createGrid, 10);
 
+// setInterval(createGrid, 10);
 const gameGrid = createGrid(gameBoard.cols, gameBoard.rows);
 
 // function drawGrid() {
