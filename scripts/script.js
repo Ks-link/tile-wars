@@ -6,8 +6,16 @@ const ctx = canvas.getContext("2d");
 const gameBoard = {
     cols: 10,
     rows: 10,
-    // cellSize: canvas.width / 10,
 };
+
+class Board {
+    constructor(cols, rows) {
+        this.cols = cols;
+        this.rows = rows;
+        this.player1 = new Player(this);
+        this.player2 = new Player(this);
+    }
+}
 
 class Player {
     constructor() {
@@ -19,27 +27,32 @@ class Cell {
     constructor() {
         this.filled = false;
         this.size = canvas.width / gameBoard.cols;
+        this.elem = document.getElementById('cell');
     }
 
-    emptyCell(colIndex, rowIndex) {
-        ctx.beginPath();
-        ctx.rect(this.size * rowIndex, this.size * colIndex, this.size, this.size);
-        ctx.fillStyle = "#fff";
-        ctx.fill();
-        ctx.strokeStyle = "#000";
-        ctx.stroke();
-        ctx.closePath();
+    newOwner(player) {
+
     }
 
-    fillCell(colIndex, rowIndex) {
-        ctx.beginPath();
-        ctx.rect(this.size * rowIndex, this.size * colIndex, this.size, this.size);
-        ctx.fillStyle = "#000";
-        ctx.fill();
-        ctx.strokeStyle = "#fff";
-        ctx.stroke();
-        ctx.closePath();
-    }
+    // emptyCell(colIndex, rowIndex) {
+    // ctx.beginPath();
+    // ctx.rect(this.size * rowIndex, this.size * colIndex, this.size, this.size);
+    // ctx.fillStyle = "#fff";
+    // ctx.fill();
+    // ctx.strokeStyle = "#000";
+    // ctx.stroke();
+    // ctx.closePath();
+    // }
+
+    // fillCell(colIndex, rowIndex) {
+    // ctx.beginPath();
+    // ctx.rect(this.size * rowIndex, this.size * colIndex, this.size, this.size);
+    // ctx.fillStyle = "#000";
+    // ctx.fill();
+    // ctx.strokeStyle = "#fff";
+    // ctx.stroke();
+    // ctx.closePath();
+    // }
 }
 
 function createGrid(cols, rows) {
@@ -51,26 +64,26 @@ function createGrid(cols, rows) {
             grid[c][r] = cell;
 
             // example of targetting cell
-            if (c === 1 && r === 1) {
-                cell.filled = true;
-            }
+            // if (c === 1 && r === 1) {
+            //     cell.filled = true;
+            // }
 
-            if (c >= gameBoard.rows / 2) {
-                cell.filled = true;
-            }
+            // if (c >= gameBoard.rows / 2) {
+            //     cell.filled = true;
+            // }
 
-            if (c === gameBoard.cols - 2 && r === gameBoard.cols - 2) {
-                cell.filled = false;
-            }
+            // if (c === gameBoard.cols - 2 && r === gameBoard.cols - 2) {
+            //     cell.filled = false;
+            // }
 
 
             //draw grid
             // fill all selected cells
-            if (cell.filled) {
-                cell.fillCell(c, r);
-            } else {
-                cell.emptyCell(c, r);
-            }
+            // if (cell.filled) {
+            //     cell.fillCell(c, r);
+            // } else {
+            //     cell.emptyCell(c, r);
+            // }
 
         }
     }
