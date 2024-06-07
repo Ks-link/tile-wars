@@ -1,12 +1,8 @@
 "use strict";
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext("2d");
 
-
-const gameBoard = {
-    cols: 10,
-    rows: 10,
-};
+const gameBoard = document.getElementById('gameboard');
+const boardWidth = gameBoard.offsetWidth;
+const boardheight = gameBoard.offsetHeight;
 
 class Board {
     constructor(cols, rows) {
@@ -34,66 +30,24 @@ class Cell {
 
     }
 
-    // emptyCell(colIndex, rowIndex) {
-    // ctx.beginPath();
-    // ctx.rect(this.size * rowIndex, this.size * colIndex, this.size, this.size);
-    // ctx.fillStyle = "#fff";
-    // ctx.fill();
-    // ctx.strokeStyle = "#000";
-    // ctx.stroke();
-    // ctx.closePath();
-    // }
-
-    // fillCell(colIndex, rowIndex) {
-    // ctx.beginPath();
-    // ctx.rect(this.size * rowIndex, this.size * colIndex, this.size, this.size);
-    // ctx.fillStyle = "#000";
-    // ctx.fill();
-    // ctx.strokeStyle = "#fff";
-    // ctx.stroke();
-    // ctx.closePath();
-    // }
 }
 
-function createGrid(cols, rows) {
-    const grid = [];
-    for (let c = 0; c < cols; c++) {
-        grid[c] = [];
-        for (let r = 0; r < rows; r++) {
-            const cell = new Cell();
-            grid[c][r] = cell;
+const grid = new Board(25, 25);
 
-            // example of targetting cell
-            // if (c === 1 && r === 1) {
-            //     cell.filled = true;
-            // }
+for (let i = 0; i < grid.cols * grid.rows; i++) {
 
-            // if (c >= gameBoard.rows / 2) {
-            //     cell.filled = true;
-            // }
+    // create grid
+    const cell = document.createElement('div');
+    gameBoard.appendChild(cell).classList.add("cell");
 
-            // if (c === gameBoard.cols - 2 && r === gameBoard.cols - 2) {
-            //     cell.filled = false;
-            // }
+    const player1 = document.createElement('div');
+    gameBoard.appendChild(player1).classList.add("player1");
 
+    const player2 = document.createElement('div');
+    gameBoard.appendChild(player2).classList.add("player2");
 
-            //draw grid
-            // fill all selected cells
-            // if (cell.filled) {
-            //     cell.fillCell(c, r);
-            // } else {
-            //     cell.emptyCell(c, r);
-            // }
+    // add variability to grid size
 
-        }
-    }
-    return grid;
+    gameBoard.style.gridTemplateColumns = `repeat(${grid.cols}, 1fr`;
+    gameBoard.style.gridTemplateRows = `repeat(${grid.rows}, 1fr`;
 }
-
-// setInterval(createGrid, 10);
-const gameGrid = createGrid(gameBoard.cols, gameBoard.rows);
-
-// function drawGrid() {
-// ctx.beginPath();
-// ctx.rect();
-// }
