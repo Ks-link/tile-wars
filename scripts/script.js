@@ -3,6 +3,9 @@
 const gameBoard = document.getElementById('gameboard');
 const boardWidth = gameBoard.offsetWidth;
 const boardheight = gameBoard.offsetHeight;
+const gridArray = [];
+let player1;
+let player2;
 
 const mapSize = 20;
 let player = [{ x: 10, y: 10 }];
@@ -18,7 +21,19 @@ class Board {
 }
 
 class Player {
-    constructor() {
+    constructor(name, x, y, svg) {
+        this.name = name;
+        // this.coords = coords;
+        this.x = x;
+        this.y = y;
+        this.svg = svg;
+    }
+
+    shoot(direction) {
+
+    }
+
+    die() {
 
     }
 }
@@ -26,8 +41,8 @@ class Player {
 class Cell {
     constructor() {
         this.filled = false;
-        this.size = canvas.width / gameBoard.cols;
-        this.elem = document.getElementById('cell');
+        // this.size = canvas.width / gameBoard.cols;
+        // this.elem = document.getElementById('cell');
     }
 
     newOwner(plasdfgsyer) {
@@ -42,8 +57,8 @@ class Cell {
 
 function drawMap() {
     gameBoard.innerHTML = '';
-    drawPlayer();
-    drawFood();
+    // drawPlayer();
+    // drawFood();
 }
 
 function drawPlayer() {
@@ -77,33 +92,74 @@ function generateFood() {
     return { x, y };
 }
 
-
-
-
 drawMap();
 
 
-const grid = new Board(25, 25);
 
-for (let i = 0; i < grid.cols * grid.rows; i++) {
 
-    // create grid
-    const cell = document.createElement('div');
-    gameBoard.appendChild(cell).classList.add("cell");
+// add remove classes to toggle cell
+// will stil need grid array to make conditional logic easier
 
-    // if (i === 15) {
-    //     const player1 = document.createElement('div');
-    //     gameBoard.appendChild(player1).classList.add("player1");
-    //     i++;
-    // }
+function createCell(tag, classOf) {
+    const elem = document.createElement(tag);
+    elem.className = classOf;
+    return elem;
+}
 
-    // if (i === 35) {
-    //     const player2 = document.createElement('div');
-    //     gameBoard.appendChild(player2).classList.add("player2");
-    //     i++;
-    // }
+function setPos(elem, pos) {
+    elem.style.gridColumn = pos.x;
+    elem.style.gridRow = pos.y;
+}
+
+function createPlayers() {
+    player1 = new Player(
+        "whtPlayer",
+        2,
+        2,
+        '<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m11.262 2.306c.196-.196.461-.306.738-.306s.542.11.738.306c1.917 1.917 7.039 7.039 8.956 8.956.196.196.306.461.306.738s-.11.542-.306.738c-1.917 1.917-7.039 7.039-8.956 8.956-.196.196-.461.306-.738.306s-.542-.11-.738-.306c-1.917-1.917-7.039-7.039-8.956-8.956-.196-.196-.306-.461-.306-.738s.11-.542.306-.738c1.917-1.917 7.039-7.039 8.956-8.956zm-7.573 9.694 8.311 8.311 8.311-8.311-8.311-8.311z" fill-rule="nonzero"/></svg>'
+    );
+    player2 = new Player(
+        "blkPlayer",
+        grid.cols - 3,
+        grid.rows - 3,
+        '<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m11.262 2.306c.196-.196.461-.306.738-.306s.542.11.738.306c1.917 1.917 7.039 7.039 8.956 8.956.196.196.306.461.306.738s-.11.542-.306.738c-1.917 1.917-7.039 7.039-8.956 8.956-.196.196-.461.306-.738.306s-.542-.11-.738-.306c-1.917-1.917-7.039-7.039-8.956-8.956-.196-.196-.306-.461-.306-.738s.11-.542.306-.738c1.917-1.917 7.039-7.039 8.956-8.956z" fill-rule="nonzero"/></svg>'
+    );
+    // setPos(player1.svg, player1)
+}
+
+
+
+
+
+const grid = new Board(20, 20);
+
+function startGame() {
+    createPlayers();
 
     // add variability to grid size
     gameBoard.style.gridTemplateColumns = `repeat(${grid.cols}, 1fr`;
     gameBoard.style.gridTemplateRows = `repeat(${grid.rows}, 1fr`;
+
+    // create an array of objects
+    for (let c = 0; c < grid.cols; c++) {
+        gridArray[c] = [];
+        for (let r = 0; r < grid.rows; r++) {
+            const cell = new Cell();
+            gridArray[c][r] = cell;
+
+            // create game grid
+            const cellElem = createCell('div', 'cell');
+            gameBoard.appendChild(cellElem);
+
+            // place players
+            if (c === player1.x && r === player1.y) {
+                console.log(player1.svg);
+                cellElem.innerHTML = player1.svg;
+            } else if (c === player2.x && r === player2.y) {
+                cellElem.innerHTML = player2.svg;
+            }
+        }
+    }
 }
+
+startGame();

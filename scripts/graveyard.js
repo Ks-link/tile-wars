@@ -65,3 +65,7 @@ const ctx = canvas.getContext("2d");
 // ctx.beginPath();
 // ctx.rect();
 // }
+
+// for (let i = 0; i < (grid.cols * grid.rows); i++) {
+
+// }
