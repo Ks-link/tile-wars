@@ -81,29 +81,43 @@ a:active {}
 /* Main
 --------------------------------------------- */
 
-#canvas {
-	/* position: relative; */
-	background-color: #fafafa;
-	display: block;
-	margin: 2rem auto;
-}
-
 #gameboard {
-	/* position: absolute;
-	top: 0;
-	left: 0; */
 	display: grid;
-	grid-template-columns: repeat(10, 3.75rem);
-	grid-template-rows: repeat(10, 3.75rem);
 	background-color: #fafafa;
-	max-width: max-content;
+	grid-template-columns: repeat(20, 1fr);
+	grid-template-rows: repeat(20, 1fr);
+	width: 40rem;
+	height: 40rem;
 	margin: 2rem auto;
+	/* gap: .125rem; */
+
 }
 
-div {
-	border: 1px solid black;
+.cell {
+	border: 1px solid #000;
 }
 
+.flipped {
+	border: 1px solid fafafa;
+	background-color: #000;
+}
+
+.player1 {
+	/* position: absolute; */
+	background-color: #000;
+	z-index: 10;
+	/* grid-column: 2/3;
+	grid-row: 2/3; */
+}
+
+.player2 {
+	/* position: absolute; */
+	background-color: #777;
+	z-index: 10;
+
+	/* grid-column: 3/4;
+	grid-row: 3/4; */
+}
 
 /* Footer
 --------------------------------------------- */
