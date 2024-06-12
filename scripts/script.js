@@ -29,7 +29,40 @@ class Player {
         this.x = x;
         this.y = y;
         this.svg = svg;
+        this.elem;
     }
+
+    moveLeft() {
+        if (this.x > 0) {
+            this.x = this.x - 1;
+            console.log(this.x);
+            setPos(this.elem, this);
+        }
+    }
+
+    moveRight() {
+        if (this.x < grid.cols) {
+            this.x = this.x + 1;
+            console.log(this.x);
+            setPos(this.elem, this);
+        }
+    }
+
+    moveDown() {
+        if (this.y < grid.rows) {
+            this.y = this.y + 1;
+            setPos(this.elem, this);
+        }
+    }
+
+    moveUp() {
+        if (this.y > 0) {
+            this.y = this.y - 1;
+            setPos(this.elem, this);
+        }
+    }
+
+
 
     shoot(direction) {
 
@@ -83,10 +116,10 @@ function createGameElem(tag, className) {
     return elem;
 }
 
-function setPos(elem, pos) {
-    elem.style.gridColumn = pos.x;
-    elem.style.gridRow = pos.y;
-}
+// function setPos(elem, pos) {
+//     elem.style.gridColumn = pos.x;
+//     elem.style.gridRow = pos.y;
+// }
 
 function drawFood() {
     const foodElem = createGameElem('div', 'player2');
@@ -122,8 +155,8 @@ function setPos(elem, pos) {
 function createPlayers() {
     player1 = new Player(
         "whtPlayer",
-        2,
-        2,
+        3,
+        3,
         '<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#fafafa" d="m11.262 2.306c.196-.196.461-.306.738-.306s.542.11.738.306c1.917 1.917 7.039 7.039 8.956 8.956.196.196.306.461.306.738s-.11.542-.306.738c-1.917 1.917-7.039 7.039-8.956 8.956-.196.196-.461.306-.738.306s-.542-.11-.738-.306c-1.917-1.917-7.039-7.039-8.956-8.956-.196-.196-.306-.461-.306-.738s.11-.542.306-.738c1.917-1.917 7.039-7.039 8.956-8.956z" fill-rule="nonzero"/></svg>'
     );
     player2 = new Player(
@@ -139,7 +172,7 @@ function createPlayers() {
 
 
 
-const grid = new Board(30, 30);
+const grid = new Board(20, 20);
 
 function startGame() {
     createPlayers();
@@ -159,10 +192,13 @@ function startGame() {
             gameBoard.appendChild(gridArray[c][r].elem);
 
             // place players
-            if (c === player1.x && r === player1.y) {
+            // need to add +1 and - 1 to match up to grid area values
+            if (c === (player1.x - 1) && r === (player1.y - 1)) {
                 gridArray[c][r].elem.innerHTML = player1.svg;
-            } else if (c === player2.x && r === player2.y) {
+                player1.elem = gridArray[c][r].elem;
+            } else if (c === (player2.x + 1) && r === (player2.y + 1)) {
                 gridArray[c][r].elem.innerHTML = player2.svg;
+                player2.elem = gridArray[c][r].elem;
             }
 
             // set up flipped tiles 
@@ -174,3 +210,21 @@ function startGame() {
 }
 
 startGame();
+
+document.addEventListener('keydown', (event) => {
+    console.log(event);
+    event.preventDefault();
+
+    // OK BEGIN CONDITIONAL LOGIC *cries*
+    if (event.key === "a") {
+        console.log("I werk");
+
+        player1.moveLeft();
+    } else if (event.key === "d") {
+        player1.moveRight();
+    } else if (event.key === "s") {
+        player1.moveDown();
+    } else if (event.key === "w") {
+        player1.moveUp();
+    }
+})
