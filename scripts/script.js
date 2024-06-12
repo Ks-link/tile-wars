@@ -2,7 +2,7 @@
 
 const gameBoard = document.getElementById('gameboard');
 const boardWidth = gameBoard.offsetWidth;
-const boardheight = gameBoard.offsetHeight;
+const boardHeight = gameBoard.offsetHeight;
 const gridArray = [];
 let player1;
 let player2;
@@ -15,6 +15,8 @@ class Board {
     constructor(cols, rows) {
         this.cols = cols;
         this.rows = rows;
+        this.width = boardWidth;
+        this.height = boardHeight;
         this.player1 = new Player(this);
         this.player2 = new Player(this);
     }
@@ -137,8 +139,8 @@ function startGame() {
     createPlayers();
 
     // add variability to grid size
-    gameBoard.style.gridTemplateColumns = `repeat(${grid.cols}, 1fr`;
-    gameBoard.style.gridTemplateRows = `repeat(${grid.rows}, 1fr`;
+    gameBoard.style.gridTemplateColumns = `repeat(${grid.cols}, ${grid.width / grid.cols}px`;
+    gameBoard.style.gridTemplateRows = `repeat(${grid.rows}, ${grid.height / grid.rows}px`;
 
     // create an array of objects
     for (let c = 0; c < grid.cols; c++) {
