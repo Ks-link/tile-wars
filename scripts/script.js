@@ -161,8 +161,8 @@ function createPlayers() {
     );
     player2 = new Player(
         "blkPlayer",
-        grid.cols - 3,
-        grid.rows - 3,
+        grid.cols - 2,
+        grid.rows - 2,
         '<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m11.262 2.306c.196-.196.461-.306.738-.306s.542.11.738.306c1.917 1.917 7.039 7.039 8.956 8.956.196.196.306.461.306.738s-.11.542-.306.738c-1.917 1.917-7.039 7.039-8.956 8.956-.196.196-.461.306-.738.306s-.542-.11-.738-.306c-1.917-1.917-7.039-7.039-8.956-8.956-.196-.196-.306-.461-.306-.738s.11-.542.306-.738c1.917-1.917 7.039-7.039 8.956-8.956z" fill-rule="nonzero"/></svg>'
     );
     // setPos(player1.svg, player1)
@@ -192,11 +192,11 @@ function startGame() {
             gameBoard.appendChild(gridArray[c][r].elem);
 
             // place players
-            // need to add +1 and - 1 to match up to grid area values
+            // need to add - 1 to match up to grid area values
             if (c === (player1.x - 1) && r === (player1.y - 1)) {
                 gridArray[c][r].elem.innerHTML = player1.svg;
                 player1.elem = gridArray[c][r].elem;
-            } else if (c === (player2.x + 1) && r === (player2.y + 1)) {
+            } else if (c === (player2.x - 1) && r === (player2.y - 1)) {
                 gridArray[c][r].elem.innerHTML = player2.svg;
                 player2.elem = gridArray[c][r].elem;
             }
@@ -216,9 +216,9 @@ document.addEventListener('keydown', (event) => {
     event.preventDefault();
 
     // OK BEGIN CONDITIONAL LOGIC *cries*
-    if (event.key === "a") {
-        console.log("I werk");
 
+    // player1 movement
+    if (event.key === "a") {
         player1.moveLeft();
     } else if (event.key === "d") {
         player1.moveRight();
@@ -227,4 +227,17 @@ document.addEventListener('keydown', (event) => {
     } else if (event.key === "w") {
         player1.moveUp();
     }
-})
+
+    // player2 movement
+    if (event.key === "ArrowLeft") {
+        console.log("I werk");
+
+        player2.moveLeft();
+    } else if (event.key === "ArrowRight") {
+        player2.moveRight();
+    } else if (event.key === "ArrowDown") {
+        player2.moveDown();
+    } else if (event.key === "ArrowUp") {
+        player2.moveUp();
+    }
+});
