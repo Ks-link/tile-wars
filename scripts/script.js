@@ -7,9 +7,9 @@ const gridArray = [];
 let player1;
 let player2;
 
-const mapSize = 20;
-let player = [{ x: 10, y: 10 }];
-let food = generateFood();
+// const mapSize = 20;
+// let player = [{ x: 10, y: 10 }];
+// let food = generateFood();
 
 class Board {
     constructor(cols, rows) {
@@ -42,13 +42,19 @@ class Player {
 
 class Cell {
     constructor() {
-        this.filled = false;
-        // this.size = canvas.width / gameBoard.cols;
-        // this.elem = document.getElementById('cell');
+        this.flipped = false;
+        this.elem;
     }
 
-    newOwner(plasdfgsyer) {
+    flip() {
+        if (!this.flipped) {
+            this.elem.classList.add('flipped');
+            this.flipped = true;
 
+        } else if (this.flipped) {
+            this.elem.classList.remove('flipped');
+            this.flipped = false;
+        }
     }
 
 }
@@ -118,7 +124,7 @@ function createPlayers() {
         "whtPlayer",
         2,
         2,
-        '<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m11.262 2.306c.196-.196.461-.306.738-.306s.542.11.738.306c1.917 1.917 7.039 7.039 8.956 8.956.196.196.306.461.306.738s-.11.542-.306.738c-1.917 1.917-7.039 7.039-8.956 8.956-.196.196-.461.306-.738.306s-.542-.11-.738-.306c-1.917-1.917-7.039-7.039-8.956-8.956-.196-.196-.306-.461-.306-.738s.11-.542.306-.738c1.917-1.917 7.039-7.039 8.956-8.956zm-7.573 9.694 8.311 8.311 8.311-8.311-8.311-8.311z" fill-rule="nonzero"/></svg>'
+        '<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#fafafa" d="m11.262 2.306c.196-.196.461-.306.738-.306s.542.11.738.306c1.917 1.917 7.039 7.039 8.956 8.956.196.196.306.461.306.738s-.11.542-.306.738c-1.917 1.917-7.039 7.039-8.956 8.956-.196.196-.461.306-.738.306s-.542-.11-.738-.306c-1.917-1.917-7.039-7.039-8.956-8.956-.196-.196-.306-.461-.306-.738s.11-.542.306-.738c1.917-1.917 7.039-7.039 8.956-8.956z" fill-rule="nonzero"/></svg>'
     );
     player2 = new Player(
         "blkPlayer",
@@ -133,7 +139,7 @@ function createPlayers() {
 
 
 
-const grid = new Board(20, 20);
+const grid = new Board(30, 30);
 
 function startGame() {
     createPlayers();
@@ -146,19 +152,22 @@ function startGame() {
     for (let c = 0; c < grid.cols; c++) {
         gridArray[c] = [];
         for (let r = 0; r < grid.rows; r++) {
-            const cell = new Cell();
-            gridArray[c][r] = cell;
+            gridArray[c][r] = new Cell();;
 
             // create game grid
-            const cellElem = createCell('div', 'cell');
-            gameBoard.appendChild(cellElem);
+            gridArray[c][r].elem = createCell('div', 'cell');
+            gameBoard.appendChild(gridArray[c][r].elem);
 
             // place players
             if (c === player1.x && r === player1.y) {
-                console.log(player1.svg);
-                cellElem.innerHTML = player1.svg;
+                gridArray[c][r].elem.innerHTML = player1.svg;
             } else if (c === player2.x && r === player2.y) {
-                cellElem.innerHTML = player2.svg;
+                gridArray[c][r].elem.innerHTML = player2.svg;
+            }
+
+            // set up flipped tiles 
+            if (c < grid.cols / 2) {
+                gridArray[c][r].flip();
             }
         }
     }
