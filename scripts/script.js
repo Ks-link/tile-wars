@@ -124,7 +124,7 @@ function drawPlayer(player) {
 
 
 
-const grid = new Board(20, 20);
+const grid = new Board(10, 10);
 
 function startGame() {
     createPlayers();
@@ -162,10 +162,11 @@ startGame();
 
 document.addEventListener('keydown', (event) => {
     event.preventDefault();
+    console.log(event);
 
     // OK BEGIN CONDITIONAL LOGIC *cries*
 
-    // player1 
+    // player1 movement
     // need to check grid bounds here to avoid checking cell that doesn't exsit after key press
     if (player1.x > 1 && gridArray[player1.y - 1][player1.x - 2].flipped === true && event.key === "a") {
         player1.moveLeft();
@@ -187,5 +188,25 @@ document.addEventListener('keydown', (event) => {
     } else if (player2.y > 1 && gridArray[player2.y - 2][player2.x - 1].flipped === false && event.key === "ArrowUp") {
         player2.moveUp();
     }
+
+
+    // player2 bullets
+    if (event.key === "4") {
+        // debugger;
+        let bulletX = player2.x;
+        let bulletY = player2.y;
+        const bullet = setInterval(() => {
+            if (gridArray[bulletY - 1][bulletX - 1].flipped === true) {
+                gridArray[bulletY - 1][bulletX - 1].flip();
+            }
+            bulletX--;
+            if (bulletX === 0) {
+                clearInterval(bullet);
+            }
+        }, 50);
+
+
+    }
+
 
 });
