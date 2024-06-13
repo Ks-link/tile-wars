@@ -115,7 +115,7 @@ function createPlayers() {
 
 function drawPlayer(player) {
     player.elem.remove();
-    player.elem = createCell('div', player);
+    player.elem = createCell('div', player.name);
     gridArray[player.y - 1][player.x - 1].elem.appendChild(player.elem);
     player.elem.innerHTML = player.svg;
 }
