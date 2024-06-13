@@ -102,22 +102,22 @@ a:active {}
 	background-color: #000;
 }
 
-.player1 {
-	/* position: absolute; */
+/* .player1 {
+	position: absolute;
 	background-color: #000;
 	z-index: 10;
-	/* grid-column: 2/3;
-	grid-row: 2/3; */
-}
+	grid-column: 2/3;
+	grid-row: 2/3;
+} */
 
-.player2 {
-	/* position: absolute; */
+/* .player2 {
+	position: absolute;
 	background-color: #777;
 	z-index: 10;
 
-	/* grid-column: 3/4;
-	grid-row: 3/4; */
-}
+	grid-column: 3/4;
+	grid-row: 3/4;
+} */
 
 /* Footer
 --------------------------------------------- */

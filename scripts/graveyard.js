@@ -69,3 +69,72 @@ const ctx = canvas.getContext("2d");
 // for (let i = 0; i < (grid.cols * grid.rows); i++) {
 
 // }
+
+// function drawMap() {
+//     gameBoard.innerHTML = '';
+//     drawPlayer();
+//     drawFood();
+// }
+
+// function drawPlayer() {
+//     player.forEach((segment) => {
+//         const playerElem = createGameElem('div', 'player1');
+//         setPos(playerElem, segment);
+//         gameBoard.appendChild(playerElem);
+//     })
+// }
+
+// function createGameElem(tag, className) {
+//     const elem = document.createElement(tag);
+//     elem.className = className;
+//     return elem;
+// }
+
+// function drawFood() {
+//     const foodElem = createGameElem('div', 'player2');
+//     setPos(foodElem, food);
+//     gameBoard.appendChild(foodElem);
+// }
+
+// function generateFood() {
+//     const x = Math.floor(Math.random() * mapSize) + 1;
+//     const y = Math.floor(Math.random() * mapSize) + 1;
+//     return { x, y };
+// }
+
+// drawMap();
+
+// moveRight() {
+//     if (this.x < grid.cols) {
+//         this.x = this.x + 1;
+//         console.log(this.x);
+//         setPos(this.elem, this);
+//     }
+// }
+
+// moveUp() {
+//     console.log(this.y);
+//     if (this.y > 1) {
+//         this.y = this.y - 1;
+//         drawPlayer(this);
+//         // setPos(this.elem, this);
+//     }
+// }
+
+// if (event.key === "ArrowLeft") {
+//     console.log("I werk");
+
+//     player2.moveLeft();
+// } else if (event.key === "ArrowRight") {
+//     player2.moveRight();
+// } else if (event.key === "ArrowDown") {
+//     player2.moveDown();
+// } else if (event.key === "ArrowUp") {
+//     player2.moveUp();
+// }
+
+// } else if (r === (player2.y) && c === (player2.x)) {
+//     gridArray[r][c].elem.innerHTML = player2.svg;
+//     player2.elem = gridArray[r][c].elem;
+//     player2.elem.classList.add('player2');
+// }
