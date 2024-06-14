@@ -1,6 +1,11 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext("2d");
 
+
+// const mapSize = 20;
+// let player = [{ x: 10, y: 10 }];
+// let food = generateFood();
+
 // <canvas id="canvas" width="600" height="600"></canvas>
 
 // emptyCell(colIndex, rowIndex) {

@@ -6,10 +6,8 @@ const boardHeight = gameBoard.offsetHeight;
 const gridArray = [];
 let player1;
 let player2;
+const bulletSpeed = 50;
 
-// const mapSize = 20;
-// let player = [{ x: 10, y: 10 }];
-// let food = generateFood();
 
 class Board {
     constructor(cols, rows) {
@@ -51,11 +49,114 @@ class Player {
         drawPlayer(this);
     }
 
+    shootLeft() {
+        let bulletX = this.x;
+        let bulletY = this.y;
 
-
-    shoot(direction) {
-
+        if (this.name === "blkPlayer") {
+            const bullet = setInterval(() => {
+                if (gridArray[bulletY - 1][bulletX - 1].flipped === true) {
+                    gridArray[bulletY - 1][bulletX - 1].flip();
+                }
+                if (bulletX === 1) {
+                    clearInterval(bullet);
+                }
+                bulletX--;
+            }, bulletSpeed);
+        } else if (this.name === "whtPlayer") {
+            const bullet = setInterval(() => {
+                if (gridArray[bulletY - 1][bulletX - 1].flipped === false) {
+                    gridArray[bulletY - 1][bulletX - 1].flip();
+                }
+                if (bulletX === 1) {
+                    clearInterval(bullet);
+                }
+                bulletX--;
+            }, bulletSpeed);
+        }
     }
+
+    shootRight() {
+        let bulletX = this.x;
+        let bulletY = this.y;
+
+        if (this.name === "blkPlayer") {
+            const bullet = setInterval(() => {
+                if (gridArray[bulletY - 1][bulletX - 1].flipped === true) {
+                    gridArray[bulletY - 1][bulletX - 1].flip();
+                }
+                if (bulletX === grid.cols) {
+                    clearInterval(bullet);
+                }
+                bulletX++;
+            }, bulletSpeed);
+        } else if (this.name === "whtPlayer") {
+            const bullet = setInterval(() => {
+                if (gridArray[bulletY - 1][bulletX - 1].flipped === false) {
+                    gridArray[bulletY - 1][bulletX - 1].flip();
+                }
+                if (bulletX === grid.cols) {
+                    clearInterval(bullet);
+                }
+                bulletX++;
+            }, bulletSpeed);
+        }
+    }
+
+    shootDown() {
+        let bulletX = this.x;
+        let bulletY = this.y;
+
+        if (this.name === "blkPlayer") {
+            const bullet = setInterval(() => {
+                if (gridArray[bulletY - 1][bulletX - 1].flipped === true) {
+                    gridArray[bulletY - 1][bulletX - 1].flip();
+                }
+                if (bulletY === grid.rows) {
+                    clearInterval(bullet);
+                }
+                bulletY++;
+            }, bulletSpeed);
+        } else if (this.name === "whtPlayer") {
+            const bullet = setInterval(() => {
+                if (gridArray[bulletY - 1][bulletX - 1].flipped === false) {
+                    gridArray[bulletY - 1][bulletX - 1].flip();
+                }
+                if (bulletY === grid.rows) {
+                    clearInterval(bullet);
+                }
+                bulletY++;
+            }, bulletSpeed);
+        }
+    }
+
+    shootUp() {
+        let bulletX = this.x;
+        let bulletY = this.y;
+
+        if (this.name === "blkPlayer") {
+            const bullet = setInterval(() => {
+                if (gridArray[bulletY - 1][bulletX - 1].flipped === true) {
+                    gridArray[bulletY - 1][bulletX - 1].flip();
+                }
+                if (bulletY === 1) {
+                    clearInterval(bullet);
+                }
+                bulletY--;
+            }, bulletSpeed);
+        } else if (this.name === "whtPlayer") {
+            const bullet = setInterval(() => {
+                if (gridArray[bulletY - 1][bulletX - 1].flipped === false) {
+                    gridArray[bulletY - 1][bulletX - 1].flip();
+                }
+                if (bulletY === 1) {
+                    clearInterval(bullet);
+                }
+                bulletY--;
+            }, bulletSpeed);
+        }
+    }
+
 
     die() {
 
@@ -124,7 +225,7 @@ function drawPlayer(player) {
 
 
 
-const grid = new Board(10, 10);
+const grid = new Board(20, 20);
 
 function startGame() {
     createPlayers();
@@ -190,22 +291,26 @@ document.addEventListener('keydown', (event) => {
     }
 
 
+    // player1 bullets
+    if (event.key === "g") {
+        player1.shootLeft();
+    } else if (event.key === "j") {
+        player1.shootRight();
+    } else if (event.key === "h") {
+        player1.shootDown();
+    } else if (event.key === "y") {
+        player1.shootUp();
+    }
+
     // player2 bullets
     if (event.key === "4") {
-        // debugger;
-        let bulletX = player2.x;
-        let bulletY = player2.y;
-        const bullet = setInterval(() => {
-            if (gridArray[bulletY - 1][bulletX - 1].flipped === true) {
-                gridArray[bulletY - 1][bulletX - 1].flip();
-            }
-            bulletX--;
-            if (bulletX === 0) {
-                clearInterval(bullet);
-            }
-        }, 50);
-
-
+        player2.shootLeft();
+    } else if (event.key === "6") {
+        player2.shootRight();
+    } else if (event.key === "5") {
+        player2.shootDown();
+    } else if (event.key === "8") {
+        player2.shootUp();
     }
 
 
