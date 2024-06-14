@@ -15,8 +15,8 @@ class Board {
         this.rows = rows;
         this.width = boardWidth;
         this.height = boardHeight;
-        this.player1 = new Player(this);
-        this.player2 = new Player(this);
+        // this.player1 = new Player(this);
+        // this.player2 = new Player(this);
     }
 }
 
@@ -54,22 +54,22 @@ class Player {
         let bulletY = this.y;
 
         if (this.name === "blkPlayer") {
-            const bullet = setInterval(() => {
+            const bulletInterval = setInterval(() => {
                 if (gridArray[bulletY - 1][bulletX - 1].flipped === true) {
                     gridArray[bulletY - 1][bulletX - 1].flip();
                 }
                 if (bulletX === 1) {
-                    clearInterval(bullet);
+                    clearInterval(bulletInterval);
                 }
                 bulletX--;
             }, bulletSpeed);
         } else if (this.name === "whtPlayer") {
-            const bullet = setInterval(() => {
+            const bulletInterval = setInterval(() => {
                 if (gridArray[bulletY - 1][bulletX - 1].flipped === false) {
                     gridArray[bulletY - 1][bulletX - 1].flip();
                 }
                 if (bulletX === 1) {
-                    clearInterval(bullet);
+                    clearInterval(bulletInterval);
                 }
                 bulletX--;
             }, bulletSpeed);
@@ -81,22 +81,22 @@ class Player {
         let bulletY = this.y;
 
         if (this.name === "blkPlayer") {
-            const bullet = setInterval(() => {
+            const bulletInterval = setInterval(() => {
                 if (gridArray[bulletY - 1][bulletX - 1].flipped === true) {
                     gridArray[bulletY - 1][bulletX - 1].flip();
                 }
                 if (bulletX === grid.cols) {
-                    clearInterval(bullet);
+                    clearInterval(bulletInterval);
                 }
                 bulletX++;
             }, bulletSpeed);
         } else if (this.name === "whtPlayer") {
-            const bullet = setInterval(() => {
+            const bulletInterval = setInterval(() => {
                 if (gridArray[bulletY - 1][bulletX - 1].flipped === false) {
                     gridArray[bulletY - 1][bulletX - 1].flip();
                 }
                 if (bulletX === grid.cols) {
-                    clearInterval(bullet);
+                    clearInterval(bulletInterval);
                 }
                 bulletX++;
             }, bulletSpeed);
@@ -108,22 +108,22 @@ class Player {
         let bulletY = this.y;
 
         if (this.name === "blkPlayer") {
-            const bullet = setInterval(() => {
+            const bulletInterval = setInterval(() => {
                 if (gridArray[bulletY - 1][bulletX - 1].flipped === true) {
                     gridArray[bulletY - 1][bulletX - 1].flip();
                 }
                 if (bulletY === grid.rows) {
-                    clearInterval(bullet);
+                    clearInterval(bulletInterval);
                 }
                 bulletY++;
             }, bulletSpeed);
         } else if (this.name === "whtPlayer") {
-            const bullet = setInterval(() => {
+            const bulletInterval = setInterval(() => {
                 if (gridArray[bulletY - 1][bulletX - 1].flipped === false) {
                     gridArray[bulletY - 1][bulletX - 1].flip();
                 }
                 if (bulletY === grid.rows) {
-                    clearInterval(bullet);
+                    clearInterval(bulletInterval);
                 }
                 bulletY++;
             }, bulletSpeed);
@@ -135,22 +135,22 @@ class Player {
         let bulletY = this.y;
 
         if (this.name === "blkPlayer") {
-            const bullet = setInterval(() => {
+            const bulletInterval = setInterval(() => {
                 if (gridArray[bulletY - 1][bulletX - 1].flipped === true) {
                     gridArray[bulletY - 1][bulletX - 1].flip();
                 }
                 if (bulletY === 1) {
-                    clearInterval(bullet);
+                    clearInterval(bulletInterval);
                 }
                 bulletY--;
             }, bulletSpeed);
         } else if (this.name === "whtPlayer") {
-            const bullet = setInterval(() => {
+            const bulletInterval = setInterval(() => {
                 if (gridArray[bulletY - 1][bulletX - 1].flipped === false) {
                     gridArray[bulletY - 1][bulletX - 1].flip();
                 }
                 if (bulletY === 1) {
-                    clearInterval(bullet);
+                    clearInterval(bulletInterval);
                 }
                 bulletY--;
             }, bulletSpeed);
@@ -181,6 +181,11 @@ class Cell {
     }
 
 }
+
+const bullet = {
+    // name: blk,
+    // name: wht
+};
 
 
 
@@ -221,7 +226,12 @@ function drawPlayer(player) {
     player.elem.innerHTML = player.svg;
 }
 
-
+function drawBullet(type) {
+    player.elem.remove();
+    player.elem = createCell('div', player.name);
+    gridArray[player.y - 1][player.x - 1].elem.appendChild(player.elem);
+    player.elem.innerHTML = player.svg;
+}
 
 
 
