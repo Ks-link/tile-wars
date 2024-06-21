@@ -176,3 +176,12 @@ const ctx = canvas.getContext("2d");
     grid-column: 3/4;
     grid-row: 3/4;
 } */
+
+// class Bullet {
+//     constructor(type, x, y) {
+//         this.type = type;
+//         this.x = x;
+//         this.y = y;
+//         this.elem = document.createElement('span');
+//     }
+// };

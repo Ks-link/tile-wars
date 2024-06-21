@@ -62,7 +62,7 @@ class Player {
                 }
 
                 // visible bullet
-                gridArray[bulletY - 1][bulletX - 2].bulletLeft(this.name);
+                gridArray[bulletY - 1][bulletX - 2].drawBulletLeft(this.name);
 
                 if (bulletX === 2) {
                     clearInterval(bulletInterval);
@@ -77,7 +77,7 @@ class Player {
                 }
 
                 // visible bullet
-                gridArray[bulletY - 1][bulletX - 2].bulletLeft(this.name);
+                gridArray[bulletY - 1][bulletX - 2].drawBulletLeft(this.name);
 
                 if (bulletX === 2) {
                     clearInterval(bulletInterval);
@@ -191,9 +191,9 @@ class Cell {
         }
     }
 
-    bulletLeft(player) {
+    drawBulletLeft(player) {
         if (player === "blkPlayer") {
-            const bulletElem = createCell('div', 'blkBulletLeft');
+            const bulletElem = createCell('div', 'blkBulletX');
             this.elem.appendChild(bulletElem);
 
             setTimeout(() => {
@@ -202,7 +202,7 @@ class Cell {
             }, 500);
 
         } else if (player === "whtPlayer") {
-            const bulletElem = createCell('div', 'whtBulletLeft');
+            const bulletElem = createCell('div', 'whtBulletX');
             this.elem.appendChild(bulletElem);
 
             setTimeout(() => {
@@ -213,16 +213,6 @@ class Cell {
     }
 
 }
-
-class Bullet {
-    constructor(type, x, y) {
-        this.type = type;
-        this.x = x;
-        this.y = y;
-        this.elem = document.createElement('span');
-    }
-};
-
 
 function createCell(tag, classOf) {
     const elem = document.createElement(tag);
@@ -257,7 +247,7 @@ function drawPlayer(player) {
     player.elem.innerHTML = player.svg;
 }
 
-const grid = new Board(20, 20);
+const grid = new Board(10, 10);
 
 function startGame() {
     createPlayers();
@@ -276,16 +266,39 @@ function startGame() {
             gridArray[r][c].elem = createCell('div', 'cell');
             gameBoard.appendChild(gridArray[r][c].elem);
 
+            // set up flipped tiles 
+            if (r >= grid.rows / 2) {
+                gridArray[r][c].flip();
+            }
+
+            // set up flipped tiles around player    }
+            if ((r === (player1.y - 1) && c === (player1.x - 1)) ||
+                (r === (player1.y) && c === (player1.x)) ||
+                (r === (player1.y - 1) && c === (player1.x)) ||
+                (r === (player1.y) && c === (player1.x - 1)) ||
+                (r === (player1.y - 2) && c === (player1.x - 2)) ||
+                (r === (player1.y - 1) && c === (player1.x - 2)) ||
+                (r === (player1.y) && c === (player1.x - 2)) ||
+                (r === (player1.y - 2) && c === (player1.x)) ||
+                (r === (player1.y - 2) && c === (player1.x - 1))) {
+                gridArray[r][c].flip();
+            } else if ((r === (player2.y - 1) && c === (player2.x - 1)) ||
+                (r === (player2.y) && c === (player2.x)) ||
+                (r === (player2.y - 1) && c === (player2.x)) ||
+                (r === (player2.y) && c === (player2.x - 1)) ||
+                (r === (player2.y - 2) && c === (player2.x - 2)) ||
+                (r === (player2.y - 1) && c === (player2.x - 2)) ||
+                (r === (player2.y) && c === (player2.x - 2)) ||
+                (r === (player2.y - 2) && c === (player2.x)) ||
+                (r === (player2.y - 2) && c === (player2.x - 1))) {
+                gridArray[r][c].flip();
+            }
+
             // place players
             if (r === (player1.y) && c === (player1.x)) {
                 drawPlayer(player1)
             } else if (r === (player2.y) && c === (player2.x)) {
                 drawPlayer(player2);
-            }
-
-            // set up flipped tiles 
-            if (c < grid.cols / 2) {
-                gridArray[r][c].flip();
             }
         }
     }

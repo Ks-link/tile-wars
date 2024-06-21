@@ -127,7 +127,7 @@ a:active {}
 	background-color: var(--player-2-color);
 }
 
-.blkBulletLeft {
+.blkBulletX {
 	position: absolute;
 	background-color: var(--player-2-color);
 	top: 33%;
@@ -137,7 +137,7 @@ a:active {}
 	animation-duration: 1s;
 }
 
-.whtBulletLeft {
+.whtBulletX {
 	position: absolute;
 	background-color: var(--player-1-color);
 	top: 33%;
