@@ -7,7 +7,7 @@ const gridArray = [];
 let player1;
 let player2;
 let bullet;
-const bulletSpeed = 50;
+const bulletSpeed = 500; // higher is sloweeeer
 
 
 class Board {
@@ -24,8 +24,8 @@ class Player {
         this.name = name;
         this.x = x;
         this.y = y;
-        this.bulletX = x;
-        this.bulletY = y;
+        this.bulletX = 0;
+        this.bulletY = 0;
         this.svg = svg;
         this.elem = document.createElement('span');
     }
@@ -56,22 +56,36 @@ class Player {
 
         if (this.name === "blkPlayer") {
             const bulletInterval = setInterval(() => {
-                // it's -2 to check to the left of the player
-                if (gridArray[bulletY - 1][bulletX - 2].flipped === true) {
-                    gridArray[bulletY - 1][bulletX - 2].flip();
+                // bullet Logic
+                bulletX--;
+                if (gridArray[bulletY - 1][bulletX - 1].flipped === true) {
+                    gridArray[bulletY - 1][bulletX - 1].flip();
                 }
 
                 // visible bullet
-                gridArray[bulletY - 1][bulletX - 2].drawBulletLeft(this.name);
+                gridArray[bulletY - 1][bulletX - 1].drawBulletLeft(this.name);
 
-                if (bulletX === 2) {
+                // Bullet interactions
+                if (bulletX === 1) {
                     clearInterval(bulletInterval);
                 }
-                bulletX--;
+                if (bulletX === player1.x && bulletY === player1.y) {
+                    clearInterval(bulletInterval);
+                    console.log("Uh oh time to die");
+                }
             }, bulletSpeed);
+
+
+
+            // working here
+
+
+
+
+
         } else if (this.name === "whtPlayer") {
             const bulletInterval = setInterval(() => {
-                // it's -2 to check to the left of the player
+                // bullet logic
                 if (gridArray[bulletY - 1][bulletX - 2].flipped === false) {
                     gridArray[bulletY - 1][bulletX - 2].flip();
                 }
@@ -79,9 +93,11 @@ class Player {
                 // visible bullet
                 gridArray[bulletY - 1][bulletX - 2].drawBulletLeft(this.name);
 
+                // Bullet interactions
                 if (bulletX === 2) {
                     clearInterval(bulletInterval);
                 }
+
                 bulletX--;
             }, bulletSpeed);
         }
@@ -247,7 +263,7 @@ function drawPlayer(player) {
     player.elem.innerHTML = player.svg;
 }
 
-const grid = new Board(10, 10);
+const grid = new Board(20, 20);
 
 function startGame() {
     createPlayers();
@@ -357,8 +373,5 @@ document.addEventListener('keydown', (event) => {
     } else if (event.key === "8") {
         player2.shootUp();
     }
-
-    // death
-    player1.elem
 
 });
