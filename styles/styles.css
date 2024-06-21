@@ -19,6 +19,10 @@
 /*--------------------------------------------------------------
 # Base
 --------------------------------------------------------------*/
+:root {
+	--player-1-color: #fff;
+	--player-2-color: #000;
+}
 
 /* Typography
 --------------------------------------------- */
@@ -93,31 +97,55 @@ a:active {}
 
 }
 
+@keyframes blkBullet {
+	from {
+		background-color: var(--player-2-color);
+	}
+
+	to {
+		background-color: var(--player-1-color);
+	}
+}
+
+@keyframes whtBullet {
+	from {
+		background-color: var(--player-1-color);
+	}
+
+	to {
+		background-color: var(--player-2-color);
+	}
+}
+
 .cell {
 	border: 1px solid #000;
+	position: relative;
 }
 
 .flipped {
 	border: 1px solid #fafafa;
-	background-color: #000;
+	background-color: var(--player-2-color);
 }
 
-/* .player1 {
+.blkBulletLeft {
 	position: absolute;
-	background-color: #000;
-	z-index: 10;
-	grid-column: 2/3;
-	grid-row: 2/3;
-} */
+	background-color: var(--player-2-color);
+	top: 33%;
+	height: 33%;
+	width: 100%;
+	animation-name: blkBullet;
+	animation-duration: 1s;
+}
 
-/* .player2 {
+.whtBulletLeft {
 	position: absolute;
-	background-color: #777;
-	z-index: 10;
-
-	grid-column: 3/4;
-	grid-row: 3/4;
-} */
+	background-color: var(--player-1-color);
+	top: 33%;
+	height: 33%;
+	width: 100%;
+	animation-name: whtBullet;
+	animation-duration: 1s;
+}
 
 /* Footer
 --------------------------------------------- */
