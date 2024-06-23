@@ -78,8 +78,6 @@ class Player {
 
 
             // working here
-// asdhfp iapdfh apsuhdf akshdf ashf asf 
-// asudhf aipsudhfkja hsd;kfja;skdfh asd
 
 
 
