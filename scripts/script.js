@@ -6,8 +6,10 @@ const boardHeight = gameBoard.offsetHeight;
 const gridArray = [];
 let player1;
 let player2;
+let player1Dead = false;
+let player2Dead = false;
 let bullet;
-const bulletSpeed = 500; // higher is sloweeeer
+const bulletSpeed = 100; // higher is sloweeeer
 
 
 class Board {
@@ -71,15 +73,12 @@ class Player {
                 }
                 if (bulletX === player1.x && bulletY === player1.y) {
                     clearInterval(bulletInterval);
+                    if (this.name === "whtPlayer") {
+                        
+                    }
                     console.log("Uh oh time to die");
                 }
             }, bulletSpeed);
-
-
-
-            // working here
-
-
 
 
         } else if (this.name === "whtPlayer") {
