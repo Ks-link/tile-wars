@@ -53,138 +53,24 @@ class Player {
     }
 
     shootLeft() {
-        let bulletX = this.x;
-        let bulletY = this.y;
-
-        if (this.name === "blkPlayer") {
-            const bulletInterval = setInterval(() => {
-                // bullet Logic
-                bulletX--;
-                if (gridArray[bulletY - 1][bulletX - 1].flipped === true) {
-                    gridArray[bulletY - 1][bulletX - 1].flip();
-                }
-
-                // visible bullet
-                gridArray[bulletY - 1][bulletX - 1].drawBulletLeft(this.name);
-
-                // Bullet interactions
-                if (bulletX === 1) {
-                    clearInterval(bulletInterval);
-                }
-                if (bulletX === player1.x && bulletY === player1.y) {
-                    clearInterval(bulletInterval);
-                    if (this.name === "whtPlayer") {
-                        
-                    }
-                    console.log("Uh oh time to die");
-                }
-            }, bulletSpeed);
-
-
-        } else if (this.name === "whtPlayer") {
-            const bulletInterval = setInterval(() => {
-                // bullet logic
-                if (gridArray[bulletY - 1][bulletX - 2].flipped === false) {
-                    gridArray[bulletY - 1][bulletX - 2].flip();
-                }
-
-                // visible bullet
-                gridArray[bulletY - 1][bulletX - 2].drawBulletLeft(this.name);
-
-                // Bullet interactions
-                if (bulletX === 2) {
-                    clearInterval(bulletInterval);
-                }
-
-                bulletX--;
-            }, bulletSpeed);
-        }
+        createBullet(this, "left");
     }
 
     shootRight() {
-        let bulletX = this.x;
-        let bulletY = this.y;
-
-        if (this.name === "blkPlayer") {
-            const bulletInterval = setInterval(() => {
-                if (gridArray[bulletY - 1][bulletX - 1].flipped === true) {
-                    gridArray[bulletY - 1][bulletX - 1].flip();
-                }
-                if (bulletX === grid.cols) {
-                    clearInterval(bulletInterval);
-                }
-                bulletX++;
-            }, bulletSpeed);
-        } else if (this.name === "whtPlayer") {
-            const bulletInterval = setInterval(() => {
-                if (gridArray[bulletY - 1][bulletX - 1].flipped === false) {
-                    gridArray[bulletY - 1][bulletX - 1].flip();
-                }
-                if (bulletX === grid.cols) {
-                    clearInterval(bulletInterval);
-                }
-                bulletX++;
-            }, bulletSpeed);
-        }
+        createBullet(this, "right");
     }
 
     shootDown() {
-        let bulletX = this.x;
-        let bulletY = this.y;
-
-        if (this.name === "blkPlayer") {
-            const bulletInterval = setInterval(() => {
-                if (gridArray[bulletY - 1][bulletX - 1].flipped === true) {
-                    gridArray[bulletY - 1][bulletX - 1].flip();
-                }
-                if (bulletY === grid.rows) {
-                    clearInterval(bulletInterval);
-                }
-                bulletY++;
-            }, bulletSpeed);
-        } else if (this.name === "whtPlayer") {
-            const bulletInterval = setInterval(() => {
-                if (gridArray[bulletY - 1][bulletX - 1].flipped === false) {
-                    gridArray[bulletY - 1][bulletX - 1].flip();
-                }
-                if (bulletY === grid.rows) {
-                    clearInterval(bulletInterval);
-                }
-                bulletY++;
-            }, bulletSpeed);
-        }
+        createBullet(this, "down");
     }
 
     shootUp() {
-        let bulletX = this.x;
-        let bulletY = this.y;
-
-        if (this.name === "blkPlayer") {
-            const bulletInterval = setInterval(() => {
-                if (gridArray[bulletY - 1][bulletX - 1].flipped === true) {
-                    gridArray[bulletY - 1][bulletX - 1].flip();
-                }
-                if (bulletY === 1) {
-                    clearInterval(bulletInterval);
-                }
-                bulletY--;
-            }, bulletSpeed);
-        } else if (this.name === "whtPlayer") {
-            const bulletInterval = setInterval(() => {
-                if (gridArray[bulletY - 1][bulletX - 1].flipped === false) {
-                    gridArray[bulletY - 1][bulletX - 1].flip();
-                }
-                if (bulletY === 1) {
-                    clearInterval(bulletInterval);
-                }
-                bulletY--;
-            }, bulletSpeed);
-        }
+        createBullet(this, "up");
     }
 
 
     die() {
-
+        console.log("Uh oh time to die");
     }
 }
 
@@ -205,27 +91,50 @@ class Cell {
         }
     }
 
-    drawBulletLeft(player) {
-        if (player === "blkPlayer") {
-            const bulletElem = createCell('div', 'blkBulletX');
-            this.elem.appendChild(bulletElem);
-
-            setTimeout(() => {
-                const cellChild = this.elem.firstChild;
-                cellChild.remove();
-            }, 500);
-
-        } else if (player === "whtPlayer") {
-            const bulletElem = createCell('div', 'whtBulletX');
-            this.elem.appendChild(bulletElem);
-
-            setTimeout(() => {
-                const cellChild = this.elem.firstChild;
-                cellChild.remove();
-            }, 500);
+    drawBullet(player, axis) {
+        if (axis === "x") {
+            if (player === "blkPlayer") {
+                const bulletElem = createCell('div', 'blkBulletX');
+                this.elem.appendChild(bulletElem);
+    
+                setTimeout(() => {
+                    const cellChild = this.elem.querySelector(".blkBulletX");
+                    cellChild.remove();
+                }, 500);
+    
+            } else if (player === "whtPlayer") {
+                const bulletElem = createCell('div', 'whtBulletX');
+                this.elem.appendChild(bulletElem);
+    
+                setTimeout(() => {
+                    const cellChild = this.elem.querySelector(".whtBulletX");
+                    cellChild.remove();
+                }, 500);
+            }
         }
+        
+        if (axis === "y") {
+            if (player === "blkPlayer") {
+                const bulletElem = createCell('div', 'blkBulletY');
+                this.elem.appendChild(bulletElem);
+    
+                setTimeout(() => {
+                    const cellChild = this.elem.querySelector(".blkBulletY");
+                    cellChild.remove();
+                }, 500);
+    
+            } else if (player === "whtPlayer") {
+                const bulletElem = createCell('div', 'whtBulletY');
+                this.elem.appendChild(bulletElem);
+    
+                setTimeout(() => {
+                    const cellChild = this.elem.querySelector(".whtBulletY");
+                    cellChild.remove();
+                }, 500);
+            }
+        }
+        
     }
-
 }
 
 function createCell(tag, classOf) {
@@ -261,7 +170,140 @@ function drawPlayer(player) {
     player.elem.innerHTML = player.svg;
 }
 
-const grid = new Board(20, 20);
+function createBullet(player, direction) {
+    let bulletX = player.x;
+    let bulletY = player.y;
+
+    // for left and right bullets
+    if (direction === "left" || direction === "right") {
+        
+        if (player.name === "whtPlayer") {
+            const bulletInterval = setInterval(() => {
+                // bullet Logic
+                if (direction === "left") {
+                    bulletX--;
+                } else if (direction === "right"){
+                    bulletX++;
+                }
+                if (gridArray[bulletY - 1][bulletX - 1].flipped === false) {
+                    gridArray[bulletY - 1][bulletX - 1].flip();
+                }
+
+                // visible bullet
+                gridArray[bulletY - 1][bulletX - 1].drawBullet(player.name, "x");
+
+                // Bullet interactions
+                // Bullet hits left/ right wall
+                if (bulletX === 1) {
+                    clearInterval(bulletInterval);
+                } else if (bulletX === grid.cols) {
+                    clearInterval(bulletInterval);
+                } 
+                // wht bullet hits blk player
+                if (bulletX === player2.x && bulletY === player2.y) {
+                    clearInterval(bulletInterval);
+                    player.die();
+                }
+            }, bulletSpeed);
+        }
+
+        if (player.name === "blkPlayer") {
+            const bulletInterval = setInterval(() => {
+                // bullet Logic
+                if (direction === "left") {
+                    bulletX--;
+                } else if (direction === "right"){
+                    bulletX++;
+                }
+
+                if (gridArray[bulletY - 1][bulletX - 1].flipped === true) {
+                    gridArray[bulletY - 1][bulletX - 1].flip();
+                }
+
+                // visible bullet
+                gridArray[bulletY - 1][bulletX - 1].drawBullet(player.name, "x");
+
+                // Bullet interactions
+                // Bullet hits left/ right wall
+                if (bulletX === 1) {
+                    clearInterval(bulletInterval);
+                } else if (bulletX === grid.cols) {
+                    clearInterval(bulletInterval);
+                } 
+                // blk bullet hits wht player
+                if (bulletX === player1.x && bulletY === player1.y) {
+                    clearInterval(bulletInterval);
+                    player.die();
+                }
+            }, bulletSpeed);
+        }
+    }
+
+    // for up and down bullets
+    if (direction === "down" || direction === "up") {
+
+        if (player.name === "whtPlayer") {
+            const bulletInterval = setInterval(() => {
+                // bullet Logic
+                if (direction === "up") {
+                    bulletY--;
+                } else if (direction === "down"){
+                    bulletY++;
+                }
+                if (gridArray[bulletY - 1][bulletX - 1].flipped === false) {
+                    gridArray[bulletY - 1][bulletX - 1].flip();
+                }
+
+                // visible bullet
+                gridArray[bulletY - 1][bulletX - 1].drawBullet(player.name, "y");
+
+                // Bullet interactions
+                // Bullet hits top/ bottom wall
+                if (bulletY === 1) {
+                    clearInterval(bulletInterval);
+                } else if (bulletY === grid.rows) {
+                    clearInterval(bulletInterval);
+                } 
+                // wht bullet hits blk player
+                if (bulletX === player2.x && bulletY === player2.y) {
+                    clearInterval(bulletInterval);
+                    player.die();
+                }
+            }, bulletSpeed);
+        }
+
+        if (player.name === "blkPlayer") {
+            const bulletInterval = setInterval(() => {
+                // bullet Logic
+                if (direction === "up") {
+                    bulletY--;
+                } else if (direction === "down"){
+                    bulletY++;
+                }
+
+                if (gridArray[bulletY - 1][bulletX - 1].flipped === true) {
+                    gridArray[bulletY - 1][bulletX - 1].flip();
+                }
+
+                // visible bullet
+                gridArray[bulletY - 1][bulletX - 1].drawBullet(player.name, "y");
+
+                // Bullet interactions
+                // Bullet hits top/ bottom wall
+                if (bulletY === 1) {
+                    clearInterval(bulletInterval);
+                } else if (bulletY === grid.rows) {
+                    clearInterval(bulletInterval);
+                } 
+                // blk bullet hits wht player
+                if (bulletX === player1.x && bulletY === player1.y) {
+                    clearInterval(bulletInterval);
+                    player.die();
+                }
+            }, bulletSpeed);
+        }
+    }
+}
 
 function startGame() {
     createPlayers();
@@ -318,6 +360,7 @@ function startGame() {
     }
 }
 
+const grid = new Board(20, 20);
 startGame();
 
 document.addEventListener('keydown', (event) => {

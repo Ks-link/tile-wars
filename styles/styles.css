@@ -147,5 +147,25 @@ a:active {}
 	animation-duration: 1s;
 }
 
+.blkBulletY {
+	position: absolute;
+	background-color: var(--player-2-color);
+	left: 33%;
+	height: 100%;
+	width: 33%;
+	animation-name: blkBullet;
+	animation-duration: 1s;
+}
+
+.whtBulletY {
+	position: absolute;
+	background-color: var(--player-1-color);
+	left: 33%;
+	height: 100%;
+	width: 33%;
+	animation-name: whtBullet;
+	animation-duration: 1s;
+}
+
 /* Footer
 --------------------------------------------- */
