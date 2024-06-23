@@ -20,7 +20,7 @@
 # Base
 --------------------------------------------------------------*/
 :root {
-	--player-1-color: #fff;
+	--player-1-color: #fafafa;
 	--player-2-color: #000;
 }
 
@@ -93,8 +93,6 @@ a:active {}
 	width: 40rem;
 	height: 40rem;
 	margin: 2rem auto;
-	/* gap: .125rem; */
-
 }
 
 @keyframes blkBullet {
@@ -118,13 +116,22 @@ a:active {}
 }
 
 .cell {
-	border: 1px solid #000;
 	position: relative;
+	border: 1px solid var(--player-2-color);
+	background-color: var(--player-1-color);
 }
 
 .flipped {
-	border: 1px solid #fafafa;
+	border: 1px solid var(--player-1-color);
 	background-color: var(--player-2-color);
+}
+
+.whtPlayer {
+	fill: var(--player-1-color);
+}
+
+.blkPlayer {
+	fill: var(--player-2-color);
 }
 
 .blkBulletX {

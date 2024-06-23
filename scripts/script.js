@@ -6,10 +6,7 @@ const boardHeight = gameBoard.offsetHeight;
 const gridArray = [];
 let player1;
 let player2;
-let player1Dead = false;
-let player2Dead = false;
-let bullet;
-const bulletSpeed = 100; // higher is sloweeeer
+const bulletSpeed = 40; // higher is sloweeeer
 
 
 class Board {
@@ -26,8 +23,6 @@ class Player {
         this.name = name;
         this.x = x;
         this.y = y;
-        this.bulletX = 0;
-        this.bulletY = 0;
         this.svg = svg;
         this.elem = document.createElement('span');
     }
@@ -68,9 +63,12 @@ class Player {
         createBullet(this, "up");
     }
 
-
     die() {
         console.log("Uh oh time to die");
+        // disable event listeners
+        // end all timers and intervals
+        // flip all tiles to winning colour
+        // fix shooting at wall bug
     }
 }
 
@@ -143,17 +141,12 @@ function createCell(tag, classOf) {
     return elem;
 }
 
-function setPos(elem, pos) {
-    elem.style.gridColumn = pos.x;
-    elem.style.gridRow = pos.y;
-}
-
 function createPlayers() {
     player1 = new Player(
         "whtPlayer",
         3,
         3,
-        '<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#fafafa" d="m11.262 2.306c.196-.196.461-.306.738-.306s.542.11.738.306c1.917 1.917 7.039 7.039 8.956 8.956.196.196.306.461.306.738s-.11.542-.306.738c-1.917 1.917-7.039 7.039-8.956 8.956-.196.196-.461.306-.738.306s-.542-.11-.738-.306c-1.917-1.917-7.039-7.039-8.956-8.956-.196-.196-.306-.461-.306-.738s.11-.542.306-.738c1.917-1.917 7.039-7.039 8.956-8.956z" fill-rule="nonzero"/></svg>'
+        '<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m11.262 2.306c.196-.196.461-.306.738-.306s.542.11.738.306c1.917 1.917 7.039 7.039 8.956 8.956.196.196.306.461.306.738s-.11.542-.306.738c-1.917 1.917-7.039 7.039-8.956 8.956-.196.196-.461.306-.738.306s-.542-.11-.738-.306c-1.917-1.917-7.039-7.039-8.956-8.956-.196-.196-.306-.461-.306-.738s.11-.542.306-.738c1.917-1.917 7.039-7.039 8.956-8.956z" fill-rule="nonzero"/></svg>'
     );
     player2 = new Player(
         "blkPlayer",
