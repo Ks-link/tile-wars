@@ -1,6 +1,11 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext("2d");
 
+
+// const mapSize = 20;
+// let player = [{ x: 10, y: 10 }];
+// let food = generateFood();
+
 // <canvas id="canvas" width="600" height="600"></canvas>
 
 // emptyCell(colIndex, rowIndex) {
@@ -138,3 +143,45 @@ const ctx = canvas.getContext("2d");
 //     player2.elem = gridArray[r][c].elem;
 //     player2.elem.classList.add('player2');
 // }
+
+
+// function drawBullet(player, direction, x, y) {
+//     // grab parent div and create mini grid
+//     bullet = new Bullet();
+//     bullet.elem.remove();
+//     bullet.elem = createCell('div', bullet.type);
+//     gridArray[bullet.y - 1][bullet.x - 1].elem.appendChild(bullet.elem);
+// }
+// if (player === "whtPlayer") {
+//     this.elem.classList.add('whtBulletLeft');
+//     setTimeout(() => {
+//         this.elem.classList.remove('whtBulletLeft');
+//     }, 1000);
+// }
+
+//css
+/* .player1 {
+    position: absolute;
+    background-color: #000;
+    z-index: 10;
+    grid-column: 2/3;
+    grid-row: 2/3;
+} */
+
+/* .player2 {
+    position: absolute;
+    background-color: #777;
+    z-index: 10;
+
+    grid-column: 3/4;
+    grid-row: 3/4;
+} */
+
+// class Bullet {
+//     constructor(type, x, y) {
+//         this.type = type;
+//         this.x = x;
+//         this.y = y;
+//         this.elem = document.createElement('span');
+//     }
+// };
