@@ -20,8 +20,8 @@
 # Base
 --------------------------------------------------------------*/
 :root {
-	--player-1-color: #fafafa;
-	--player-2-color: #000;
+	--player-1-color: #ffbb00;
+	--player-2-color: #6200ff;
 }
 
 /* Typography
@@ -115,6 +115,15 @@ a:active {}
 	}
 }
 
+@keyframes bulletCollision {
+	from {
+		background-color: red;
+	}
+	to {
+		background-color: black;
+	}
+}
+
 .cell {
 	position: relative;
 	border: 1px solid var(--player-2-color);
@@ -171,6 +180,16 @@ a:active {}
 	height: 100%;
 	width: 33%;
 	animation-name: whtBullet;
+	animation-duration: 1s;
+}
+
+.bang {
+	background-color: red;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	animation-name: bulletCollision;
 	animation-duration: 1s;
 }
 

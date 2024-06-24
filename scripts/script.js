@@ -178,12 +178,20 @@ function createBullet(player, direction) {
                 } else if (direction === "right"){
                     bulletX++;
                 }
-                if (gridArray[bulletY - 1][bulletX - 1].flipped === false) {
-                    gridArray[bulletY - 1][bulletX - 1].flip();
-                }
 
-                // visible bullet
-                gridArray[bulletY - 1][bulletX - 1].drawBullet(player.name, "x");
+                // top if statement to prevent flips on tiles outside grid
+                if (bulletX > 0 && bulletX < grid.cols + 1) {
+
+                    // use truthy value to check for opponent bullets, if found cancel bullet
+                    if (gridArray[bulletY - 1][bulletX - 1].elem.querySelector(".blkBulletX")) {
+                        gridArray[bulletY - 1][bulletX - 1].elem.querySelector(".blkBulletX").classList.add("bang");
+                        clearInterval(bulletInterval);
+                    } else if (gridArray[bulletY - 1][bulletX - 1].flipped === false) {
+                        gridArray[bulletY - 1][bulletX - 1].flip();
+                    }
+                    // visible bullet
+                    gridArray[bulletY - 1][bulletX - 1].drawBullet(player.name, "x");
+                }
 
                 // Bullet interactions
                 // Bullet hits left/ right wall
@@ -208,13 +216,20 @@ function createBullet(player, direction) {
                 } else if (direction === "right"){
                     bulletX++;
                 }
+                
+                // top if statement to prevent flips on tiles outside grid
+                if (bulletX > 0 && bulletX < grid.cols + 1) {
 
-                if (gridArray[bulletY - 1][bulletX - 1].flipped === true) {
-                    gridArray[bulletY - 1][bulletX - 1].flip();
+                    // use truthy value to check for opponent bullets, if found cancel bullet
+                    if (gridArray[bulletY - 1][bulletX - 1].elem.querySelector(".whtBulletX")) {
+                        gridArray[bulletY - 1][bulletX - 1].elem.querySelector(".whtBulletX").classList.add("bang");
+                        clearInterval(bulletInterval);
+                    } else if (gridArray[bulletY - 1][bulletX - 1].flipped === true) {
+                        gridArray[bulletY - 1][bulletX - 1].flip();
+                    }
+                    // visible bullet
+                    gridArray[bulletY - 1][bulletX - 1].drawBullet(player.name, "x");
                 }
-
-                // visible bullet
-                gridArray[bulletY - 1][bulletX - 1].drawBullet(player.name, "x");
 
                 // Bullet interactions
                 // Bullet hits left/ right wall
@@ -243,12 +258,21 @@ function createBullet(player, direction) {
                 } else if (direction === "down"){
                     bulletY++;
                 }
-                if (gridArray[bulletY - 1][bulletX - 1].flipped === false) {
-                    gridArray[bulletY - 1][bulletX - 1].flip();
-                }
 
-                // visible bullet
-                gridArray[bulletY - 1][bulletX - 1].drawBullet(player.name, "y");
+                // top if statement to prevent flips on tiles outside grid
+                if (bulletY > 0 && bulletY < grid.rows + 1) {
+
+                    // use truthy value to check for opponent bullets, if found cancel bullet
+                    if (gridArray[bulletY - 1][bulletX - 1].elem.querySelector(".blkBulletY")) {
+                        gridArray[bulletY - 1][bulletX - 1].elem.querySelector(".blkBulletY").classList.add("bang");
+                        clearInterval(bulletInterval);
+                    } else if (gridArray[bulletY - 1][bulletX - 1].flipped === false) {
+                        gridArray[bulletY - 1][bulletX - 1].flip();
+                    }
+
+                    // visible bullet
+                    gridArray[bulletY - 1][bulletX - 1].drawBullet(player.name, "y");
+                }
 
                 // Bullet interactions
                 // Bullet hits top/ bottom wall
@@ -274,12 +298,19 @@ function createBullet(player, direction) {
                     bulletY++;
                 }
 
-                if (gridArray[bulletY - 1][bulletX - 1].flipped === true) {
-                    gridArray[bulletY - 1][bulletX - 1].flip();
+                // top if statement to prevent flips on tiles outside grid
+                if (bulletY > 0 && bulletY < grid.rows + 1) {
+                    
+                    // use truthy value to check for opponent bullets, if found cancel bullet
+                    if (gridArray[bulletY - 1][bulletX - 1].elem.querySelector(".whtBulletY")) {
+                        gridArray[bulletY - 1][bulletX - 1].elem.querySelector(".whtBulletY").classList.add("bang");
+                        clearInterval(bulletInterval);
+                    } else if (gridArray[bulletY - 1][bulletX - 1].flipped === true) {
+                        gridArray[bulletY - 1][bulletX - 1].flip();
+                    }
+                    // visible bullet
+                    gridArray[bulletY - 1][bulletX - 1].drawBullet(player.name, "y");
                 }
-
-                // visible bullet
-                gridArray[bulletY - 1][bulletX - 1].drawBullet(player.name, "y");
 
                 // Bullet interactions
                 // Bullet hits top/ bottom wall
