@@ -185,3 +185,8 @@ const ctx = canvas.getContext("2d");
 //         this.elem = document.createElement('span');
 //     }
 // };
+
+// function setPos(elem, pos) {
+//     elem.style.gridColumn = pos.x;
+//     elem.style.gridRow = pos.y;
+// }

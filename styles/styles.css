@@ -20,8 +20,8 @@
 # Base
 --------------------------------------------------------------*/
 :root {
-	--player-1-color: #fff;
-	--player-2-color: #000;
+	--player-1-color: #ffbb00;
+	--player-2-color: #6200ff;
 }
 
 /* Typography
@@ -93,8 +93,6 @@ a:active {}
 	width: 40rem;
 	height: 40rem;
 	margin: 2rem auto;
-	/* gap: .125rem; */
-
 }
 
 @keyframes blkBullet {
@@ -117,14 +115,32 @@ a:active {}
 	}
 }
 
+@keyframes bulletCollision {
+	from {
+		background-color: red;
+	}
+	to {
+		background-color: black;
+	}
+}
+
 .cell {
-	border: 1px solid #000;
 	position: relative;
+	border: 1px solid var(--player-2-color);
+	background-color: var(--player-1-color);
 }
 
 .flipped {
-	border: 1px solid #fafafa;
+	border: 1px solid var(--player-1-color);
 	background-color: var(--player-2-color);
+}
+
+.whtPlayer {
+	fill: var(--player-1-color);
+}
+
+.blkPlayer {
+	fill: var(--player-2-color);
 }
 
 .blkBulletX {
@@ -164,6 +180,16 @@ a:active {}
 	height: 100%;
 	width: 33%;
 	animation-name: whtBullet;
+	animation-duration: 1s;
+}
+
+.bang {
+	background-color: red;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	animation-name: bulletCollision;
 	animation-duration: 1s;
 }
 
