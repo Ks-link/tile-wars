@@ -190,3 +190,26 @@ const ctx = canvas.getContext("2d");
 //     elem.style.gridColumn = pos.x;
 //     elem.style.gridRow = pos.y;
 // }
+
+    // // add variability to grid size
+    // // gameBoard.style.gridTemplateColumns = `repeat(${grid.cols}, ${grid.width / grid.cols}px`;
+    // gameBoard.style.gridTemplateColumns = `repeat(${grid.cols}, ${cellSize}px`;
+    // // gameBoard.style.gridTemplateRows = `repeat(${grid.rows}, ${grid.height / grid.rows}px`;
+    // gameBoard.style.gridTemplateRows = `repeat(${grid.rows}, ${cellSize}px`;
+    
+    // boardWidth = gameBoard.offsetWidth;
+    // boardHeight = gameBoard.offsetHeight;
+    
+// let boardWidth;
+// let boardHeight;
+
+	/* grid-template-columns: repeat(20, 1fr);
+	grid-template-rows: repeat(20, 1fr); */
+
+    // function clipCheck(player) {
+    //     if (player.clip > 0) {
+    //         return true;
+    //     } else {
+    //         return false
+    //     }
+    // }

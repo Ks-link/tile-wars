@@ -1,20 +1,26 @@
 "use strict";
 
+const startScrn = document.getElementById('start-screen');
+const howScrn = document.getElementById('how-screen');
 const gameBoard = document.getElementById('gameboard');
-const boardWidth = gameBoard.offsetWidth;
-const boardHeight = gameBoard.offsetHeight;
+const startBtn = document.querySelector('.start-btn');
+const howBtn = document.querySelector('.how-btn');
 const gridArray = [];
 let player1;
 let player2;
+let grid;
+let clipReload;
+const clipSize = 6;
 const bulletSpeed = 40; // higher is sloweeeer
+const cellSize = 40; // read as px
 
 
 class Board {
     constructor(cols, rows) {
         this.cols = cols;
         this.rows = rows;
-        this.width = boardWidth;
-        this.height = boardHeight;
+        this.width = cols * cellSize;
+        this.height = rows * cellSize;
         this.gameOver = false;
     }
 }
@@ -24,6 +30,7 @@ class Player {
         this.name = name;
         this.x = x;
         this.y = y;
+        this.clip = clipSize;
         this.svg = svg;
         this.elem = document.createElement('span');
     }
@@ -49,22 +56,31 @@ class Player {
     }
 
     shootLeft() {
-        createBullet(this, "left");
+        if (this.clip > 0) {
+            createBullet(this, "left");
+        }
     }
 
     shootRight() {
-        createBullet(this, "right");
+        if (this.clip > 0) {
+            createBullet(this, "right");
+        }
     }
 
     shootDown() {
-        createBullet(this, "down");
+        if (this.clip > 0) {
+            createBullet(this, "down");
+        }
     }
 
     shootUp() {
-        createBullet(this, "up");
+        if (this.clip > 0) {
+            createBullet(this, "up");
+        }
     }
 
     die() {
+        clearInterval(clipReload);
         grid.gameOver = true;
         endGame(this);
     }
@@ -152,6 +168,15 @@ function createPlayers() {
         grid.rows - 2,
         '<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m11.262 2.306c.196-.196.461-.306.738-.306s.542.11.738.306c1.917 1.917 7.039 7.039 8.956 8.956.196.196.306.461.306.738s-.11.542-.306.738c-1.917 1.917-7.039 7.039-8.956 8.956-.196.196-.461.306-.738.306s-.542-.11-.738-.306c-1.917-1.917-7.039-7.039-8.956-8.956-.196-.196-.306-.461-.306-.738s.11-.542.306-.738c1.917-1.917 7.039-7.039 8.956-8.956z" fill-rule="nonzero"/></svg>'
     );
+
+    clipReload = setInterval(() => {
+        if (player1.clip < clipSize) {
+            player1.clip++;
+        }
+        if (player2.clip < clipSize) {
+            player2.clip++;
+        }
+    }, 1500);
 }
 
 function drawPlayer(player) {
@@ -162,6 +187,7 @@ function drawPlayer(player) {
 }
 
 function createBullet(player, direction) {
+    player.clip--;
     let bulletX = player.x;
     let bulletY = player.y;
 
@@ -327,14 +353,20 @@ function createBullet(player, direction) {
     }
 }
 
+
 function startGame() {
+    startScrn.style.display = 'none';
+    gameBoard.style.display = 'grid';
+    
+    grid = new Board(24, 16);
+
     grid.gameOver = false;
     createPlayers();
 
     // add variability to grid size
-    gameBoard.style.gridTemplateColumns = `repeat(${grid.cols}, ${grid.width / grid.cols}px`;
-    gameBoard.style.gridTemplateRows = `repeat(${grid.rows}, ${grid.height / grid.rows}px`;
-
+    gameBoard.style.gridTemplateColumns = `repeat(${grid.cols}, ${cellSize}px`;
+    gameBoard.style.gridTemplateRows = `repeat(${grid.rows}, ${cellSize}px`;
+    
     // create an array of objects
     for (let r = 0; r < grid.rows; r++) {
         gridArray[r] = [];
@@ -396,13 +428,20 @@ function endGame(player) {
     }
 }
 
+function showInstructions() {
+    startScrn.style.display = 'none';
+    howScrn.style.display = 'block';
+
+}
+
 
 // ^ End of functions and classes...
-const grid = new Board(25, 25);
-startGame();
 
+startBtn.addEventListener('click', startGame);
+howBtn.addEventListener('click', showInstructions);
 
 document.addEventListener('keydown', (event) => {
+    console.log(event);
     event.preventDefault();
     
     // OK BEGIN CONDITIONAL LOGIC *cries*

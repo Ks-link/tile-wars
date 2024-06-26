@@ -20,8 +20,8 @@
 # Base
 --------------------------------------------------------------*/
 :root {
-	--player-1-color: #ffbb00;
-	--player-2-color: #6200ff;
+	--player-1-color: #ffffff;
+	--player-2-color: #000000;
 }
 
 /* Typography
@@ -33,9 +33,31 @@ h2,
 h3,
 h4,
 h5,
-h6 {}
+h6 { 
+	margin: 0
+}
 
-p {}
+h1 {
+	font-size: 8rem;
+	font-family: "Bungee Shade", sans-serif;
+	font-weight: 400;
+}
+
+p {
+	padding: 0;
+	margin: 0;
+	font-size: 2rem;
+	font-family: "Days One", sans-serif;
+	font-weight: 400;
+}
+
+button {
+	padding: 0;
+	margin: 0;
+	font-size: 2rem;
+	font-family: "Bungee", sans-serif;
+	font-weight: 400;
+}
 
 
 /* Elements
@@ -52,6 +74,11 @@ table {}
 
 body {
 	background-color: #cacaca;
+}
+
+main {
+	position: relative;
+	height: 100vh;
 }
 
 
@@ -85,14 +112,52 @@ a:active {}
 /* Main
 --------------------------------------------- */
 
+#start-screen {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	width: fit-content;
+	height: fit-content;
+}
+
+#how-screen {
+	display: none;
+}
+
+.title {
+	text-align: center;
+	padding: 2rem;
+	margin: 2rem;
+}
+
+.btn {
+	display: block;
+	padding: 1rem 2rem;
+	border-radius: 1rem;
+}
+
+.start-btn {
+	margin: 1rem auto 2rem auto;
+}
+
+.how-btn {
+	margin: 4rem auto 2rem auto;
+}
+
 #gameboard {
-	display: grid;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: none;
 	background-color: #fafafa;
-	grid-template-columns: repeat(20, 1fr);
-	grid-template-rows: repeat(20, 1fr);
-	width: 40rem;
-	height: 40rem;
-	margin: 2rem auto;
+	width: fit-content;
+	height: fit-content;
+	margin: auto;
 }
 
 @keyframes blkBullet {
