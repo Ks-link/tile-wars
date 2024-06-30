@@ -62,15 +62,6 @@ button {
 
 /* Elements
 --------------------------------------------- */
-ul {}
-
-ol {}
-
-dl {}
-
-figure {}
-
-table {}
 
 body {
 	background-color: #cacaca;
@@ -84,15 +75,6 @@ main {
 
 /* Links
 --------------------------------------------- */
-a {}
-
-a:visited {}
-
-a:hover {}
-
-a:focus {}
-
-a:active {}
 
 
 /*--------------------------------------------------------------
@@ -127,6 +109,45 @@ a:active {}
 	display: none;
 }
 
+#game-screen {
+	display: none;
+}
+
+#player1-clip {
+	display: grid;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 15%;
+	width: fit-content;
+	height: fit-content;
+	margin: auto;
+}
+
+#player2-clip {
+	display: grid;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 15%;
+	width: fit-content;
+	height: fit-content;
+	margin: auto;
+}
+
+#gameboard {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: grid;
+	background-color: #fafafa;
+	width: fit-content;
+	height: fit-content;
+	margin: auto;
+}
+
 .title {
 	text-align: center;
 	padding: 2rem;
@@ -147,18 +168,30 @@ a:active {}
 	margin: 4rem auto 2rem auto;
 }
 
-#gameboard {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	display: none;
-	background-color: #fafafa;
-	width: fit-content;
-	height: fit-content;
-	margin: auto;
+.player1-bullet-in-clip {
+	border: 1px solid var(--player-2-color);
+	background-color: var(--player-1-color);
+	height: 25px;
+	width: 15px;
 }
+
+.player1-bullet-not-in-clip {
+	border: 1px solid var(--player-2-color);
+	background-color: #cacaca;
+	height: 25px;
+	width: 15px;
+}
+
+
+.player2-bullet-in-clip {
+	border: 1px solid var(--player-1-color);
+	background-color: var(--player-2-color);
+	height: 25px;
+	width: 15px;
+}
+
+
+/* game elems styling */
 
 @keyframes blkBullet {
 	from {
