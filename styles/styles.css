@@ -139,6 +139,11 @@ main {
 	animation: 2s pageTransitionIn;
 }
 
+#select-screen {
+	display: none;
+	animation: 2s pageTransitionIn;
+}
+
 #game-screen {
 	display: none;
 	justify-content: center;
@@ -229,18 +234,41 @@ main {
 	margin: 4rem auto 2rem auto;
 }
 
-.how-content {
-	position: relative;
+.content-start-btn {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	width: fit-content;
+	margin: 1rem auto 2rem auto;
+}
+
+.play-btn {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	width: fit-content;
+	margin: 1rem auto 2rem auto;
+}
+
+.misc-content {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	overflow-y: scroll;
 	max-width: 60%;
-	background-color: #cacaca;
+	background-color: #cacacaec;
 	padding: 2rem;
-	margin: 1rem auto;
-	border-radius: 1rem;
+	margin: 2rem auto 8rem auto;
+	border-radius: 2rem;
 	border: 2px solid #000000;
 	z-index: 9;
 }
 
-.how-content div {
+.misc-content div {
 	padding-bottom: 3rem;
 }
 

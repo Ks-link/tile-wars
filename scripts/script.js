@@ -1,13 +1,19 @@
 "use strict";
 
+// grab elems/ screens
 const startScrn = document.getElementById('start-screen');
 const howScrn = document.getElementById('how-screen');
+const selectScrn = document.getElementById('select-screen');
 const gameScreen = document.getElementById('game-screen');
 const gameBoard = document.getElementById('gameboard');
 const player1Clip = document.getElementById('player1-clip');
 const player2Clip = document.getElementById('player2-clip');
 const startBtn = document.querySelector('.start-btn');
+const contentStartBtn = document.querySelector('.content-start-btn');
 const howBtn = document.querySelector('.how-btn');
+const playBtn = document.querySelector('.play-btn');
+
+// global vars
 const gridArray = [];
 let player1;
 let player2;
@@ -439,6 +445,8 @@ function createBullet(player, direction) {
 
 function startGame() {
     startScrn.style.display = 'none';
+    howScrn.style.display = 'none';
+    selectScrn.style.display = 'none';
     gameScreen.style.display = 'flex';
     
     grid = new Board(24, 16);
@@ -529,20 +537,24 @@ function endGame(player) {
 function showInstructions() {
     startScrn.style.display = 'none';
     howScrn.style.display = 'block';
+}
 
+function showSelect() {
+    startScrn.style.display = 'none';
+    howScrn.style.display = 'none';
+    selectScrn.style.display = 'block';
 }
 
 
 // ^ End of functions and classes...
 
-startBtn.addEventListener('click', startGame);
+startBtn.addEventListener('click', showSelect);
+contentStartBtn.addEventListener('click', showSelect);
 howBtn.addEventListener('click', showInstructions);
-
+playBtn.addEventListener('click', startGame);
 
 // OK BEGIN CONDITIONAL LOGIC *cries*
-
     
-
 document.addEventListener('keydown', (event) => {
     event.preventDefault();
     
@@ -594,6 +606,5 @@ document.addEventListener('keydown', (event) => {
         } else if (event.key === "8") {
             player2.shootUp();
         }
-
     }
 });
