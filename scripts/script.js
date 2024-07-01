@@ -1,18 +1,25 @@
 "use strict";
 
+// grab elems/ screens
 const startScrn = document.getElementById('start-screen');
 const howScrn = document.getElementById('how-screen');
+const selectScrn = document.getElementById('select-screen');
 const gameScreen = document.getElementById('game-screen');
 const gameBoard = document.getElementById('gameboard');
 const player1Clip = document.getElementById('player1-clip');
 const player2Clip = document.getElementById('player2-clip');
 const startBtn = document.querySelector('.start-btn');
+const contentStartBtn = document.querySelector('.content-start-btn');
 const howBtn = document.querySelector('.how-btn');
+const playBtn = document.querySelector('.play-btn');
+
+// global vars
 const gridArray = [];
 let player1;
 let player2;
 let grid;
 let clipReload;
+let checkClip;
 const clipSize = 6;
 const bulletSpeed = 40; // higher is sloweeeer
 const cellSize = 40; // read as px
@@ -84,6 +91,7 @@ class Player {
 
     die() {
         clearInterval(clipReload);
+        clearInterval(checkClip);
         grid.gameOver = true;
         endGame(this);
     }
@@ -172,6 +180,7 @@ function createPlayers() {
         '<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m11.262 2.306c.196-.196.461-.306.738-.306s.542.11.738.306c1.917 1.917 7.039 7.039 8.956 8.956.196.196.306.461.306.738s-.11.542-.306.738c-1.917 1.917-7.039 7.039-8.956 8.956-.196.196-.461.306-.738.306s-.542-.11-.738-.306c-1.917-1.917-7.039-7.039-8.956-8.956-.196-.196-.306-.461-.306-.738s.11-.542.306-.738c1.917-1.917 7.039-7.039 8.956-8.956z" fill-rule="nonzero"/></svg>'
     );
 
+    // clip logic
     clipReload = setInterval(() => {
         if (player1.clip < clipSize) {
             player1.clip++;
@@ -180,6 +189,82 @@ function createPlayers() {
             player2.clip++;
         }
     }, 1500);
+
+    checkClip = setInterval(() => {
+        // update clip dom
+
+        // player 1 clip 
+        const player1ClipElems = player1Clip.children;
+        if (player1.clip === clipSize) {
+            player1ClipElems[0].classList.remove('player1-no-bullet-in-clip');
+            player1ClipElems[0].classList.add('player1-bullet-in-clip');
+        } else if (player1.clip === clipSize - 1) {
+            player1ClipElems[0].classList.remove('player1-bullet-in-clip');
+            player1ClipElems[0].classList.add('player1-no-bullet-in-clip');            
+            player1ClipElems[1].classList.remove('player1-no-bullet-in-clip');
+            player1ClipElems[1].classList.add('player1-bullet-in-clip');
+        } else if (player1.clip === clipSize - 2) {
+            player1ClipElems[1].classList.remove('player1-bullet-in-clip');
+            player1ClipElems[1].classList.add('player1-no-bullet-in-clip');            
+            player1ClipElems[2].classList.remove('player1-no-bullet-in-clip');
+            player1ClipElems[2].classList.add('player1-bullet-in-clip');
+        } else if (player1.clip === clipSize - 3) {
+            player1ClipElems[2].classList.remove('player1-bullet-in-clip');
+            player1ClipElems[2].classList.add('player1-no-bullet-in-clip');            
+            player1ClipElems[3].classList.remove('player1-no-bullet-in-clip');
+            player1ClipElems[3].classList.add('player1-bullet-in-clip');
+        } else if (player1.clip === clipSize - 4) {
+            player1ClipElems[3].classList.remove('player1-bullet-in-clip');
+            player1ClipElems[3].classList.add('player1-no-bullet-in-clip');            
+            player1ClipElems[4].classList.remove('player1-no-bullet-in-clip');
+            player1ClipElems[4].classList.add('player1-bullet-in-clip');
+        } else if (player1.clip === clipSize - 5) {
+            player1ClipElems[4].classList.remove('player1-bullet-in-clip');
+            player1ClipElems[4].classList.add('player1-no-bullet-in-clip');            
+            player1ClipElems[5].classList.remove('player1-no-bullet-in-clip');
+            player1ClipElems[5].classList.add('player1-bullet-in-clip');
+        } else if (player1.clip === clipSize - 6) {
+            player1ClipElems[5].classList.remove('player1-bullet-in-clip');
+            player1ClipElems[5].classList.add('player1-no-bullet-in-clip');            
+        }
+
+        // player2 clip
+        const player2ClipElems = player2Clip.children;
+        if (player2.clip === clipSize) {
+            player2ClipElems[0].classList.remove('player2-no-bullet-in-clip');
+            player2ClipElems[0].classList.add('player2-bullet-in-clip');
+        } else if (player2.clip === clipSize - 1) {
+            player2ClipElems[0].classList.remove('player2-bullet-in-clip');
+            player2ClipElems[0].classList.add('player2-no-bullet-in-clip');            
+            player2ClipElems[1].classList.remove('player2-no-bullet-in-clip');
+            player2ClipElems[1].classList.add('player2-bullet-in-clip');
+        } else if (player2.clip === clipSize - 2) {
+            player2ClipElems[1].classList.remove('player2-bullet-in-clip');
+            player2ClipElems[1].classList.add('player2-no-bullet-in-clip');            
+            player2ClipElems[2].classList.remove('player2-no-bullet-in-clip');
+            player2ClipElems[2].classList.add('player2-bullet-in-clip');
+        } else if (player2.clip === clipSize - 3) {
+            player2ClipElems[2].classList.remove('player2-bullet-in-clip');
+            player2ClipElems[2].classList.add('player2-no-bullet-in-clip');            
+            player2ClipElems[3].classList.remove('player2-no-bullet-in-clip');
+            player2ClipElems[3].classList.add('player2-bullet-in-clip');
+        } else if (player2.clip === clipSize - 4) {
+            player2ClipElems[3].classList.remove('player2-bullet-in-clip');
+            player2ClipElems[3].classList.add('player2-no-bullet-in-clip');            
+            player2ClipElems[4].classList.remove('player2-no-bullet-in-clip');
+            player2ClipElems[4].classList.add('player2-bullet-in-clip');
+        } else if (player2.clip === clipSize - 5) {
+            player2ClipElems[4].classList.remove('player2-bullet-in-clip');
+            player2ClipElems[4].classList.add('player2-no-bullet-in-clip');            
+            player2ClipElems[5].classList.remove('player2-no-bullet-in-clip');
+            player2ClipElems[5].classList.add('player2-bullet-in-clip');
+        } else if (player2.clip === clipSize - 6) {
+            player2ClipElems[5].classList.remove('player2-bullet-in-clip');
+            player2ClipElems[5].classList.add('player2-no-bullet-in-clip');            
+        }
+    }, 100);
+
+    
 }
 
 function drawPlayer(player) {
@@ -191,14 +276,6 @@ function drawPlayer(player) {
 
 function createBullet(player, direction) {
     player.clip--;
-
-    // update clip dom
-    if (player.name === 'whtPlayer') {
-        if (player.clip === clipSize) {
-
-        }
-    }
-
 
     let bulletX = player.x;
     let bulletY = player.y;
@@ -368,6 +445,8 @@ function createBullet(player, direction) {
 
 function startGame() {
     startScrn.style.display = 'none';
+    howScrn.style.display = 'none';
+    selectScrn.style.display = 'none';
     gameScreen.style.display = 'flex';
     
     grid = new Board(24, 16);
@@ -434,9 +513,9 @@ function startGame() {
 
     // Create player clips
     for (let i = 0; i < clipSize; i++) {
-        const player1BulletInClip = createCell('div', `player1-bullet-in-clip bullet-${i + 1}`)
+        const player1BulletInClip = createCell('div', `player1-bullet-in-clip`)
         player1Clip.appendChild(player1BulletInClip);
-        const player2BulletInClip = createCell('div', `player2-bullet-in-clip bullet-${i + 1}`)
+        const player2BulletInClip = createCell('div', `player2-bullet-in-clip`)
         player2Clip.appendChild(player2BulletInClip);
     }
 
@@ -458,20 +537,27 @@ function endGame(player) {
 function showInstructions() {
     startScrn.style.display = 'none';
     howScrn.style.display = 'block';
+}
 
+function showSelect() {
+    startScrn.style.display = 'none';
+    howScrn.style.display = 'none';
+    selectScrn.style.display = 'block';
 }
 
 
 // ^ End of functions and classes...
 
-startBtn.addEventListener('click', startGame);
+startBtn.addEventListener('click', showSelect);
+contentStartBtn.addEventListener('click', showSelect);
 howBtn.addEventListener('click', showInstructions);
+playBtn.addEventListener('click', startGame);
 
+// OK BEGIN CONDITIONAL LOGIC *cries*
+    
 document.addEventListener('keydown', (event) => {
-    console.log(event);
     event.preventDefault();
     
-    // OK BEGIN CONDITIONAL LOGIC *cries*
     
     if (!grid.gameOver) {
 
@@ -520,6 +606,5 @@ document.addEventListener('keydown', (event) => {
         } else if (event.key === "8") {
             player2.shootUp();
         }
-
     }
 });
