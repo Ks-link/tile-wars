@@ -43,6 +43,18 @@ h1 {
 	font-weight: 400;
 }
 
+h2 {
+	font-size: 4rem;
+	font-family: "Bungee Shade", sans-serif;
+	font-weight: 400;
+}
+
+h3 {
+	font-size: 2.5rem;
+	font-family: "Bungee", sans-serif;
+	font-weight: 400;
+}
+
 p {
 	padding: 0;
 	margin: 0;
@@ -62,15 +74,6 @@ button {
 
 /* Elements
 --------------------------------------------- */
-ul {}
-
-ol {}
-
-dl {}
-
-figure {}
-
-table {}
 
 body {
 	background-color: #cacaca;
@@ -84,15 +87,6 @@ main {
 
 /* Links
 --------------------------------------------- */
-a {}
-
-a:visited {}
-
-a:hover {}
-
-a:focus {}
-
-a:active {}
 
 
 /*--------------------------------------------------------------
@@ -112,6 +106,18 @@ a:active {}
 /* Main
 --------------------------------------------- */
 
+
+/* Page styling */
+
+@keyframes pageTransitionIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
 #start-screen {
 	position: absolute;
 	top: 0;
@@ -119,24 +125,96 @@ a:active {}
 	right: 0;
 	bottom: 0;
 	margin: auto;
-	width: fit-content;
-	height: fit-content;
+	width: max-content;
+	height: max-content;
+	opacity: 1;
 }
 
 #how-screen {
 	display: none;
+	animation: 2s pageTransitionIn;
 }
+
+#game-screen {
+	display: none;
+	justify-content: center;
+	align-items: center;
+	min-width: 100%;
+	min-height: 100%;
+	animation: 2s pageTransitionIn;
+}
+
+#player1-clip {
+	display: grid;
+	width: fit-content;
+	height: fit-content;
+	margin: 2rem;
+	z-index: 99;
+}
+
+#player2-clip {
+	display: grid;
+	width: fit-content;
+	height: fit-content;
+	margin: 2rem;
+	z-index: 99;
+}
+
+#gameboard {
+	display: grid;
+	background-color: #fafafa;
+	width: fit-content;
+	height: fit-content;
+	z-index: 99;
+}
+
+.video-background {
+	position: fixed;
+	top: 0;
+	left: 0;
+	min-width: 100%;
+	min-height: 100%;
+	object-fit: cover;
+	z-index: 1;
+} 
 
 .title {
+	position: relative;
 	text-align: center;
-	padding: 2rem;
+	padding: 1rem 3rem;
 	margin: 2rem;
+	z-index: 99;
 }
 
+
+.sm-title {
+	position: relative;
+	text-align: center;
+	margin: 0;
+	z-index: 99;
+}
+
+.sub-title {
+	position: relative;
+	text-align: center;
+	padding: 1rem;
+	margin: 0;
+	z-index: 99;
+}
+
+
 .btn {
+	position: relative;
 	display: block;
 	padding: 1rem 2rem;
 	border-radius: 1rem;
+	z-index: 99;
+	transition: font-size 0.5s, padding 0.5s;
+}
+
+.btn:hover {
+	font-size: 2.4rem;
+	padding: 1.5rem 2.5rem;
 }
 
 .start-btn {
@@ -147,18 +225,50 @@ a:active {}
 	margin: 4rem auto 2rem auto;
 }
 
-#gameboard {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	display: none;
-	background-color: #fafafa;
-	width: fit-content;
-	height: fit-content;
-	margin: auto;
+.play-btn {
+	/* position: relative; */
+	/* width: fit-content; */
+	/* height: fit-content; */
+	/* bottom: 1rem; */
+	/* left: 0; */
+	/* right: 0; */
 }
+
+.how-content {
+	position: relative;
+	max-width: 60%;
+	background-color: #cacaca;
+	padding: 2rem;
+	margin: 1rem auto;
+	border-radius: 1rem;
+	border: 2px solid #000000;
+	z-index: 9;
+}
+
+.player1-bullet-in-clip {
+	border: 1px solid var(--player-2-color);
+	background-color: var(--player-1-color);
+	height: 25px;
+	width: 15px;
+}
+
+.player1-bullet-not-in-clip {
+	border: 1px solid var(--player-2-color);
+	background-color: #cacaca;
+	height: 25px;
+	width: 15px;
+}
+
+
+.player2-bullet-in-clip {
+	border: 1px solid var(--player-1-color);
+	background-color: var(--player-2-color);
+	height: 25px;
+	width: 15px;
+}
+
+
+/* game elems styling */
 
 @keyframes blkBullet {
 	from {

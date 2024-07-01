@@ -2,7 +2,10 @@
 
 const startScrn = document.getElementById('start-screen');
 const howScrn = document.getElementById('how-screen');
+const gameScreen = document.getElementById('game-screen');
 const gameBoard = document.getElementById('gameboard');
+const player1Clip = document.getElementById('player1-clip');
+const player2Clip = document.getElementById('player2-clip');
 const startBtn = document.querySelector('.start-btn');
 const howBtn = document.querySelector('.how-btn');
 const gridArray = [];
@@ -188,6 +191,15 @@ function drawPlayer(player) {
 
 function createBullet(player, direction) {
     player.clip--;
+
+    // update clip dom
+    if (player.name === 'whtPlayer') {
+        if (player.clip === clipSize) {
+
+        }
+    }
+
+
     let bulletX = player.x;
     let bulletY = player.y;
 
@@ -356,7 +368,7 @@ function createBullet(player, direction) {
 
 function startGame() {
     startScrn.style.display = 'none';
-    gameBoard.style.display = 'grid';
+    gameScreen.style.display = 'flex';
     
     grid = new Board(24, 16);
 
@@ -366,6 +378,12 @@ function startGame() {
     // add variability to grid size
     gameBoard.style.gridTemplateColumns = `repeat(${grid.cols}, ${cellSize}px`;
     gameBoard.style.gridTemplateRows = `repeat(${grid.rows}, ${cellSize}px`;
+
+    // add clip depending on clipSize
+    player1Clip.style.gridTemplateColumns = `15px`;
+    player1Clip.style.gridTemplateRows = `repeat(${clipSize}, 25px`;
+    player2Clip.style.gridTemplateColumns = `15px`;
+    player2Clip.style.gridTemplateRows = `repeat(${clipSize}, 25px`;
     
     // create an array of objects
     for (let r = 0; r < grid.rows; r++) {
@@ -413,6 +431,15 @@ function startGame() {
             }
         }
     }
+
+    // Create player clips
+    for (let i = 0; i < clipSize; i++) {
+        const player1BulletInClip = createCell('div', `player1-bullet-in-clip bullet-${i + 1}`)
+        player1Clip.appendChild(player1BulletInClip);
+        const player2BulletInClip = createCell('div', `player2-bullet-in-clip bullet-${i + 1}`)
+        player2Clip.appendChild(player2BulletInClip);
+    }
+
 }
 
 function endGame(player) {
