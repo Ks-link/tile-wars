@@ -16,67 +16,70 @@
 
 <body>
     <main>
-        <section id="start-screen">
-            <video autoplay muted loop class="video-background">
-                <source src="media/moving-cubes.mp4" type="video/mp4">
-            </video>
-            <h1 class="title">Tile Wars</h1>
-            <button class="btn how-btn">how to play</button>
-            <button class="btn start-btn">start</button>
-        </section>
+        <section class="info-screens">
+            <audio src="media/waiting.mp3" autoplay muted loop></audio>
+            <section id="start-screen">
+                <video autoplay muted loop class="video-background">
+                    <source src="media/moving-cubes.mp4" type="video/mp4">
+                </video>
+                <h1 class="title">Tile Wars</h1>
+                <button class="btn how-btn">how to play</button>
+                <button class="btn start-btn">start</button>
+            </section>
 
-        <section id="how-screen">
-            <video autoplay muted loop class="video-background">
-                <source src="media/moving-cubes.mp4" type="video/mp4">
-            </video>
-            <article class="misc-content">
-                <h2 class="sm-title">Tile Wars</h2>
-                <h3 class="sub-title">How To Play</h3>
+            <section id="how-screen">
+                <video autoplay muted loop class="video-background">
+                    <source src="media/moving-cubes.mp4" type="video/mp4">
+                </video>
+                <article class="misc-content">
+                    <h2 class="sm-title">Tile Wars</h2>
+                    <h3 class="sub-title">How To Play</h3>
 
-                <div>
-                    <h4>Objective</h4>
-                    <p>Shoot the opposing player to win!</p>
-                </div>
+                    <div>
+                        <h4>Objective</h4>
+                        <p>Shoot the opposing player to win!</p>
+                    </div>
 
-                <div>
-                    <h4>Rules</h4>
-                    <p>You can only move within tiles you own.</p>
-                    <p>To claim a tile, shoot it!</p>
-                    <p>To block your opponent's bullet, shoot it. When bullets collide, they are cancelled.</p>
-                    <p>Each player has 6 bullets. One bullet will regenerate every 1 second.</p>
-                </div>
+                    <div>
+                        <h4>Rules</h4>
+                        <p>You can only move within tiles you own.</p>
+                        <p>To claim a tile, shoot it!</p>
+                        <p>To block your opponent's bullet, shoot it. When bullets collide, they are cancelled.</p>
+                        <p>Each player has 6 bullets. One bullet will regenerate every 1 second.</p>
+                    </div>
 
-                <div>
-                    <h4>Controls</h4>
-                    <p>
-                        Player 1:
-                        <br>Use the W, A, S, D keys to move around.
-                        <br>Use the Y, G, H, J keys to shoot.
-                    </p>
-                    <p>
-                        Player 2:
-                        <br>Use the arrow keys to move around.
-                        <br>Use the 8, 4, 5, 6 keys to shoot.
-                    </p>
-                </div>
-            </article>
-            <button class="btn content-start-btn">start</button>
-        </section>
+                    <div>
+                        <h4>Controls</h4>
+                        <p>
+                            Player 1:
+                            <br>Use the W, A, S, D keys to move around.
+                            <br>Use the Y, G, H, J keys to shoot.
+                        </p>
+                        <p>
+                            Player 2:
+                            <br>Use the arrow keys to move around.
+                            <br>Use the 8, 4, 5, 6 keys to shoot.
+                        </p>
+                    </div>
+                </article>
+                <button class="btn content-start-btn">start</button>
+            </section>
 
-        <section id="select-screen">
-            <video autoplay muted loop class="video-background">
-                <source src="media/moving-cubes.mp4" type="video/mp4">
-            </video>
-            <article class="misc-content">
-                <h2 class="sm-title">Tile Wars</h2>
-                <h3 class="sub-title">Game Options</h3>
+            <section id="select-screen">
+                <video autoplay muted loop class="video-background">
+                    <source src="media/moving-cubes.mp4" type="video/mp4">
+                </video>
+                <article class="misc-content">
+                    <h2 class="sm-title">Tile Wars</h2>
+                    <h3 class="sub-title">Game Options</h3>
 
-                <div>
-                    <h4>Grid Size</h4>
-                    <p></p>
-                </div>
-                <button class="btn play-btn">play</button>
-            </article>
+                    <div>
+                        <h4>Grid Size</h4>
+                        <p></p>
+                    </div>
+                    <button class="btn play-btn">play</button>
+                </article>
+            </section>
         </section>
 
         <section id="game-screen">
@@ -89,6 +92,17 @@
 
         </section>
 
+        <footer>
+            <button class="mute-btn"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24">
+                    <path
+                        d="M19 7.358v15.642l-8-5v-.785l8-9.857zm3-6.094l-1.548-1.264-3.446 4.247-6.006 3.753v3.646l-2 2.464v-6.11h-4v10h.843l-3.843 4.736 1.548 1.264 18.452-22.736z" />
+                </svg></button>
+            <button class="back-to-title-btn" style="display: none;"><svg xmlns="http://www.w3.org/2000/svg" width="36"
+                    height="36" viewBox="0 0 576 512">
+                    <path
+                        d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z" />
+                </svg></button>
+        </footer>
     </main>
 
     <footer>

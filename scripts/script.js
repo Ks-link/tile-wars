@@ -12,6 +12,8 @@ const startBtn = document.querySelector('.start-btn');
 const contentStartBtn = document.querySelector('.content-start-btn');
 const howBtn = document.querySelector('.how-btn');
 const playBtn = document.querySelector('.play-btn');
+const muteBtn = document.querySelector('.mute-btn');
+const homeBtn = document.querySelector('.back-to-title-btn');
 
 // global vars
 const gridArray = [];
@@ -276,6 +278,8 @@ function drawPlayer(player) {
 
 function createBullet(player, direction) {
     player.clip--;
+    const shootSound = new Audio("./media/shoot.mp3");
+    shootSound.play();
 
     let bulletX = player.x;
     let bulletY = player.y;
@@ -448,6 +452,7 @@ function startGame() {
     howScrn.style.display = 'none';
     selectScrn.style.display = 'none';
     gameScreen.style.display = 'flex';
+    homeBtn.style.display = 'block';
     
     grid = new Board(24, 16);
 
@@ -537,12 +542,34 @@ function endGame(player) {
 function showInstructions() {
     startScrn.style.display = 'none';
     howScrn.style.display = 'block';
+    homeBtn.style.display = 'block';
 }
 
 function showSelect() {
     startScrn.style.display = 'none';
     howScrn.style.display = 'none';
     selectScrn.style.display = 'block';
+    homeBtn.style.display = 'block';
+}
+
+function muteUnmute() {
+    // debugger;
+    const waitingAudio = document.querySelector('.info-screens audio');
+    if (waitingAudio.muted === true) {
+        waitingAudio.muted = false;
+        muteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M6 7l8-5v20l-8-5v-10zm-6 10h4v-10h-4v10zm20.264-13.264l-1.497 1.497c1.847 1.783 2.983 4.157 2.983 6.767 0 2.61-1.135 4.984-2.983 6.766l1.498 1.498c2.305-2.153 3.735-5.055 3.735-8.264s-1.43-6.11-3.736-8.264zm-.489 8.264c0-2.084-.915-3.967-2.384-5.391l-1.503 1.503c1.011 1.049 1.637 2.401 1.637 3.888 0 1.488-.623 2.841-1.634 3.891l1.503 1.503c1.468-1.424 2.381-3.309 2.381-5.394z"></svg>'
+    } else {
+        waitingAudio.muted = true;
+        muteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M19 7.358v15.642l-8-5v-.785l8-9.857zm3-6.094l-1.548-1.264-3.446 4.247-6.006 3.753v3.646l-2 2.464v-6.11h-4v10h.843l-3.843 4.736 1.548 1.264 18.452-22.736z"></svg>'
+    }
+}
+
+function backToTitle() {
+    startScrn.style.display = 'block';
+    howScrn.style.display = 'none';
+    selectScrn.style.display = 'none';
+    gameScreen.style.display = 'none';
+    homeBtn.style.display = 'none';
 }
 
 
@@ -552,6 +579,8 @@ startBtn.addEventListener('click', showSelect);
 contentStartBtn.addEventListener('click', showSelect);
 howBtn.addEventListener('click', showInstructions);
 playBtn.addEventListener('click', startGame);
+muteBtn.addEventListener('click', muteUnmute);
+homeBtn.addEventListener('click', backToTitle);
 
 // OK BEGIN CONDITIONAL LOGIC *cries*
     
