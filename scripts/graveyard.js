@@ -213,3 +213,38 @@ const ctx = canvas.getContext("2d");
     //         return false
     //     }
     // }
+    
+        // for (let i = 0; i < clipElems.length; i++) {
+        //     const elem = clipElems[i];
+        //     if (player.clip === clipSize - 1) {
+        //         if (i === clipSize - 2) {
+        //             elem.classList.remove('player1-bullet-in-clip');
+        //             elem.classList.add('player1-no-bullet-in-clip');
+        //         }
+        //     }
+        //     if (player.clip === clipSize - 2) {
+        //         if (i < clipSize - 2) {
+        //             elem.classList.remove('player1-bullet-in-clip');
+        //             elem.classList.add('player1-no-bullet-in-clip');
+        //         }
+        //     }
+        //     if (player.clip === clipSize - 3) {
+        //         if (i < clipSize - 3) {
+        //             elem.classList.remove('player1-bullet-in-clip');
+        //             elem.classList.add('player1-no-bullet-in-clip');
+        //         }
+        //     }
+        //     if (player.clip === clipSize - 4) {
+        //         if (i < clipSize - 4) {
+        //             elem.classList.remove('player1-bullet-in-clip');
+        //             elem.classList.add('player1-no-bullet-in-clip');
+        //         }
+        //     }
+        //     if (player.clip === clipSize - 5) {
+        //         if (i < clipSize - 5) {
+        //             elem.classList.remove('player1-bullet-in-clip');
+        //             elem.classList.add('player1-no-bullet-in-clip');
+        //         }
+        //     }
+        // }
+// bullet-${i + 1}
