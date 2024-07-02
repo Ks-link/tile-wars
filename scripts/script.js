@@ -578,7 +578,6 @@ function endGame(player) {
     const playAgainBtn = document.querySelector('.play-again-btn');
     playAgainBtn.addEventListener('click', resetGame);
     playAgainBtn.addEventListener('click', startGame);
-
 }
 
 function resetGame() {
