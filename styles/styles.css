@@ -121,6 +121,25 @@ main {
 	}
 }
 
+@keyframes whoWonMessage {
+	from {
+		top: -5rem;
+	}
+	to {
+
+		top: 20rem;
+	}
+}
+
+@keyframes playAgainMsg {
+	from {
+		top: -5rem;
+	}
+	to {
+		top: 24rem;
+	}
+}
+
 #start-screen {
 	position: absolute;
 	top: 0;
@@ -130,7 +149,7 @@ main {
 	margin: auto;
 	width: max-content;
 	height: max-content;
-	opacity: 1;
+	animation: 2s pageTransitionIn;
 }
 
 #how-screen {
@@ -202,6 +221,14 @@ main {
 	z-index: 99;
 }
 
+.sm-title-game {
+	position: fixed;
+	top: 0;
+	text-align: center;
+	margin: 0;
+	z-index: 99;
+}
+
 .sub-title {
 	position: relative;
 	text-align: center;
@@ -251,6 +278,26 @@ main {
 	margin: 1rem auto 2rem auto;
 }
 
+.mute-btn {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	margin: 0.5rem;
+	padding: 1rem 2rem 0.6rem 2rem;
+	border-radius: 1rem;
+	z-index: 99;
+}
+
+.back-to-title-btn {
+	position: fixed;
+	bottom: 0;
+	left: 7rem;
+	margin: 0.5rem;
+	padding: 1rem 2rem 0.6rem 2rem;
+	border-radius: 1rem;
+	z-index: 99;
+}
+
 .misc-content {
 	position: absolute;
 	top: 0;
@@ -269,6 +316,35 @@ main {
 
 .misc-content div {
 	padding-bottom: 3rem;
+}
+
+.who-won-message {
+	text-align: center;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: -5rem;
+	background-color: #cacaca;
+	border: 2px solid #000000;
+	z-index: 999;
+	animation: 1s whoWonMessage 1s forwards;
+}
+
+.play-again-btn {
+	font-size: 2.5rem;
+	text-align: center;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: -5rem;
+	background-color: #cacaca;
+	border: 2px solid #000000;
+	z-index: 999;
+	animation: 1s playAgainMsg 2s forwards;
+}
+
+.play-again-btn:hover {
+	background-color: #fafafa;
 }
 
 .player1-bullet-in-clip {

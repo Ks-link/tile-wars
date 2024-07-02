@@ -4,7 +4,7 @@
 const startScrn = document.getElementById('start-screen');
 const howScrn = document.getElementById('how-screen');
 const selectScrn = document.getElementById('select-screen');
-const gameScreen = document.getElementById('game-screen');
+const gameScrn = document.getElementById('game-screen');
 const gameBoard = document.getElementById('gameboard');
 const player1Clip = document.getElementById('player1-clip');
 const player2Clip = document.getElementById('player2-clip');
@@ -12,17 +12,22 @@ const startBtn = document.querySelector('.start-btn');
 const contentStartBtn = document.querySelector('.content-start-btn');
 const howBtn = document.querySelector('.how-btn');
 const playBtn = document.querySelector('.play-btn');
+const muteBtn = document.querySelector('.mute-btn');
+const homeBtn = document.querySelector('.back-to-title-btn');
+const waitingAudio = document.querySelector('#info-screens audio');
+const fightingAudio = document.querySelector('#game-screen audio');
 
 // global vars
 const gridArray = [];
+const clipSize = 6;
+const bulletSpeed = 40; // higher is sloweeeer
+const cellSize = 40; // read as px
 let player1;
 let player2;
 let grid;
 let clipReload;
 let checkClip;
-const clipSize = 6;
-const bulletSpeed = 40; // higher is sloweeeer
-const cellSize = 40; // read as px
+let isMuted = true;
 
 
 class Board {
@@ -90,6 +95,8 @@ class Player {
     }
 
     die() {
+        fightingAudio.pause();
+        fightingAudio.currentTime = 0;
         clearInterval(clipReload);
         clearInterval(checkClip);
         grid.gameOver = true;
@@ -276,6 +283,10 @@ function drawPlayer(player) {
 
 function createBullet(player, direction) {
     player.clip--;
+    if (!isMuted) {
+        const shootSound = new Audio("./media/shoot.mp3");
+        shootSound.play();
+    }
 
     let bulletX = player.x;
     let bulletY = player.y;
@@ -444,11 +455,25 @@ function createBullet(player, direction) {
 
 
 function startGame() {
+    // DOM
     startScrn.style.display = 'none';
     howScrn.style.display = 'none';
     selectScrn.style.display = 'none';
-    gameScreen.style.display = 'flex';
+    gameScrn.style.display = 'flex';
+    homeBtn.style.display = 'none';
+
     
+    // Audio
+    if (!isMuted) {
+        waitingAudio.pause()
+        waitingAudio.currentTime = 0;
+        fightingAudio.play();
+        fightingAudio.muted = false;
+        const startGameAudio = new Audio('../media/game-start.mp3');
+        startGameAudio.play();
+    }
+
+    // Logic
     grid = new Board(24, 16);
 
     grid.gameOver = false;
@@ -513,15 +538,25 @@ function startGame() {
 
     // Create player clips
     for (let i = 0; i < clipSize; i++) {
-        const player1BulletInClip = createCell('div', `player1-bullet-in-clip`)
+        const player1BulletInClip = createCell('div', `player1-bullet-in-clip bullet`)
         player1Clip.appendChild(player1BulletInClip);
-        const player2BulletInClip = createCell('div', `player2-bullet-in-clip`)
+        const player2BulletInClip = createCell('div', `player2-bullet-in-clip bullet`)
         player2Clip.appendChild(player2BulletInClip);
     }
 
 }
 
 function endGame(player) {
+    // DOM
+    homeBtn.style.display = 'block';
+
+    // Audio
+    if (!isMuted) {
+        const gameOverAudio = new Audio('../media/victory.mp3');
+        gameOverAudio.play();
+    }
+
+    // flip all tiles
     const allCells = gameBoard.querySelectorAll(".cell");
     if (player.name === "whtPlayer") {
         allCells.forEach(cell => {
@@ -530,19 +565,86 @@ function endGame(player) {
     } else if (player.name === "blkPlayer") {
         allCells.forEach(cell => {
             cell.classList.remove("flipped");
-        })
+        });
+    }
+
+    const whoWonMessage = createCell('h3', 'who-won-message');
+    const playAgain = createCell('button', 'play-again-btn');
+    gameScrn.appendChild(whoWonMessage);
+    gameScrn.appendChild(playAgain);
+    whoWonMessage.innerHTML = `${player.name} wins`;
+    playAgain.innerHTML = `Play Agan?`;
+
+    const playAgainBtn = document.querySelector('.play-again-btn');
+    playAgainBtn.addEventListener('click', resetGame);
+    playAgainBtn.addEventListener('click', startGame);
+}
+
+function resetGame() {
+    if (grid.gameOver) {
+        const whoWonMessage = document.querySelector(".who-won-message");
+        const playAgain = document.querySelector(".play-again-btn");
+        whoWonMessage.remove();
+        playAgain.remove();
+    }
+    const allCells = gameBoard.querySelectorAll(".cell");
+    for (let i = 0; i < allCells.length; i++) {
+        allCells[i].remove();
+    }
+    const playerBullets = document.querySelectorAll(".bullet");
+    for (let i = 0; i < playerBullets.length; i++) {
+        playerBullets[i].remove();
     }
 }
 
 function showInstructions() {
     startScrn.style.display = 'none';
     howScrn.style.display = 'block';
+    homeBtn.style.display = 'block';
 }
 
 function showSelect() {
     startScrn.style.display = 'none';
     howScrn.style.display = 'none';
     selectScrn.style.display = 'block';
+    homeBtn.style.display = 'block';
+}
+
+function muteUnmute() {
+    isMuted ? isMuted = false : isMuted = true;
+    if ((gameScrn.style.display === '' || gameScrn.style.display === 'none') && isMuted === false) {
+        waitingAudio.play();
+        waitingAudio.muted = false;
+        muteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M6 7l8-5v20l-8-5v-10zm-6 10h4v-10h-4v10zm20.264-13.264l-1.497 1.497c1.847 1.783 2.983 4.157 2.983 6.767 0 2.61-1.135 4.984-2.983 6.766l1.498 1.498c2.305-2.153 3.735-5.055 3.735-8.264s-1.43-6.11-3.736-8.264zm-.489 8.264c0-2.084-.915-3.967-2.384-5.391l-1.503 1.503c1.011 1.049 1.637 2.401 1.637 3.888 0 1.488-.623 2.841-1.634 3.891l1.503 1.503c1.468-1.424 2.381-3.309 2.381-5.394z"></svg>'
+    } else if ((gameScrn.style.display === '' || gameScrn.style.display === 'none') && isMuted === true) {
+        waitingAudio.pause();
+        waitingAudio.muted = true;
+        muteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M19 7.358v15.642l-8-5v-.785l8-9.857zm3-6.094l-1.548-1.264-3.446 4.247-6.006 3.753v3.646l-2 2.464v-6.11h-4v10h.843l-3.843 4.736 1.548 1.264 18.452-22.736z"></svg>'
+    } else if (gameScrn.style.display === 'flex' && isMuted === false) {
+        fightingAudio.play();
+        fightingAudio.muted = false;
+        muteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M6 7l8-5v20l-8-5v-10zm-6 10h4v-10h-4v10zm20.264-13.264l-1.497 1.497c1.847 1.783 2.983 4.157 2.983 6.767 0 2.61-1.135 4.984-2.983 6.766l1.498 1.498c2.305-2.153 3.735-5.055 3.735-8.264s-1.43-6.11-3.736-8.264zm-.489 8.264c0-2.084-.915-3.967-2.384-5.391l-1.503 1.503c1.011 1.049 1.637 2.401 1.637 3.888 0 1.488-.623 2.841-1.634 3.891l1.503 1.503c1.468-1.424 2.381-3.309 2.381-5.394z"></svg>'
+    } else if (gameScrn.style.display === 'flex' && isMuted === true) {
+        fightingAudio.pause();
+        fightingAudio.muted = true;
+        muteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M19 7.358v15.642l-8-5v-.785l8-9.857zm3-6.094l-1.548-1.264-3.446 4.247-6.006 3.753v3.646l-2 2.464v-6.11h-4v10h.843l-3.843 4.736 1.548 1.264 18.452-22.736z"></svg>'
+    }
+}
+    
+function backToTitle() {
+    if (!isMuted) {
+        waitingAudio.play()
+    }
+    if (gameScrn.style.display === 'flex') {
+        resetGame();
+    }
+    startScrn.style.display = 'block';
+    howScrn.style.display = 'none';
+    selectScrn.style.display = 'none';
+    gameScrn.style.display = 'none';
+    homeBtn.style.display = 'none';
+    fightingAudio.pause();
+    fightingAudio.currentTime = 0;
 }
 
 
@@ -552,6 +654,8 @@ startBtn.addEventListener('click', showSelect);
 contentStartBtn.addEventListener('click', showSelect);
 howBtn.addEventListener('click', showInstructions);
 playBtn.addEventListener('click', startGame);
+muteBtn.addEventListener('click', muteUnmute);
+homeBtn.addEventListener('click', backToTitle);
 
 // OK BEGIN CONDITIONAL LOGIC *cries*
     
