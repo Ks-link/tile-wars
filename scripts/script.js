@@ -4,7 +4,7 @@
 const startScrn = document.getElementById('start-screen');
 const howScrn = document.getElementById('how-screen');
 const selectScrn = document.getElementById('select-screen');
-const gameScreen = document.getElementById('game-screen');
+const gameScrn = document.getElementById('game-screen');
 const gameBoard = document.getElementById('gameboard');
 const player1Clip = document.getElementById('player1-clip');
 const player2Clip = document.getElementById('player2-clip');
@@ -14,6 +14,9 @@ const howBtn = document.querySelector('.how-btn');
 const playBtn = document.querySelector('.play-btn');
 const muteBtn = document.querySelector('.mute-btn');
 const homeBtn = document.querySelector('.back-to-title-btn');
+const waitingAudio = document.querySelector('#info-screens audio');
+const fightingAudio = document.querySelector('#game-screen audio');
+
 
 // global vars
 const gridArray = [];
@@ -25,6 +28,7 @@ let checkClip;
 const clipSize = 6;
 const bulletSpeed = 40; // higher is sloweeeer
 const cellSize = 40; // read as px
+let isMuted = true;
 
 
 class Board {
@@ -92,6 +96,8 @@ class Player {
     }
 
     die() {
+        fightingAudio.pause();
+        fightingAudio.currentTime = 0;
         clearInterval(clipReload);
         clearInterval(checkClip);
         grid.gameOver = true;
@@ -451,9 +457,16 @@ function startGame() {
     startScrn.style.display = 'none';
     howScrn.style.display = 'none';
     selectScrn.style.display = 'none';
-    gameScreen.style.display = 'flex';
+    gameScrn.style.display = 'flex';
     homeBtn.style.display = 'block';
     
+    if (!isMuted) {
+        waitingAudio.pause()
+        waitingAudio.currentTime = 0;
+        fightingAudio.play();
+        fightingAudio.muted = false;
+    }
+
     grid = new Board(24, 16);
 
     grid.gameOver = false;
@@ -554,22 +567,39 @@ function showSelect() {
 
 function muteUnmute() {
     // debugger;
-    const waitingAudio = document.querySelector('.info-screens audio');
-    if (waitingAudio.muted === true) {
-        waitingAudio.muted = false;
-        muteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M6 7l8-5v20l-8-5v-10zm-6 10h4v-10h-4v10zm20.264-13.264l-1.497 1.497c1.847 1.783 2.983 4.157 2.983 6.767 0 2.61-1.135 4.984-2.983 6.766l1.498 1.498c2.305-2.153 3.735-5.055 3.735-8.264s-1.43-6.11-3.736-8.264zm-.489 8.264c0-2.084-.915-3.967-2.384-5.391l-1.503 1.503c1.011 1.049 1.637 2.401 1.637 3.888 0 1.488-.623 2.841-1.634 3.891l1.503 1.503c1.468-1.424 2.381-3.309 2.381-5.394z"></svg>'
-    } else {
+    isMuted ? isMuted = false : isMuted = true;
+    if ((gameScrn.style.display === '' || gameScrn.style.display === 'none') && isMuted === false) {
+            waitingAudio.play();
+            waitingAudio.muted = false;
+            muteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M6 7l8-5v20l-8-5v-10zm-6 10h4v-10h-4v10zm20.264-13.264l-1.497 1.497c1.847 1.783 2.983 4.157 2.983 6.767 0 2.61-1.135 4.984-2.983 6.766l1.498 1.498c2.305-2.153 3.735-5.055 3.735-8.264s-1.43-6.11-3.736-8.264zm-.489 8.264c0-2.084-.915-3.967-2.384-5.391l-1.503 1.503c1.011 1.049 1.637 2.401 1.637 3.888 0 1.488-.623 2.841-1.634 3.891l1.503 1.503c1.468-1.424 2.381-3.309 2.381-5.394z"></svg>'
+    } else if ((gameScrn.style.display === '' || gameScrn.style.display === 'none') && isMuted === true) {
+        waitingAudio.pause();
         waitingAudio.muted = true;
+        muteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M19 7.358v15.642l-8-5v-.785l8-9.857zm3-6.094l-1.548-1.264-3.446 4.247-6.006 3.753v3.646l-2 2.464v-6.11h-4v10h.843l-3.843 4.736 1.548 1.264 18.452-22.736z"></svg>'
+    } else if (gameScrn.style.display === 'flex' && isMuted === false) {
+        fightingAudio.play();
+        fightingAudio.muted = false;
+        muteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M6 7l8-5v20l-8-5v-10zm-6 10h4v-10h-4v10zm20.264-13.264l-1.497 1.497c1.847 1.783 2.983 4.157 2.983 6.767 0 2.61-1.135 4.984-2.983 6.766l1.498 1.498c2.305-2.153 3.735-5.055 3.735-8.264s-1.43-6.11-3.736-8.264zm-.489 8.264c0-2.084-.915-3.967-2.384-5.391l-1.503 1.503c1.011 1.049 1.637 2.401 1.637 3.888 0 1.488-.623 2.841-1.634 3.891l1.503 1.503c1.468-1.424 2.381-3.309 2.381-5.394z"></svg>'
+    } else if (gameScrn.style.display === 'flex' && isMuted === true) {
+        fightingAudio.pause();
+        fightingAudio.muted = true;
         muteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M19 7.358v15.642l-8-5v-.785l8-9.857zm3-6.094l-1.548-1.264-3.446 4.247-6.006 3.753v3.646l-2 2.464v-6.11h-4v10h.843l-3.843 4.736 1.548 1.264 18.452-22.736z"></svg>'
     }
 }
 
+
+    
 function backToTitle() {
     startScrn.style.display = 'block';
     howScrn.style.display = 'none';
     selectScrn.style.display = 'none';
-    gameScreen.style.display = 'none';
+    gameScrn.style.display = 'none';
     homeBtn.style.display = 'none';
+    fightingAudio.pause();
+    fightingAudio.currentTime = 0;
+    if (!isMuted) {
+        waitingAudio.play()
+    }
 }
 
 
