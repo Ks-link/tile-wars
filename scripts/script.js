@@ -28,6 +28,8 @@ let grid;
 let clipReload;
 let checkClip;
 let isMuted = true;
+let canPlayer1Shoot = true;
+let canPlayer2Shoot = true;
 
 
 class Board {
@@ -95,12 +97,14 @@ class Player {
     }
 
     die() {
-        fightingAudio.pause();
-        fightingAudio.currentTime = 0;
-        clearInterval(clipReload);
-        clearInterval(checkClip);
-        grid.gameOver = true;
-        endGame(this);
+        if (!grid.gameOver) {
+            fightingAudio.pause();
+            fightingAudio.currentTime = 0;
+            clearInterval(clipReload);
+            clearInterval(checkClip);
+            grid.gameOver = true;
+            endGame(this);
+        }
     }
 }
 
@@ -657,9 +661,10 @@ playBtn.addEventListener('click', startGame);
 muteBtn.addEventListener('click', muteUnmute);
 homeBtn.addEventListener('click', backToTitle);
 
+
 // OK BEGIN CONDITIONAL LOGIC *cries*
     
-document.addEventListener('keydown', (event) => {
+document.addEventListener('keypress', (event) => {
     event.preventDefault();
     
     
@@ -669,6 +674,7 @@ document.addEventListener('keydown', (event) => {
         // need to check grid bounds here to avoid checking cell that doesn't exsit after key press
         if (player1.x > 1 && gridArray[player1.y - 1][player1.x - 2].flipped === true && event.key === "a") {
             player1.moveLeft();
+            
         } else if (player1.x < grid.cols && gridArray[player1.y - 1][player1.x].flipped === true && event.key === "d") {
             player1.moveRight();
         } else if (player1.y < grid.rows && gridArray[player1.y][player1.x - 1].flipped === true && event.key === "s") {
@@ -688,27 +694,62 @@ document.addEventListener('keydown', (event) => {
             player2.moveUp();
         }
 
+        
+        // need this boolean to stop bullet spam
 
         // player1 bullets
-        if (event.key === "g") {
+        if (event.key === "g" && canPlayer1Shoot) {
+            canPlayer1Shoot = false;
             player1.shootLeft();
-        } else if (event.key === "j") {
+            setTimeout(() => {
+                canPlayer1Shoot = true;
+            }, 50);
+        } else if (event.key === "j" && canPlayer1Shoot) {
+            // debugger;
+            canPlayer1Shoot = false;
             player1.shootRight();
-        } else if (event.key === "h") {
+            setTimeout(() => {
+                canPlayer1Shoot = true;
+            }, 50);
+        } else if (event.key === "h" && canPlayer1Shoot) {
+            canPlayer1Shoot = false;
             player1.shootDown();
-        } else if (event.key === "y") {
+            setTimeout(() => {
+                canPlayer1Shoot = true;
+            }, 50);
+        } else if (event.key === "y" && canPlayer1Shoot) {
+            canPlayer1Shoot = false;
             player1.shootUp();
+            setTimeout(() => {
+                canPlayer1Shoot = true;
+            }, 50);
         }
 
         // player2 bullets
-        if (event.key === "4") {
+        if (event.key === "4" && canPlayer2Shoot) {
             player2.shootLeft();
-        } else if (event.key === "6") {
+            canPlayer2Shoot = false;
+            setTimeout(() => {
+                canPlayer2Shoot = true;
+            }, 50);
+        } else if (event.key === "6" && canPlayer2Shoot) {
             player2.shootRight();
-        } else if (event.key === "5") {
+            canPlayer2Shoot = false;
+            setTimeout(() => {
+                canPlayer2Shoot = true;
+            }, 50);
+        } else if (event.key === "5" && canPlayer2Shoot) {
             player2.shootDown();
-        } else if (event.key === "8") {
+            canPlayer2Shoot = false;
+            setTimeout(() => {
+                canPlayer2Shoot = true;
+            }, 50);
+        } else if (event.key === "8" && canPlayer2Shoot) {
             player2.shootUp();
+            canPlayer2Shoot = false;
+            setTimeout(() => {
+                canPlayer2Shoot = true;
+            }, 50);
         }
     }
 });
