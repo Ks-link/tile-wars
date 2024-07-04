@@ -16,6 +16,7 @@ const muteBtn = document.querySelector('.mute-btn');
 const homeBtn = document.querySelector('.back-to-title-btn');
 const waitingAudio = document.querySelector('#info-screens audio');
 const fightingAudio = document.querySelector('#game-screen audio');
+const gridOptionBtns = document.querySelectorAll('.grid-checkbox');
 
 // global vars
 const gridArray = [];
@@ -96,6 +97,7 @@ class Player {
         }
     }
 
+    // can combine all shoot and move methods with unique arguments
     die() {
         if (!grid.gameOver) {
             fightingAudio.pause();
@@ -274,7 +276,6 @@ function createPlayers() {
             player2ClipElems[5].classList.add('player2-no-bullet-in-clip');            
         }
     }, 100);
-
     
 }
 
@@ -457,7 +458,6 @@ function createBullet(player, direction) {
     }
 }
 
-
 function startGame() {
     // DOM
     startScrn.style.display = 'none';
@@ -477,8 +477,11 @@ function startGame() {
         startGameAudio.play();
     }
 
+    // apply user input
+    const [cols, rows] = getGameOptions();
+
     // Logic
-    grid = new Board(24, 16);
+    grid = new Board(5, 12);
 
     grid.gameOver = false;
     createPlayers();
@@ -573,13 +576,12 @@ function endGame(player) {
     }
 
     const whoWonMessage = createCell('h3', 'who-won-message');
-    const playAgain = createCell('button', 'play-again-btn');
+    const playAgainBtn = createCell('button', 'play-again-btn');
     gameScrn.appendChild(whoWonMessage);
-    gameScrn.appendChild(playAgain);
+    gameScrn.appendChild(playAgainBtn);
     whoWonMessage.innerHTML = `${player.name} wins`;
-    playAgain.innerHTML = `Play Agan?`;
+    playAgainBtn.innerHTML = `Play Agan?`;
 
-    const playAgainBtn = document.querySelector('.play-again-btn');
     playAgainBtn.addEventListener('click', resetGame);
     playAgainBtn.addEventListener('click', startGame);
 }
@@ -637,6 +639,7 @@ function muteUnmute() {
     
 function backToTitle() {
     if (!isMuted) {
+        waitingAudio.muted = false;
         waitingAudio.play()
     }
     if (gameScrn.style.display === 'flex') {
@@ -651,22 +654,35 @@ function backToTitle() {
     fightingAudio.currentTime = 0;
 }
 
+function unSelectOthers(selected) {
+    gridOptionBtns.forEach(btn => {
+        btn.checked = false;
+    });
+    selected.checked = true;
+    
+}
+
 
 // ^ End of functions and classes...
 
+// here are all the listeners
 startBtn.addEventListener('click', showSelect);
 contentStartBtn.addEventListener('click', showSelect);
 howBtn.addEventListener('click', showInstructions);
 playBtn.addEventListener('click', startGame);
 muteBtn.addEventListener('click', muteUnmute);
 homeBtn.addEventListener('click', backToTitle);
+gridOptionBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {unSelectOthers(btn)});
+});
+
+
 
 
 // OK BEGIN CONDITIONAL LOGIC *cries*
     
-document.addEventListener('keypress', (event) => {
+document.addEventListener('keydown', (event) => {
     event.preventDefault();
-    
     
     if (!grid.gameOver) {
 
@@ -674,7 +690,6 @@ document.addEventListener('keypress', (event) => {
         // need to check grid bounds here to avoid checking cell that doesn't exsit after key press
         if (player1.x > 1 && gridArray[player1.y - 1][player1.x - 2].flipped === true && event.key === "a") {
             player1.moveLeft();
-            
         } else if (player1.x < grid.cols && gridArray[player1.y - 1][player1.x].flipped === true && event.key === "d") {
             player1.moveRight();
         } else if (player1.y < grid.rows && gridArray[player1.y][player1.x - 1].flipped === true && event.key === "s") {

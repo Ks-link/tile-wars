@@ -72,17 +72,48 @@
                 <article class="misc-content">
                     <h2 class="sm-title">Tile Wars</h2>
                     <h3 class="sub-title">Game Options</h3>
-                    <h4>Grid Size</h4>
 
-                    <!-- have buttons that change script when pressed -->
-                    <!-- or have form and submit info when play is pressed -->
+                    <form class="options" action="">
+                        <h4>Grid Size</h4>
 
-                    <form action="">
-                        <label for=""></label>
-                        <input type="checkbox">
+                        <div class="grid-options">
+                            <div class="grid-option">
+                                <svg class="grid-icon" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                    stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="m8 16h-5v4c0 .621.52 1 1 1h4zm6.6 5v-5h-5.2v5zm6.4-5h-5v5h4c.478 0 1-.379 1-1zm0-1.4v-5.2h-5v5.2zm-18-5.2v5.2h5v-5.2zm11.6 0h-5.2v5.2h5.2zm1.4-6.4v5h5v-4c0-.478-.379-1-1-1zm-8 5v-5h-4c-.62 0-1 .519-1 1v4zm6.6-5h-5.2v5h5.2z"
+                                        fill-rule="nonzero" />
+                                </svg>
+                                <label for="gridOption1">Jumbo</label>
+                                <p>(24 x 16)</p>
+                                <input class="grid-checkbox" name="gridOption1" id="gridOption1" type="checkbox">
+                            </div>
+                            <div class="grid-option">
+                                <svg class="grid-icon" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                    stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="m3 12.7v7.3c0 .62.519 1 1 1h7.3v-8.3zm18 0h-8.3v8.3h7.3c.621 0 1-.52 1-1zm-9.7-9.7h-7.3c-.478 0-1 .379-1 1v7.3h8.3zm1.4 0v8.3h8.3v-7.3c0-.478-.379-1-1-1z"
+                                        fill-rule="nonzero" />
+                                </svg>
+                                <label for="gridOption2">Regular</label>
+                                <p>(16 x 16)</p>
+                                <input class="grid-checkbox" name="gridOption2" id="gridOption2" type="checkbox">
+                            </div>
+                            <div class="grid-option">
+                                <svg class="grid-icon" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                    stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="m21 4c0-.478-.379-1-1-1h-16c-.62 0-1 .519-1 1v16c0 .621.52 1 1 1h16c.478 0 1-.379 1-1z"
+                                        fill-rule="nonzero" />
+                                </svg>
+                                <label for="gridOption3">Sudden Death</label>
+                                <p>(5 x 12)</p>
+                                <input class="grid-checkbox" name="gridOption3" id="gridOption3" type="checkbox">
+                            </div>
+                        </div>
                     </form>
+                    <button type="submit" class="btn play-btn">play</button>
 
-                    <button class="btn play-btn">play</button>
                 </article>
             </section>
         </section>

@@ -248,3 +248,16 @@ const ctx = canvas.getContext("2d");
         //     }
         // }
 // bullet-${i + 1}
+// function getGameOptions() {
+//     let gridChoice;
+//     let colourChoice;
+//     let gridSelected = false;
+
+//     const gridOptionBtns = document.querySelectorAll('.grid-checkbox');
+
+//     gridOptionBtns.forEach((btn) => {
+//         btn.addEventListener('click', () => {
+//             gridSelected = true;
+//         });
+//     });
+// }
