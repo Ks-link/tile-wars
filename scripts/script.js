@@ -17,20 +17,29 @@ const homeBtn = document.querySelector('.back-to-title-btn');
 const waitingAudio = document.querySelector('#info-screens audio');
 const fightingAudio = document.querySelector('#game-screen audio');
 const gridOptionBtns = document.querySelectorAll('.grid-checkbox');
+const colourOptionBtns = document.querySelectorAll('.colour-checkbox');
+const colourVars = document.querySelector(':root');
+const player1NameInput = document.getElementById('player1Name');
+const player2NameInput = document.getElementById('player2Name');
+
 
 // global vars
 const gridArray = [];
 const clipSize = 6;
 const bulletSpeed = 40; // higher is sloweeeer
 const cellSize = 40; // read as px
+let isMuted = true;
+let canPlayer1Shoot = true;
+let canPlayer2Shoot = true;
 let player1;
 let player2;
 let grid;
 let clipReload;
 let checkClip;
-let isMuted = true;
-let canPlayer1Shoot = true;
-let canPlayer2Shoot = true;
+let colChoice = 24;
+let rowChoice = 16;
+let player1Username = "Player 1";
+let player2Username = "Player 2";
 
 
 class Board {
@@ -44,7 +53,8 @@ class Board {
 }
 
 class Player {
-    constructor(name, x, y, svg) {
+    constructor(username, name, x, y, svg) {
+        this.username = username;
         this.name = name;
         this.x = x;
         this.y = y;
@@ -180,13 +190,26 @@ function createCell(tag, classOf) {
 }
 
 function createPlayers() {
+    
+    // set usernames
+    if (player1NameInput.value != '') {
+        player1NameInput.value.trim();
+        player1Username = player1NameInput.value;
+    } 
+    if (player2NameInput.value != '') {
+        player2NameInput.value.trim();
+        player2Username = player2NameInput.value;
+    } 
+    
     player1 = new Player(
+        player1Username,
         "whtPlayer",
         3,
         3,
         '<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m11.262 2.306c.196-.196.461-.306.738-.306s.542.11.738.306c1.917 1.917 7.039 7.039 8.956 8.956.196.196.306.461.306.738s-.11.542-.306.738c-1.917 1.917-7.039 7.039-8.956 8.956-.196.196-.461.306-.738.306s-.542-.11-.738-.306c-1.917-1.917-7.039-7.039-8.956-8.956-.196-.196-.306-.461-.306-.738s.11-.542.306-.738c1.917-1.917 7.039-7.039 8.956-8.956z" fill-rule="nonzero"/></svg>'
     );
     player2 = new Player(
+        player2Username,
         "blkPlayer",
         grid.cols - 2,
         grid.rows - 2,
@@ -477,11 +500,8 @@ function startGame() {
         startGameAudio.play();
     }
 
-    // apply user input
-    const [cols, rows] = getGameOptions();
-
     // Logic
-    grid = new Board(5, 12);
+    grid = new Board(colChoice, rowChoice);
 
     grid.gameOver = false;
     createPlayers();
@@ -579,7 +599,7 @@ function endGame(player) {
     const playAgainBtn = createCell('button', 'play-again-btn');
     gameScrn.appendChild(whoWonMessage);
     gameScrn.appendChild(playAgainBtn);
-    whoWonMessage.innerHTML = `${player.name} wins`;
+    whoWonMessage.innerHTML = `${player.username} wins`;
     playAgainBtn.innerHTML = `Play Agan?`;
 
     playAgainBtn.addEventListener('click', resetGame);
@@ -614,6 +634,11 @@ function showSelect() {
     howScrn.style.display = 'none';
     selectScrn.style.display = 'block';
     homeBtn.style.display = 'block';
+    
+    player1NameInput.value = '';
+    player2NameInput.value = '';
+    player1Username = 'Player 1';
+    player2Username = 'Player 2';
 }
 
 function muteUnmute() {
@@ -654,12 +679,41 @@ function backToTitle() {
     fightingAudio.currentTime = 0;
 }
 
-function unSelectOthers(selected) {
-    gridOptionBtns.forEach(btn => {
-        btn.checked = false;
-    });
-    selected.checked = true;
-    
+function selectOption(selected, type) {
+    // So only one box can be checked at a time:
+    if (type === "grid") {
+        gridOptionBtns.forEach(btn => {
+            btn.checked = false;
+        });
+        selected.checked = true;
+        // feed choice
+        if (selected.name === "gridOption1") {
+            colChoice = 24;
+            rowChoice = 16;
+        } else if (selected.name === "gridOption2") {
+            colChoice = 14;
+            rowChoice = 14;
+        } else if (selected.name === "gridOption3") {
+            colChoice = 5;
+            rowChoice = 12;
+        }
+    } else if (type === "colour") {
+        colourOptionBtns.forEach(btn => {
+            btn.checked = false;
+        });
+        selected.checked = true;
+        // feed choice
+        if (selected.name === "colourOption1") {
+            colourVars.style.setProperty('--player-1-colour', '#ffffff');
+            colourVars.style.setProperty('--player-2-colour', '#000000');
+        } else if (selected.name === "colourOption2") {
+            colourVars.style.setProperty('--player-1-colour', '#F59501');
+            colourVars.style.setProperty('--player-2-colour', '#3572A0');
+        } else if (selected.name === "colourOption3") {
+            colourVars.style.setProperty('--player-1-colour', '#EFF500');
+            colourVars.style.setProperty('--player-2-colour', '#7B00F5');
+        }
+    }
 }
 
 
@@ -673,7 +727,10 @@ playBtn.addEventListener('click', startGame);
 muteBtn.addEventListener('click', muteUnmute);
 homeBtn.addEventListener('click', backToTitle);
 gridOptionBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {unSelectOthers(btn)});
+    btn.addEventListener('click', () => {selectOption(btn, "grid")});
+});
+colourOptionBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {selectOption(btn, "colour")});
 });
 
 
@@ -681,90 +738,87 @@ gridOptionBtns.forEach((btn) => {
 
 // OK BEGIN CONDITIONAL LOGIC *cries*
     
-document.addEventListener('keydown', (event) => {
-    event.preventDefault();
-    
-    if (!grid.gameOver) {
-
-        // player1 movement
-        // need to check grid bounds here to avoid checking cell that doesn't exsit after key press
-        if (player1.x > 1 && gridArray[player1.y - 1][player1.x - 2].flipped === true && event.key === "a") {
-            player1.moveLeft();
-        } else if (player1.x < grid.cols && gridArray[player1.y - 1][player1.x].flipped === true && event.key === "d") {
-            player1.moveRight();
-        } else if (player1.y < grid.rows && gridArray[player1.y][player1.x - 1].flipped === true && event.key === "s") {
-            player1.moveDown();
-        } else if (player1.y > 1 && gridArray[player1.y - 2][player1.x - 1].flipped === true && event.key === "w") {
-            player1.moveUp();
-        }
-
-        // player2 movement
-        if (player2.x > 1 && gridArray[player2.y - 1][player2.x - 2].flipped === false && event.key === "ArrowLeft") {
-            player2.moveLeft();
-        } else if (player2.x < grid.cols && gridArray[player2.y - 1][player2.x].flipped === false && event.key === "ArrowRight") {
-            player2.moveRight();
-        } else if (player2.y < grid.rows && gridArray[player2.y][player2.x - 1].flipped === false && event.key === "ArrowDown") {
-            player2.moveDown();
-        } else if (player2.y > 1 && gridArray[player2.y - 2][player2.x - 1].flipped === false && event.key === "ArrowUp") {
-            player2.moveUp();
-        }
-
+    document.addEventListener('keydown', (event) => {
         
-        // need this boolean to stop bullet spam
+        if (gameScrn.style.display === "flex" && !grid.gameOver) {
+            event.preventDefault();
+            
+            // player1 movement
+            // need to check grid bounds here to avoid checking cell that doesn't exsit after key press
+            if (player1.x > 1 && gridArray[player1.y - 1][player1.x - 2].flipped === true && event.key === "a") {
+                player1.moveLeft();
+            } else if (player1.x < grid.cols && gridArray[player1.y - 1][player1.x].flipped === true && event.key === "d") {
+                player1.moveRight();
+            } else if (player1.y < grid.rows && gridArray[player1.y][player1.x - 1].flipped === true && event.key === "s") {
+                player1.moveDown();
+            } else if (player1.y > 1 && gridArray[player1.y - 2][player1.x - 1].flipped === true && event.key === "w") {
+                player1.moveUp();
+            }
 
-        // player1 bullets
-        if (event.key === "g" && canPlayer1Shoot) {
-            canPlayer1Shoot = false;
-            player1.shootLeft();
-            setTimeout(() => {
-                canPlayer1Shoot = true;
-            }, 50);
-        } else if (event.key === "j" && canPlayer1Shoot) {
-            // debugger;
-            canPlayer1Shoot = false;
-            player1.shootRight();
-            setTimeout(() => {
-                canPlayer1Shoot = true;
-            }, 50);
-        } else if (event.key === "h" && canPlayer1Shoot) {
-            canPlayer1Shoot = false;
-            player1.shootDown();
-            setTimeout(() => {
-                canPlayer1Shoot = true;
-            }, 50);
-        } else if (event.key === "y" && canPlayer1Shoot) {
-            canPlayer1Shoot = false;
-            player1.shootUp();
-            setTimeout(() => {
-                canPlayer1Shoot = true;
-            }, 50);
-        }
+            // player2 movement
+            if (player2.x > 1 && gridArray[player2.y - 1][player2.x - 2].flipped === false && event.key === "ArrowLeft") {
+                player2.moveLeft();
+            } else if (player2.x < grid.cols && gridArray[player2.y - 1][player2.x].flipped === false && event.key === "ArrowRight") {
+                player2.moveRight();
+            } else if (player2.y < grid.rows && gridArray[player2.y][player2.x - 1].flipped === false && event.key === "ArrowDown") {
+                player2.moveDown();
+            } else if (player2.y > 1 && gridArray[player2.y - 2][player2.x - 1].flipped === false && event.key === "ArrowUp") {
+                player2.moveUp();
+            }
+            
+            // player1 bullets
+            if (event.key === "g" && canPlayer1Shoot) {
+                canPlayer1Shoot = false;
+                player1.shootLeft();
+                setTimeout(() => {
+                    canPlayer1Shoot = true;
+                }, 50);
+            } else if (event.key === "j" && canPlayer1Shoot) {
+                // debugger;
+                canPlayer1Shoot = false;
+                player1.shootRight();
+                setTimeout(() => {
+                    canPlayer1Shoot = true;
+                }, 50);
+            } else if (event.key === "h" && canPlayer1Shoot) {
+                canPlayer1Shoot = false;
+                player1.shootDown();
+                setTimeout(() => {
+                    canPlayer1Shoot = true;
+                }, 50);
+            } else if (event.key === "y" && canPlayer1Shoot) {
+                canPlayer1Shoot = false;
+                player1.shootUp();
+                setTimeout(() => {
+                    canPlayer1Shoot = true;
+                }, 50);
+            }
 
-        // player2 bullets
-        if (event.key === "4" && canPlayer2Shoot) {
-            player2.shootLeft();
-            canPlayer2Shoot = false;
-            setTimeout(() => {
-                canPlayer2Shoot = true;
-            }, 50);
-        } else if (event.key === "6" && canPlayer2Shoot) {
-            player2.shootRight();
-            canPlayer2Shoot = false;
-            setTimeout(() => {
-                canPlayer2Shoot = true;
-            }, 50);
-        } else if (event.key === "5" && canPlayer2Shoot) {
-            player2.shootDown();
-            canPlayer2Shoot = false;
-            setTimeout(() => {
-                canPlayer2Shoot = true;
-            }, 50);
-        } else if (event.key === "8" && canPlayer2Shoot) {
-            player2.shootUp();
-            canPlayer2Shoot = false;
-            setTimeout(() => {
-                canPlayer2Shoot = true;
-            }, 50);
+            // player2 bullets
+            if (event.key === "4" && canPlayer2Shoot) {
+                player2.shootLeft();
+                canPlayer2Shoot = false;
+                setTimeout(() => {
+                    canPlayer2Shoot = true;
+                }, 50);
+            } else if (event.key === "6" && canPlayer2Shoot) {
+                player2.shootRight();
+                canPlayer2Shoot = false;
+                setTimeout(() => {
+                    canPlayer2Shoot = true;
+                }, 50);
+            } else if (event.key === "5" && canPlayer2Shoot) {
+                player2.shootDown();
+                canPlayer2Shoot = false;
+                setTimeout(() => {
+                    canPlayer2Shoot = true;
+                }, 50);
+            } else if (event.key === "8" && canPlayer2Shoot) {
+                player2.shootUp();
+                canPlayer2Shoot = false;
+                setTimeout(() => {
+                    canPlayer2Shoot = true;
+                }, 50);
+            }
         }
-    }
-});
+    });
