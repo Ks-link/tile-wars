@@ -73,10 +73,106 @@
                     <h2 class="sm-title">Tile Wars</h2>
                     <h3 class="sub-title">Game Options</h3>
 
-                    <div>
-                        <h4>Grid Size</h4>
-                        <p></p>
-                    </div>
+                    <form class="options" action="">
+                        <h4>Grid Size:</h4>
+
+                        <div class="option-row">
+                            <div class="option-item">
+                                <svg class="icon" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                    stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="m8 16h-5v4c0 .621.52 1 1 1h4zm6.6 5v-5h-5.2v5zm6.4-5h-5v5h4c.478 0 1-.379 1-1zm0-1.4v-5.2h-5v5.2zm-18-5.2v5.2h5v-5.2zm11.6 0h-5.2v5.2h5.2zm1.4-6.4v5h5v-4c0-.478-.379-1-1-1zm-8 5v-5h-4c-.62 0-1 .519-1 1v4zm6.6-5h-5.2v5h5.2z"
+                                        fill-rule="nonzero" />
+                                </svg>
+                                <label for="gridOption1">Jumbo</label>
+                                <p>(24 x 16)</p>
+                                <input checked class="checkbox grid-checkbox" name="gridOption1" id="gridOption1"
+                                    type="checkbox">
+                            </div>
+                            <div class="option-item">
+                                <svg class="icon" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                    stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="m3 12.7v7.3c0 .62.519 1 1 1h7.3v-8.3zm18 0h-8.3v8.3h7.3c.621 0 1-.52 1-1zm-9.7-9.7h-7.3c-.478 0-1 .379-1 1v7.3h8.3zm1.4 0v8.3h8.3v-7.3c0-.478-.379-1-1-1z"
+                                        fill-rule="nonzero" />
+                                </svg>
+                                <label for="gridOption2">Regular</label>
+                                <p>(14 x 14)</p>
+                                <input class="checkbox grid-checkbox" name="gridOption2" id="gridOption2"
+                                    type="checkbox">
+                            </div>
+                            <div class="option-item">
+                                <svg class="icon" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                                    stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="m21 4c0-.478-.379-1-1-1h-16c-.62 0-1 .519-1 1v16c0 .621.52 1 1 1h16c.478 0 1-.379 1-1z"
+                                        fill-rule="nonzero" />
+                                </svg>
+                                <label for="gridOption3">Sudden Death</label>
+                                <p>(5 x 12)</p>
+                                <input class="checkbox grid-checkbox" name="gridOption3" id="gridOption3"
+                                    type="checkbox">
+                            </div>
+                        </div>
+
+                        <h4>Colour:</h4>
+                        <div class="option-row">
+                            <div class="option-item">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M22 7.81V16.19C22 19.83 19.83 22 16.19 22H12V2H16.19C19.83 2 22 4.17 22 7.81Z"
+                                        fill="#ffffff" />
+                                    <path d="M12 2V22H7.81C4.17 22 2 19.83 2 16.19V7.81C2 4.17 4.17 2 7.81 2H12Z"
+                                        fill="#000000" />
+                                </svg>
+                                <label for="colourOption1">Classic</label>
+                                <input checked class="checkbox colour-checkbox" name="colourOption1" id="colourOption1"
+                                    type="checkbox">
+                            </div>
+
+                            <div class="option-item">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M22 7.81V16.19C22 19.83 19.83 22 16.19 22H12V2H16.19C19.83 2 22 4.17 22 7.81Z"
+                                        fill="#F59501" />
+                                    <path d="M12 2V22H7.81C4.17 22 2 19.83 2 16.19V7.81C2 4.17 4.17 2 7.81 2H12Z"
+                                        fill="#3572A0" />
+                                </svg>
+                                <label for="colourOption2">Popsicle</label>
+                                <input class="checkbox colour-checkbox" name="colourOption2" id="colourOption2"
+                                    type="checkbox">
+                            </div>
+
+                            <div class="option-item">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M22 7.81V16.19C22 19.83 19.83 22 16.19 22H12V2H16.19C19.83 2 22 4.17 22 7.81Z"
+                                        fill="#EFF500" />
+                                    <path d="M12 2V22H7.81C4.17 22 2 19.83 2 16.19V7.81C2 4.17 4.17 2 7.81 2H12Z"
+                                        fill="#7B00F5" />
+                                </svg>
+                                <label for="colourOption3">Neon</label>
+                                <input class="checkbox colour-checkbox" name="colourOption3" id="colourOption3"
+                                    type="checkbox">
+                            </div>
+                        </div>
+
+                        <div class="option-row">
+                            <label for="player1Name">
+                                <h4>Player 1 Name:</h4>
+                            </label>
+                            <input placeholder="Player 1" class="textbox" id="player1Name" name="player1Name"
+                                type="text">
+                        </div>
+
+                        <div class="option-row">
+                            <label for="player2Name">
+                                <h4>Player 2 Name:</h4>
+                            </label>
+                            <input placeholder="Player 2" class="textbox" id="player2Name" name="player2Name"
+                                type="text">
+                        </div>
+                    </form>
                     <button class="btn play-btn">play</button>
                 </article>
             </section>

@@ -20,8 +20,8 @@
 # Base
 --------------------------------------------------------------*/
 :root {
-	--player-1-color: #ffffff;
-	--player-2-color: #000000;
+	--player-1-colour: #ffffff;
+	--player-2-colour: #000000;
 }
 
 /* Typography
@@ -58,6 +58,7 @@ h4 {
 	font-size: 2rem;
 	font-family: "Days One", sans-serif;
 	font-weight: 400;
+	padding: 1rem;
 }
 
 p {
@@ -71,6 +72,18 @@ button {
 	margin: 0;
 	font-size: 2rem;
 	font-family: "Bungee", sans-serif;
+	font-weight: 400;
+}
+
+label {
+	font-size: 1.7rem;
+	font-family: "Days One", sans-serif;
+	font-weight: 400;
+}
+
+input {
+	font-size: 1.7rem;
+	font-family: "Days One", sans-serif;
 	font-weight: 400;
 }
 
@@ -312,10 +325,55 @@ main {
 	border-radius: 2rem;
 	border: 2px solid #000000;
 	z-index: 9;
+
+	/* to hide scroll bar */
+	-ms-overflow-style: none;  /* IE and Edge */
+	scrollbar-width: none;  /* Firefox */
 }
+
+.misc-content::-webkit-scrollbar {
+	display: none;
+} 
 
 .misc-content div {
 	padding-bottom: 3rem;
+}
+
+.option-row {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+.option-item {
+	text-align: center;
+	width: 14rem;
+}
+
+.icon {
+	margin: 0.5rem auto;
+	display: block;
+	text-align: center;
+	width: 5rem;
+	height: 5rem;
+}
+
+.checkbox {
+	display: block;
+	margin: 0.7rem auto;
+	width: 2rem;
+	height: 2rem;
+}
+
+.textbox {
+	max-width: 26rem;
+	height: 4rem;
+	padding: 1rem;
+}
+
+form p {
+	padding: 0.5rem;
+	margin: 0;
 }
 
 .who-won-message {
@@ -348,14 +406,14 @@ main {
 }
 
 .player1-bullet-in-clip {
-	border: 1px solid var(--player-2-color);
-	background-color: var(--player-1-color);
+	border: 1px solid var(--player-2-colour);
+	background-color: var(--player-1-colour);
 	height: 25px;
 	width: 15px;
 }
 
 .player1-no-bullet-in-clip {
-	border: 1px solid var(--player-2-color);
+	border: 1px solid var(--player-2-colour);
 	background-color: #cacaca;
 	height: 25px;
 	width: 15px;
@@ -363,14 +421,14 @@ main {
 
 
 .player2-bullet-in-clip {
-	border: 1px solid var(--player-1-color);
-	background-color: var(--player-2-color);
+	border: 1px solid var(--player-1-colour);
+	background-color: var(--player-2-colour);
 	height: 25px;
 	width: 15px;
 }
 
 .player2-no-bullet-in-clip {
-	border: 1px solid var(--player-1-color);
+	border: 1px solid var(--player-1-colour);
 	background-color: #cacaca;
 	height: 25px;
 	width: 15px;
@@ -381,21 +439,21 @@ main {
 
 @keyframes blkBullet {
 	from {
-		background-color: var(--player-2-color);
+		background-color: var(--player-2-colour);
 	}
 
 	to {
-		background-color: var(--player-1-color);
+		background-color: var(--player-1-colour);
 	}
 }
 
 @keyframes whtBullet {
 	from {
-		background-color: var(--player-1-color);
+		background-color: var(--player-1-colour);
 	}
 
 	to {
-		background-color: var(--player-2-color);
+		background-color: var(--player-2-colour);
 	}
 }
 
@@ -410,26 +468,26 @@ main {
 
 .cell {
 	position: relative;
-	border: 1px solid var(--player-2-color);
-	background-color: var(--player-1-color);
+	border: 1px solid var(--player-2-colour);
+	background-color: var(--player-1-colour);
 }
 
 .flipped {
-	border: 1px solid var(--player-1-color);
-	background-color: var(--player-2-color);
+	border: 1px solid var(--player-1-colour);
+	background-color: var(--player-2-colour);
 }
 
 .whtPlayer {
-	fill: var(--player-1-color);
+	fill: var(--player-1-colour);
 }
 
 .blkPlayer {
-	fill: var(--player-2-color);
+	fill: var(--player-2-colour);
 }
 
 .blkBulletX {
 	position: absolute;
-	background-color: var(--player-2-color);
+	background-color: var(--player-2-colour);
 	top: 33%;
 	height: 33%;
 	width: 100%;
@@ -439,7 +497,7 @@ main {
 
 .whtBulletX {
 	position: absolute;
-	background-color: var(--player-1-color);
+	background-color: var(--player-1-colour);
 	top: 33%;
 	height: 33%;
 	width: 100%;
@@ -449,7 +507,7 @@ main {
 
 .blkBulletY {
 	position: absolute;
-	background-color: var(--player-2-color);
+	background-color: var(--player-2-colour);
 	left: 33%;
 	height: 100%;
 	width: 33%;
@@ -459,7 +517,7 @@ main {
 
 .whtBulletY {
 	position: absolute;
-	background-color: var(--player-1-color);
+	background-color: var(--player-1-colour);
 	left: 33%;
 	height: 100%;
 	width: 33%;
