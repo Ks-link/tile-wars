@@ -261,3 +261,70 @@ const ctx = canvas.getContext("2d");
 //         });
 //     });
 // }
+
+
+        // if (player1.clip === clipSize) {
+        //     player1ClipElems[0].classList.remove('player1-no-bullet-in-clip');
+        //     player1ClipElems[0].classList.add('player1-bullet-in-clip');
+        // } else if (player1.clip === clipSize - 1) {
+        //     player1ClipElems[0].classList.remove('player1-bullet-in-clip');
+        //     player1ClipElems[0].classList.add('player1-no-bullet-in-clip');            
+        //     player1ClipElems[1].classList.remove('player1-no-bullet-in-clip');
+        //     player1ClipElems[1].classList.add('player1-bullet-in-clip');
+        // } else if (player1.clip === clipSize - 2) {
+        //     player1ClipElems[1].classList.remove('player1-bullet-in-clip');
+        //     player1ClipElems[1].classList.add('player1-no-bullet-in-clip');            
+        //     player1ClipElems[2].classList.remove('player1-no-bullet-in-clip');
+        //     player1ClipElems[2].classList.add('player1-bullet-in-clip');
+        // } else if (player1.clip === clipSize - 3) {
+        //     player1ClipElems[2].classList.remove('player1-bullet-in-clip');
+        //     player1ClipElems[2].classList.add('player1-no-bullet-in-clip');            
+        //     player1ClipElems[3].classList.remove('player1-no-bullet-in-clip');
+        //     player1ClipElems[3].classList.add('player1-bullet-in-clip');
+        // } else if (player1.clip === clipSize - 4) {
+        //     player1ClipElems[3].classList.remove('player1-bullet-in-clip');
+        //     player1ClipElems[3].classList.add('player1-no-bullet-in-clip');            
+        //     player1ClipElems[4].classList.remove('player1-no-bullet-in-clip');
+        //     player1ClipElems[4].classList.add('player1-bullet-in-clip');
+        // } else if (player1.clip === clipSize - 5) {
+        //     player1ClipElems[4].classList.remove('player1-bullet-in-clip');
+        //     player1ClipElems[4].classList.add('player1-no-bullet-in-clip');            
+        //     player1ClipElems[5].classList.remove('player1-no-bullet-in-clip');
+        //     player1ClipElems[5].classList.add('player1-bullet-in-clip');
+        // } else if (player1.clip === clipSize - 6) {
+        //     player1ClipElems[5].classList.remove('player1-bullet-in-clip');
+        //     player1ClipElems[5].classList.add('player1-no-bullet-in-clip');            
+        // }
+    //     if (player2.clip === clipSize) {
+    //         player2ClipElems[0].classList.remove('player2-no-bullet-in-clip');
+    //         player2ClipElems[0].classList.add('player2-bullet-in-clip');
+    //     } else if (player2.clip === clipSize - 1) {
+    //         player2ClipElems[0].classList.remove('player2-bullet-in-clip');
+    //         player2ClipElems[0].classList.add('player2-no-bullet-in-clip');            
+    //         player2ClipElems[1].classList.remove('player2-no-bullet-in-clip');
+    //         player2ClipElems[1].classList.add('player2-bullet-in-clip');
+    //     } else if (player2.clip === clipSize - 2) {
+    //         player2ClipElems[1].classList.remove('player2-bullet-in-clip');
+    //         player2ClipElems[1].classList.add('player2-no-bullet-in-clip');            
+    //         player2ClipElems[2].classList.remove('player2-no-bullet-in-clip');
+    //         player2ClipElems[2].classList.add('player2-bullet-in-clip');
+    //     } else if (player2.clip === clipSize - 3) {
+    //         player2ClipElems[2].classList.remove('player2-bullet-in-clip');
+    //         player2ClipElems[2].classList.add('player2-no-bullet-in-clip');            
+    //         player2ClipElems[3].classList.remove('player2-no-bullet-in-clip');
+    //         player2ClipElems[3].classList.add('player2-bullet-in-clip');
+    //     } else if (player2.clip === clipSize - 4) {
+    //         player2ClipElems[3].classList.remove('player2-bullet-in-clip');
+    //         player2ClipElems[3].classList.add('player2-no-bullet-in-clip');            
+    //         player2ClipElems[4].classList.remove('player2-no-bullet-in-clip');
+    //         player2ClipElems[4].classList.add('player2-bullet-in-clip');
+    //     } else if (player2.clip === clipSize - 5) {
+    //         player2ClipElems[4].classList.remove('player2-bullet-in-clip');
+    //         player2ClipElems[4].classList.add('player2-no-bullet-in-clip');            
+    //         player2ClipElems[5].classList.remove('player2-no-bullet-in-clip');
+    //         player2ClipElems[5].classList.add('player2-bullet-in-clip');
+    //     } else if (player2.clip === clipSize - 6) {
+    //         player2ClipElems[5].classList.remove('player2-bullet-in-clip');
+    //         player2ClipElems[5].classList.add('player2-no-bullet-in-clip');            
+    //     }
+    // }, 100);
