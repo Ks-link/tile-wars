@@ -1,27 +1,28 @@
 "use strict";
 
 // grab elems/ screens
-const startScrn = document.getElementById('start-screen');
-const howScrn = document.getElementById('how-screen');
-const selectScrn = document.getElementById('select-screen');
-const gameScrn = document.getElementById('game-screen');
-const gameBoard = document.getElementById('gameboard');
-const player1Clip = document.getElementById('player1-clip');
-const player2Clip = document.getElementById('player2-clip');
-const startBtn = document.querySelector('.start-btn');
-const contentStartBtn = document.querySelector('.content-start-btn');
-const howBtn = document.querySelector('.how-btn');
-const playBtn = document.querySelector('.play-btn');
-const muteBtn = document.querySelector('.mute-btn');
-const homeBtn = document.querySelector('.back-to-title-btn');
-const waitingAudio = document.querySelector('#info-screens audio');
-const fightingAudio = document.querySelector('#game-screen audio');
-const gridOptionBtns = document.querySelectorAll('.grid-checkbox');
-const colourOptionBtns = document.querySelectorAll('.colour-checkbox');
-const colourVars = document.querySelector(':root');
-const player1NameInput = document.getElementById('player1Name');
-const player2NameInput = document.getElementById('player2Name');
-
+const gameElems = {
+    startScrn: document.getElementById('start-screen'),
+    howScrn: document.getElementById('how-screen'),
+    selectScrn: document.getElementById('select-screen'),
+    gameScrn: document.getElementById('game-screen'),
+    gameBoard: document.getElementById('gameboard'),
+    player1Clip: document.getElementById('player1-clip'),
+    player2Clip: document.getElementById('player2-clip'),
+    startBtn: document.querySelector('.start-btn'),
+    contentStartBtn: document.querySelector('.content-start-btn'),
+    howBtn: document.querySelector('.how-btn'),
+    playBtn: document.querySelector('.play-btn'),
+    muteBtn: document.querySelector('.mute-btn'),
+    homeBtn: document.querySelector('.back-to-title-btn'),
+    waitingAudio: document.querySelector('#info-screens audio'),
+    fightingAudio: document.querySelector('#game-screen audio'),
+    gridOptionBtns: document.querySelectorAll('.grid-checkbox'),
+    colourOptionBtns: document.querySelectorAll('.colour-checkbox'),
+    colourVars: document.querySelector(':root'),
+    player1NameInput: document.getElementById('player1Name'),
+    player2NameInput: document.getElementById('player2Name')
+}
 
 // global vars
 const gridArray = [];
@@ -107,13 +108,15 @@ class Player {
         }
     }
 
-    // can combine all shoot and move methods with unique arguments
     die() {
         if (!grid.gameOver) {
-            fightingAudio.pause();
-            fightingAudio.currentTime = 0;
+            // reset music
+            gameElems.fightingAudio.pause();
+            gameElems.fightingAudio.currentTime = 0;
+            // kill game timers
             clearInterval(clipReload);
             clearInterval(checkClip);
+
             grid.gameOver = true;
             endGame(this);
         }
@@ -138,9 +141,10 @@ class Cell {
     }
 
     drawBullet(player, axis) {
+        // handle left and right bullets
         if (axis === "x") {
             if (player === "blkPlayer") {
-                const bulletElem = createCell('div', 'blkBulletX');
+                const bulletElem = createElem('div', 'blkBulletX');
                 this.elem.appendChild(bulletElem);
     
                 setTimeout(() => {
@@ -149,7 +153,7 @@ class Cell {
                 }, 500);
     
             } else if (player === "whtPlayer") {
-                const bulletElem = createCell('div', 'whtBulletX');
+                const bulletElem = createElem('div', 'whtBulletX');
                 this.elem.appendChild(bulletElem);
     
                 setTimeout(() => {
@@ -159,9 +163,10 @@ class Cell {
             }
         }
         
+        // handle up and down bullets
         if (axis === "y") {
             if (player === "blkPlayer") {
-                const bulletElem = createCell('div', 'blkBulletY');
+                const bulletElem = createElem('div', 'blkBulletY');
                 this.elem.appendChild(bulletElem);
     
                 setTimeout(() => {
@@ -170,7 +175,7 @@ class Cell {
                 }, 500);
     
             } else if (player === "whtPlayer") {
-                const bulletElem = createCell('div', 'whtBulletY');
+                const bulletElem = createElem('div', 'whtBulletY');
                 this.elem.appendChild(bulletElem);
     
                 setTimeout(() => {
@@ -179,28 +184,28 @@ class Cell {
                 }, 500);
             }
         }
-        
     }
 }
 
-function createCell(tag, classOf) {
+function createElem(tag, classOf) {
     const elem = document.createElement(tag);
     elem.className = classOf;
     return elem;
 }
 
 function createPlayers() {
-    
     // set usernames
-    if (player1NameInput.value != '') {
-        player1NameInput.value.trim();
-        player1Username = player1NameInput.value;
+    // handle usernames with spaces
+    gameElems.player1NameInput.value = gameElems.player1NameInput.value.trim();
+    if (gameElems.player1NameInput.value != '') {
+        player1Username = gameElems.player1NameInput.value;
     } 
-    if (player2NameInput.value != '') {
-        player2NameInput.value.trim();
-        player2Username = player2NameInput.value;
+    gameElems.player2NameInput.value = gameElems.player2NameInput.value.trim();
+    if (gameElems.player2NameInput.value != '') {
+        player2Username = gameElems.player2NameInput.value;
     } 
     
+    // create player objects
     player1 = new Player(
         player1Username,
         "whtPlayer",
@@ -230,73 +235,27 @@ function createPlayers() {
         // update clip dom
 
         // player 1 clip 
-        const player1ClipElems = player1Clip.children;
-        if (player1.clip === clipSize) {
-            player1ClipElems[0].classList.remove('player1-no-bullet-in-clip');
-            player1ClipElems[0].classList.add('player1-bullet-in-clip');
-        } else if (player1.clip === clipSize - 1) {
-            player1ClipElems[0].classList.remove('player1-bullet-in-clip');
-            player1ClipElems[0].classList.add('player1-no-bullet-in-clip');            
-            player1ClipElems[1].classList.remove('player1-no-bullet-in-clip');
-            player1ClipElems[1].classList.add('player1-bullet-in-clip');
-        } else if (player1.clip === clipSize - 2) {
-            player1ClipElems[1].classList.remove('player1-bullet-in-clip');
-            player1ClipElems[1].classList.add('player1-no-bullet-in-clip');            
-            player1ClipElems[2].classList.remove('player1-no-bullet-in-clip');
-            player1ClipElems[2].classList.add('player1-bullet-in-clip');
-        } else if (player1.clip === clipSize - 3) {
-            player1ClipElems[2].classList.remove('player1-bullet-in-clip');
-            player1ClipElems[2].classList.add('player1-no-bullet-in-clip');            
-            player1ClipElems[3].classList.remove('player1-no-bullet-in-clip');
-            player1ClipElems[3].classList.add('player1-bullet-in-clip');
-        } else if (player1.clip === clipSize - 4) {
-            player1ClipElems[3].classList.remove('player1-bullet-in-clip');
-            player1ClipElems[3].classList.add('player1-no-bullet-in-clip');            
-            player1ClipElems[4].classList.remove('player1-no-bullet-in-clip');
-            player1ClipElems[4].classList.add('player1-bullet-in-clip');
-        } else if (player1.clip === clipSize - 5) {
-            player1ClipElems[4].classList.remove('player1-bullet-in-clip');
-            player1ClipElems[4].classList.add('player1-no-bullet-in-clip');            
-            player1ClipElems[5].classList.remove('player1-no-bullet-in-clip');
-            player1ClipElems[5].classList.add('player1-bullet-in-clip');
-        } else if (player1.clip === clipSize - 6) {
-            player1ClipElems[5].classList.remove('player1-bullet-in-clip');
-            player1ClipElems[5].classList.add('player1-no-bullet-in-clip');            
+        const player1ClipElems = gameElems.player1Clip.children;
+        for (let i = 0; i < player1ClipElems.length; i++) {
+            if (i < clipSize - player1.clip) {
+                player1ClipElems[i].classList.add('player1-no-bullet-in-clip');
+                player1ClipElems[i].classList.remove('player1-bullet-in-clip');
+            } else {
+                player1ClipElems[i].classList.remove('player1-no-bullet-in-clip');
+                player1ClipElems[i].classList.add('player1-bullet-in-clip');
+            }
         }
-
+        
         // player2 clip
-        const player2ClipElems = player2Clip.children;
-        if (player2.clip === clipSize) {
-            player2ClipElems[0].classList.remove('player2-no-bullet-in-clip');
-            player2ClipElems[0].classList.add('player2-bullet-in-clip');
-        } else if (player2.clip === clipSize - 1) {
-            player2ClipElems[0].classList.remove('player2-bullet-in-clip');
-            player2ClipElems[0].classList.add('player2-no-bullet-in-clip');            
-            player2ClipElems[1].classList.remove('player2-no-bullet-in-clip');
-            player2ClipElems[1].classList.add('player2-bullet-in-clip');
-        } else if (player2.clip === clipSize - 2) {
-            player2ClipElems[1].classList.remove('player2-bullet-in-clip');
-            player2ClipElems[1].classList.add('player2-no-bullet-in-clip');            
-            player2ClipElems[2].classList.remove('player2-no-bullet-in-clip');
-            player2ClipElems[2].classList.add('player2-bullet-in-clip');
-        } else if (player2.clip === clipSize - 3) {
-            player2ClipElems[2].classList.remove('player2-bullet-in-clip');
-            player2ClipElems[2].classList.add('player2-no-bullet-in-clip');            
-            player2ClipElems[3].classList.remove('player2-no-bullet-in-clip');
-            player2ClipElems[3].classList.add('player2-bullet-in-clip');
-        } else if (player2.clip === clipSize - 4) {
-            player2ClipElems[3].classList.remove('player2-bullet-in-clip');
-            player2ClipElems[3].classList.add('player2-no-bullet-in-clip');            
-            player2ClipElems[4].classList.remove('player2-no-bullet-in-clip');
-            player2ClipElems[4].classList.add('player2-bullet-in-clip');
-        } else if (player2.clip === clipSize - 5) {
-            player2ClipElems[4].classList.remove('player2-bullet-in-clip');
-            player2ClipElems[4].classList.add('player2-no-bullet-in-clip');            
-            player2ClipElems[5].classList.remove('player2-no-bullet-in-clip');
-            player2ClipElems[5].classList.add('player2-bullet-in-clip');
-        } else if (player2.clip === clipSize - 6) {
-            player2ClipElems[5].classList.remove('player2-bullet-in-clip');
-            player2ClipElems[5].classList.add('player2-no-bullet-in-clip');            
+        const player2ClipElems = gameElems.player2Clip.children;
+        for (let i = 0; i < player2ClipElems.length; i++) {
+            if (i < clipSize - player2.clip) {
+                player2ClipElems[i].classList.add('player2-no-bullet-in-clip');
+                player2ClipElems[i].classList.remove('player2-bullet-in-clip');
+            } else {
+                player2ClipElems[i].classList.remove('player2-no-bullet-in-clip');
+                player2ClipElems[i].classList.add('player2-bullet-in-clip');
+            }
         }
     }, 100);
     
@@ -304,7 +263,7 @@ function createPlayers() {
 
 function drawPlayer(player) {
     player.elem.remove();
-    player.elem = createCell('div', player.name);
+    player.elem = createElem('div', player.name);
     gridArray[player.y - 1][player.x - 1].elem.appendChild(player.elem);
     player.elem.innerHTML = player.svg;
 }
@@ -483,19 +442,19 @@ function createBullet(player, direction) {
 
 function startGame() {
     // DOM
-    startScrn.style.display = 'none';
-    howScrn.style.display = 'none';
-    selectScrn.style.display = 'none';
-    gameScrn.style.display = 'flex';
-    homeBtn.style.display = 'none';
+    gameElems.startScrn.style.display = 'none';
+    gameElems.howScrn.style.display = 'none';
+    gameElems.selectScrn.style.display = 'none';
+    gameElems.gameScrn.style.display = 'flex';
+    gameElems.homeBtn.style.display = 'none';
 
     
     // Audio
     if (!isMuted) {
-        waitingAudio.pause()
-        waitingAudio.currentTime = 0;
-        fightingAudio.play();
-        fightingAudio.muted = false;
+        gameElems.waitingAudio.pause()
+        gameElems.waitingAudio.currentTime = 0;
+        gameElems.fightingAudio.play();
+        gameElems.fightingAudio.muted = false;
         const startGameAudio = new Audio('../media/game-start.mp3');
         startGameAudio.play();
     }
@@ -507,14 +466,14 @@ function startGame() {
     createPlayers();
 
     // add variability to grid size
-    gameBoard.style.gridTemplateColumns = `repeat(${grid.cols}, ${cellSize}px`;
-    gameBoard.style.gridTemplateRows = `repeat(${grid.rows}, ${cellSize}px`;
+    gameElems.gameBoard.style.gridTemplateColumns = `repeat(${grid.cols}, ${cellSize}px`;
+    gameElems.gameBoard.style.gridTemplateRows = `repeat(${grid.rows}, ${cellSize}px`;
 
     // add clip depending on clipSize
-    player1Clip.style.gridTemplateColumns = `15px`;
-    player1Clip.style.gridTemplateRows = `repeat(${clipSize}, 25px`;
-    player2Clip.style.gridTemplateColumns = `15px`;
-    player2Clip.style.gridTemplateRows = `repeat(${clipSize}, 25px`;
+    gameElems.player1Clip.style.gridTemplateColumns = `15px`;
+    gameElems.player1Clip.style.gridTemplateRows = `repeat(${clipSize}, 25px`;
+    gameElems.player2Clip.style.gridTemplateColumns = `15px`;
+    gameElems.player2Clip.style.gridTemplateRows = `repeat(${clipSize}, 25px`;
     
     // create an array of objects
     for (let r = 0; r < grid.rows; r++) {
@@ -523,8 +482,8 @@ function startGame() {
             gridArray[r][c] = new Cell();
             
             // create game grid
-            gridArray[r][c].elem = createCell('div', 'cell');
-            gameBoard.appendChild(gridArray[r][c].elem);
+            gridArray[r][c].elem = createElem('div', 'cell');
+            gameElems.gameBoard.appendChild(gridArray[r][c].elem);
             
             // set up flipped tiles 
             if (r >= grid.rows / 2) {
@@ -565,17 +524,17 @@ function startGame() {
 
     // Create player clips
     for (let i = 0; i < clipSize; i++) {
-        const player1BulletInClip = createCell('div', `player1-bullet-in-clip bullet`)
-        player1Clip.appendChild(player1BulletInClip);
-        const player2BulletInClip = createCell('div', `player2-bullet-in-clip bullet`)
-        player2Clip.appendChild(player2BulletInClip);
+        const player1BulletInClip = createElem('div', `player1-bullet-in-clip bullet`)
+        gameElems.player1Clip.appendChild(player1BulletInClip);
+        const player2BulletInClip = createElem('div', `player2-bullet-in-clip bullet`)
+        gameElems.player2Clip.appendChild(player2BulletInClip);
     }
 
 }
 
 function endGame(player) {
     // DOM
-    homeBtn.style.display = 'block';
+    gameElems.homeBtn.style.display = 'block';
 
     // Audio
     if (!isMuted) {
@@ -584,7 +543,7 @@ function endGame(player) {
     }
 
     // flip all tiles
-    const allCells = gameBoard.querySelectorAll(".cell");
+    const allCells = gameElems.gameBoard.querySelectorAll(".cell");
     if (player.name === "whtPlayer") {
         allCells.forEach(cell => {
             cell.classList.add("flipped");
@@ -595,10 +554,10 @@ function endGame(player) {
         });
     }
 
-    const whoWonMessage = createCell('h3', 'who-won-message');
-    const playAgainBtn = createCell('button', 'play-again-btn');
-    gameScrn.appendChild(whoWonMessage);
-    gameScrn.appendChild(playAgainBtn);
+    const whoWonMessage = createElem('h3', 'who-won-message');
+    const playAgainBtn = createElem('button', 'play-again-btn');
+    gameElems.gameScrn.appendChild(whoWonMessage);
+    gameElems.gameScrn.appendChild(playAgainBtn);
     whoWonMessage.innerHTML = `${player.username} wins`;
     playAgainBtn.innerHTML = `Play Agan?`;
 
@@ -613,7 +572,7 @@ function resetGame() {
         whoWonMessage.remove();
         playAgain.remove();
     }
-    const allCells = gameBoard.querySelectorAll(".cell");
+    const allCells = gameElems.gameBoard.querySelectorAll(".cell");
     for (let i = 0; i < allCells.length; i++) {
         allCells[i].remove();
     }
@@ -624,65 +583,65 @@ function resetGame() {
 }
 
 function showInstructions() {
-    startScrn.style.display = 'none';
-    howScrn.style.display = 'block';
-    homeBtn.style.display = 'block';
+    gameElems.startScrn.style.display = 'none';
+    gameElems.howScrn.style.display = 'block';
+    gameElems.homeBtn.style.display = 'block';
 }
 
 function showSelect() {
-    startScrn.style.display = 'none';
-    howScrn.style.display = 'none';
-    selectScrn.style.display = 'block';
-    homeBtn.style.display = 'block';
+    gameElems.startScrn.style.display = 'none';
+    gameElems.howScrn.style.display = 'none';
+    gameElems.selectScrn.style.display = 'block';
+    gameElems.homeBtn.style.display = 'block';
     
-    player1NameInput.value = '';
-    player2NameInput.value = '';
+    gameElems.player1NameInput.value = '';
+    gameElems.player2NameInput.value = '';
     player1Username = 'Player 1';
     player2Username = 'Player 2';
 }
 
 function muteUnmute() {
     isMuted ? isMuted = false : isMuted = true;
-    if ((gameScrn.style.display === '' || gameScrn.style.display === 'none') && isMuted === false) {
-        waitingAudio.play();
-        waitingAudio.muted = false;
-        muteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M6 7l8-5v20l-8-5v-10zm-6 10h4v-10h-4v10zm20.264-13.264l-1.497 1.497c1.847 1.783 2.983 4.157 2.983 6.767 0 2.61-1.135 4.984-2.983 6.766l1.498 1.498c2.305-2.153 3.735-5.055 3.735-8.264s-1.43-6.11-3.736-8.264zm-.489 8.264c0-2.084-.915-3.967-2.384-5.391l-1.503 1.503c1.011 1.049 1.637 2.401 1.637 3.888 0 1.488-.623 2.841-1.634 3.891l1.503 1.503c1.468-1.424 2.381-3.309 2.381-5.394z"></svg>'
-    } else if ((gameScrn.style.display === '' || gameScrn.style.display === 'none') && isMuted === true) {
-        waitingAudio.pause();
-        waitingAudio.muted = true;
-        muteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M19 7.358v15.642l-8-5v-.785l8-9.857zm3-6.094l-1.548-1.264-3.446 4.247-6.006 3.753v3.646l-2 2.464v-6.11h-4v10h.843l-3.843 4.736 1.548 1.264 18.452-22.736z"></svg>'
-    } else if (gameScrn.style.display === 'flex' && isMuted === false) {
-        fightingAudio.play();
-        fightingAudio.muted = false;
-        muteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M6 7l8-5v20l-8-5v-10zm-6 10h4v-10h-4v10zm20.264-13.264l-1.497 1.497c1.847 1.783 2.983 4.157 2.983 6.767 0 2.61-1.135 4.984-2.983 6.766l1.498 1.498c2.305-2.153 3.735-5.055 3.735-8.264s-1.43-6.11-3.736-8.264zm-.489 8.264c0-2.084-.915-3.967-2.384-5.391l-1.503 1.503c1.011 1.049 1.637 2.401 1.637 3.888 0 1.488-.623 2.841-1.634 3.891l1.503 1.503c1.468-1.424 2.381-3.309 2.381-5.394z"></svg>'
-    } else if (gameScrn.style.display === 'flex' && isMuted === true) {
-        fightingAudio.pause();
-        fightingAudio.muted = true;
-        muteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M19 7.358v15.642l-8-5v-.785l8-9.857zm3-6.094l-1.548-1.264-3.446 4.247-6.006 3.753v3.646l-2 2.464v-6.11h-4v10h.843l-3.843 4.736 1.548 1.264 18.452-22.736z"></svg>'
+    if ((gameElems.gameScrn.style.display === '' || gameElems.gameScrn.style.display === 'none') && isMuted === false) {
+        gameElems.waitingAudio.play();
+        gameElems.waitingAudio.muted = false;
+        gameElems.muteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M6 7l8-5v20l-8-5v-10zm-6 10h4v-10h-4v10zm20.264-13.264l-1.497 1.497c1.847 1.783 2.983 4.157 2.983 6.767 0 2.61-1.135 4.984-2.983 6.766l1.498 1.498c2.305-2.153 3.735-5.055 3.735-8.264s-1.43-6.11-3.736-8.264zm-.489 8.264c0-2.084-.915-3.967-2.384-5.391l-1.503 1.503c1.011 1.049 1.637 2.401 1.637 3.888 0 1.488-.623 2.841-1.634 3.891l1.503 1.503c1.468-1.424 2.381-3.309 2.381-5.394z"></svg>'
+    } else if ((gameElems.gameScrn.style.display === '' || gameElems.gameScrn.style.display === 'none') && isMuted === true) {
+        gameElems.waitingAudio.pause();
+        gameElems.waitingAudio.muted = true;
+        gameElems.muteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M19 7.358v15.642l-8-5v-.785l8-9.857zm3-6.094l-1.548-1.264-3.446 4.247-6.006 3.753v3.646l-2 2.464v-6.11h-4v10h.843l-3.843 4.736 1.548 1.264 18.452-22.736z"></svg>'
+    } else if (gameElems.gameScrn.style.display === 'flex' && isMuted === false) {
+        gameElems.fightingAudio.play();
+        gameElems.fightingAudio.muted = false;
+        gameElems.muteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M6 7l8-5v20l-8-5v-10zm-6 10h4v-10h-4v10zm20.264-13.264l-1.497 1.497c1.847 1.783 2.983 4.157 2.983 6.767 0 2.61-1.135 4.984-2.983 6.766l1.498 1.498c2.305-2.153 3.735-5.055 3.735-8.264s-1.43-6.11-3.736-8.264zm-.489 8.264c0-2.084-.915-3.967-2.384-5.391l-1.503 1.503c1.011 1.049 1.637 2.401 1.637 3.888 0 1.488-.623 2.841-1.634 3.891l1.503 1.503c1.468-1.424 2.381-3.309 2.381-5.394z"></svg>'
+    } else if (gameElems.gameScrn.style.display === 'flex' && isMuted === true) {
+        gameElems.fightingAudio.pause();
+        gameElems.fightingAudio.muted = true;
+        gameElems.muteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M19 7.358v15.642l-8-5v-.785l8-9.857zm3-6.094l-1.548-1.264-3.446 4.247-6.006 3.753v3.646l-2 2.464v-6.11h-4v10h.843l-3.843 4.736 1.548 1.264 18.452-22.736z"></svg>'
     }
 }
     
 function backToTitle() {
     if (!isMuted) {
-        waitingAudio.muted = false;
-        waitingAudio.play()
+        gameElems.waitingAudio.muted = false;
+        gameElems.waitingAudio.play()
     }
-    if (gameScrn.style.display === 'flex') {
+    if (gameElems.gameScrn.style.display === 'flex') {
         resetGame();
     }
-    startScrn.style.display = 'block';
-    howScrn.style.display = 'none';
-    selectScrn.style.display = 'none';
-    gameScrn.style.display = 'none';
-    homeBtn.style.display = 'none';
-    fightingAudio.pause();
-    fightingAudio.currentTime = 0;
+    gameElems.startScrn.style.display = 'block';
+    gameElems.howScrn.style.display = 'none';
+    gameElems.selectScrn.style.display = 'none';
+    gameElems.gameScrn.style.display = 'none';
+    gameElems.homeBtn.style.display = 'none';
+    gameElems.fightingAudio.pause();
+    gameElems.fightingAudio.currentTime = 0;
 }
 
 function selectOption(selected, type) {
     // So only one box can be checked at a time:
     if (type === "grid") {
-        gridOptionBtns.forEach(btn => {
+        gameElems.gridOptionBtns.forEach(btn => {
             btn.checked = false;
         });
         selected.checked = true;
@@ -698,20 +657,20 @@ function selectOption(selected, type) {
             rowChoice = 12;
         }
     } else if (type === "colour") {
-        colourOptionBtns.forEach(btn => {
+        gameElems.colourOptionBtns.forEach(btn => {
             btn.checked = false;
         });
         selected.checked = true;
         // feed choice
         if (selected.name === "colourOption1") {
-            colourVars.style.setProperty('--player-1-colour', '#ffffff');
-            colourVars.style.setProperty('--player-2-colour', '#000000');
+            gameElems.colourVars.style.setProperty('--player-1-colour', '#ffffff');
+            gameElems.colourVars.style.setProperty('--player-2-colour', '#000000');
         } else if (selected.name === "colourOption2") {
-            colourVars.style.setProperty('--player-1-colour', '#F59501');
-            colourVars.style.setProperty('--player-2-colour', '#3572A0');
+            gameElems.colourVars.style.setProperty('--player-1-colour', '#F59501');
+            gameElems.colourVars.style.setProperty('--player-2-colour', '#3572A0');
         } else if (selected.name === "colourOption3") {
-            colourVars.style.setProperty('--player-1-colour', '#EFF500');
-            colourVars.style.setProperty('--player-2-colour', '#7B00F5');
+            gameElems.colourVars.style.setProperty('--player-1-colour', '#EFF500');
+            gameElems.colourVars.style.setProperty('--player-2-colour', '#7B00F5');
         }
     }
 }
@@ -720,16 +679,16 @@ function selectOption(selected, type) {
 // ^ End of functions and classes...
 
 // here are all the listeners
-startBtn.addEventListener('click', showSelect);
-contentStartBtn.addEventListener('click', showSelect);
-howBtn.addEventListener('click', showInstructions);
-playBtn.addEventListener('click', startGame);
-muteBtn.addEventListener('click', muteUnmute);
-homeBtn.addEventListener('click', backToTitle);
-gridOptionBtns.forEach((btn) => {
+gameElems.startBtn.addEventListener('click', showSelect);
+gameElems.contentStartBtn.addEventListener('click', showSelect);
+gameElems.howBtn.addEventListener('click', showInstructions);
+gameElems.playBtn.addEventListener('click', startGame);
+gameElems.muteBtn.addEventListener('click', muteUnmute);
+gameElems.homeBtn.addEventListener('click', backToTitle);
+gameElems.gridOptionBtns.forEach((btn) => {
     btn.addEventListener('click', () => {selectOption(btn, "grid")});
 });
-colourOptionBtns.forEach((btn) => {
+gameElems.colourOptionBtns.forEach((btn) => {
     btn.addEventListener('click', () => {selectOption(btn, "colour")});
 });
 
@@ -740,7 +699,7 @@ colourOptionBtns.forEach((btn) => {
     
     document.addEventListener('keydown', (event) => {
         
-        if (gameScrn.style.display === "flex" && !grid.gameOver) {
+        if (gameElems.gameScrn.style.display === "flex" && !grid.gameOver) {
             event.preventDefault();
             
             // player1 movement
