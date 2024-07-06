@@ -328,3 +328,8 @@ const ctx = canvas.getContext("2d");
     //         player2ClipElems[5].classList.add('player2-no-bullet-in-clip');            
     //     }
     // }, 100);
+    // if (event.repeat) {
+    //     setTimeout(() => {
+    //         player1.moveLeft();
+    //     }, moveSpeed);
+    // }
