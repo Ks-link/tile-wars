@@ -28,6 +28,7 @@ const gameElems = {
 const gridArray = [];
 const clipSize = 6;
 const bulletSpeed = 40; // higher is sloweeeer
+const moveSpeed = 150; // lower is faaaaster
 const cellSize = 40; // read as px
 let isMuted = true;
 let canPlayer1Shoot = true;
@@ -35,12 +36,17 @@ let canPlayer2Shoot = true;
 let player1;
 let player2;
 let grid;
+let player1MovingIntervalId;
+let player2MovingIntervalId;
+let player1Moving;
+let player2Moving;
 let clipReload;
 let checkClip;
 let colChoice = 24;
 let rowChoice = 16;
 let player1Username = "Player 1";
 let player2Username = "Player 2";
+
 
 
 class Board {
@@ -116,6 +122,8 @@ class Player {
             // kill game timers
             clearInterval(clipReload);
             clearInterval(checkClip);
+            clearInterval(player1MovingIntervalId);
+            clearInterval(player2MovingIntervalId);
 
             grid.gameOver = true;
             endGame(this);
@@ -675,6 +683,59 @@ function selectOption(selected, type) {
     }
 }
 
+function keepMovingPlayer1(direction) {
+    player1MovingIntervalId = setInterval(() => {
+            switch (direction) {
+                case player1.x > 1 && gridArray[player1.y - 1][player1.x - 2].flipped === true && 'left':
+                    player1.moveLeft();
+                break;
+
+                case player1.x < grid.cols && gridArray[player1.y - 1][player1.x].flipped === true && 'right':
+                    player1.moveRight();
+                break;
+
+                case player1.y < grid.rows && gridArray[player1.y][player1.x - 1].flipped === true && 'down':
+                    player1.moveDown();
+                break;
+
+                case player1.y > 1 && gridArray[player1.y - 2][player1.x - 1].flipped === true && 'up':
+                    player1.moveUp();
+                break;
+                
+            default:
+                break;
+            }
+        
+    }, moveSpeed);
+    return {direction: direction};
+}
+
+function keepMovingPlayer2(direction) {
+    player2MovingIntervalId = setInterval(() => {
+        switch (direction) {
+            case player2.x > 1 && gridArray[player2.y - 1][player2.x - 2].flipped === false && 'left':
+                player2.moveLeft();
+            break;
+
+            case player2.x < grid.cols && gridArray[player2.y - 1][player2.x].flipped === false && 'right':
+                player2.moveRight();
+            break;
+
+            case player2.y < grid.rows && gridArray[player2.y][player2.x - 1].flipped === false && 'down':
+                player2.moveDown();
+            break;
+
+            case player2.y > 1 && gridArray[player2.y - 2][player2.x - 1].flipped === false && 'up':
+                player2.moveUp();
+            break;
+            
+        default:
+            break;
+        }
+    }, moveSpeed);
+    return {direction: direction};
+}
+
 
 // ^ End of functions and classes...
 
@@ -693,91 +754,144 @@ gameElems.colourOptionBtns.forEach((btn) => {
 });
 
 
-
-
 // OK BEGIN CONDITIONAL LOGIC *cries*
+
+document.addEventListener('keydown', (event) => {
     
-    document.addEventListener('keydown', (event) => {
+    if (gameElems.gameScrn.style.display === "flex" && !grid.gameOver) {
+        event.preventDefault();
         
-        if (gameElems.gameScrn.style.display === "flex" && !grid.gameOver) {
-            event.preventDefault();
-            
-            // player1 movement
-            // need to check grid bounds here to avoid checking cell that doesn't exsit after key press
-            if (player1.x > 1 && gridArray[player1.y - 1][player1.x - 2].flipped === true && event.key === "a") {
-                player1.moveLeft();
-            } else if (player1.x < grid.cols && gridArray[player1.y - 1][player1.x].flipped === true && event.key === "d") {
-                player1.moveRight();
-            } else if (player1.y < grid.rows && gridArray[player1.y][player1.x - 1].flipped === true && event.key === "s") {
-                player1.moveDown();
-            } else if (player1.y > 1 && gridArray[player1.y - 2][player1.x - 1].flipped === true && event.key === "w") {
-                player1.moveUp();
-            }
-
-            // player2 movement
-            if (player2.x > 1 && gridArray[player2.y - 1][player2.x - 2].flipped === false && event.key === "ArrowLeft") {
-                player2.moveLeft();
-            } else if (player2.x < grid.cols && gridArray[player2.y - 1][player2.x].flipped === false && event.key === "ArrowRight") {
-                player2.moveRight();
-            } else if (player2.y < grid.rows && gridArray[player2.y][player2.x - 1].flipped === false && event.key === "ArrowDown") {
-                player2.moveDown();
-            } else if (player2.y > 1 && gridArray[player2.y - 2][player2.x - 1].flipped === false && event.key === "ArrowUp") {
-                player2.moveUp();
-            }
-            
-            // player1 bullets
-            if (event.key === "g" && canPlayer1Shoot) {
-                canPlayer1Shoot = false;
-                player1.shootLeft();
-                setTimeout(() => {
-                    canPlayer1Shoot = true;
-                }, 50);
-            } else if (event.key === "j" && canPlayer1Shoot) {
-                // debugger;
-                canPlayer1Shoot = false;
-                player1.shootRight();
-                setTimeout(() => {
-                    canPlayer1Shoot = true;
-                }, 50);
-            } else if (event.key === "h" && canPlayer1Shoot) {
-                canPlayer1Shoot = false;
-                player1.shootDown();
-                setTimeout(() => {
-                    canPlayer1Shoot = true;
-                }, 50);
-            } else if (event.key === "y" && canPlayer1Shoot) {
-                canPlayer1Shoot = false;
-                player1.shootUp();
-                setTimeout(() => {
-                    canPlayer1Shoot = true;
-                }, 50);
-            }
-
-            // player2 bullets
-            if (event.key === "4" && canPlayer2Shoot) {
-                player2.shootLeft();
-                canPlayer2Shoot = false;
-                setTimeout(() => {
-                    canPlayer2Shoot = true;
-                }, 50);
-            } else if (event.key === "6" && canPlayer2Shoot) {
-                player2.shootRight();
-                canPlayer2Shoot = false;
-                setTimeout(() => {
-                    canPlayer2Shoot = true;
-                }, 50);
-            } else if (event.key === "5" && canPlayer2Shoot) {
-                player2.shootDown();
-                canPlayer2Shoot = false;
-                setTimeout(() => {
-                    canPlayer2Shoot = true;
-                }, 50);
-            } else if (event.key === "8" && canPlayer2Shoot) {
-                player2.shootUp();
-                canPlayer2Shoot = false;
-                setTimeout(() => {
-                    canPlayer2Shoot = true;
-                }, 50);
-            }
+        // player1 movement
+        // need to check grid bounds here to avoid checking cell that doesn't exsit after key press
+        if (player1.x > 1 && gridArray[player1.y - 1][player1.x - 2].flipped === true && event.key === "a" && !event.repeat) {
+            // clear movement interval (I only needed one afterall!)
+            clearInterval(player1MovingIntervalId);
+            player1.moveLeft();
+            // call movement function and store results for cancel
+            player1Moving = keepMovingPlayer1('left');
+        } else if (player1.x < grid.cols && gridArray[player1.y - 1][player1.x].flipped === true && event.key === "d" && !event.repeat) {
+            clearInterval(player1MovingIntervalId);
+            player1.moveRight();
+            player1Moving = keepMovingPlayer1('right');
+        } else if (player1.y < grid.rows && gridArray[player1.y][player1.x - 1].flipped === true && event.key === "s" && !event.repeat) {
+            clearInterval(player1MovingIntervalId);
+            player1.moveDown();
+            player1Moving = keepMovingPlayer1('down');
+        } else if (player1.y > 1 && gridArray[player1.y - 2][player1.x - 1].flipped === true && event.key === "w" && !event.repeat) {
+            clearInterval(player1MovingIntervalId);
+            player1.moveUp();
+            player1Moving = keepMovingPlayer1('up');
         }
-    });
+
+        // player2 movement
+        if (player2.x > 1 && gridArray[player2.y - 1][player2.x - 2].flipped === false && event.key === "ArrowLeft" && !event.repeat) {
+            clearInterval(player2MovingIntervalId);
+            player2.moveLeft();
+            player2Moving = keepMovingPlayer2('left');
+        } else if (player2.x < grid.cols && gridArray[player2.y - 1][player2.x].flipped === false && event.key === "ArrowRight" && !event.repeat) {
+            clearInterval(player2MovingIntervalId);
+            player2.moveRight();
+            player2Moving = keepMovingPlayer2('right');
+        } else if (player2.y < grid.rows && gridArray[player2.y][player2.x - 1].flipped === false && event.key === "ArrowDown" && !event.repeat) {
+            clearInterval(player2MovingIntervalId);
+            player2.moveDown();
+            player2Moving = keepMovingPlayer2('down');
+        } else if (player2.y > 1 && gridArray[player2.y - 2][player2.x - 1].flipped === false && event.key === "ArrowUp" && !event.repeat) {
+            clearInterval(player2MovingIntervalId);
+            player2.moveUp();
+            player2Moving = keepMovingPlayer2('up');
+        }
+        
+        // player1 bullets
+        // timeout is to prevent bullet spam
+        if (event.key === "g" && canPlayer1Shoot) {
+            canPlayer1Shoot = false;
+            player1.shootLeft();
+            setTimeout(() => {
+                canPlayer1Shoot = true;
+            }, 50);
+        } else if (event.key === "j" && canPlayer1Shoot) {
+            // debugger;
+            canPlayer1Shoot = false;
+            player1.shootRight();
+            setTimeout(() => {
+                canPlayer1Shoot = true;
+            }, 50);
+        } else if (event.key === "h" && canPlayer1Shoot) {
+            canPlayer1Shoot = false;
+            player1.shootDown();
+            setTimeout(() => {
+                canPlayer1Shoot = true;
+            }, 50);
+        } else if (event.key === "y" && canPlayer1Shoot) {
+            canPlayer1Shoot = false;
+            player1.shootUp();
+            setTimeout(() => {
+                canPlayer1Shoot = true;
+            }, 50);
+        }
+
+        // player2 bullets
+        if (event.key === "4" && canPlayer2Shoot) {
+            player2.shootLeft();
+            canPlayer2Shoot = false;
+            setTimeout(() => {
+                canPlayer2Shoot = true;
+            }, 50);
+        } else if (event.key === "6" && canPlayer2Shoot) {
+            player2.shootRight();
+            canPlayer2Shoot = false;
+            setTimeout(() => {
+                canPlayer2Shoot = true;
+            }, 50);
+        } else if (event.key === "5" && canPlayer2Shoot) {
+            player2.shootDown();
+            canPlayer2Shoot = false;
+            setTimeout(() => {
+                canPlayer2Shoot = true;
+            }, 50);
+        } else if (event.key === "8" && canPlayer2Shoot) {
+            player2.shootUp();
+            canPlayer2Shoot = false;
+            setTimeout(() => {
+                canPlayer2Shoot = true;
+            }, 50);
+        }
+    }
+});
+
+// clear movement interval on keyup, but only if the player is currently moving in that direction!
+document.addEventListener('keyup', (event) => {
+
+    if (gameElems.gameScrn.style.display === "flex" && !grid.gameOver) {
+        event.preventDefault();
+
+        // player 1
+        if (event.key === "a" && player1Moving.direction === 'left') {
+            clearInterval(player1MovingIntervalId);
+        }
+        if (event.key === "d" && player1Moving.direction === 'right') {
+            clearInterval(player1MovingIntervalId);
+        }
+        if (event.key === "s" && player1Moving.direction === 'down') {
+            clearInterval(player1MovingIntervalId);
+        }
+        if (event.key === "w" && player1Moving.direction === 'up') {
+            clearInterval(player1MovingIntervalId);
+        }
+
+        // player 2
+        if (event.key === "ArrowLeft" && player2Moving.direction === 'left') {
+            clearInterval(player2MovingIntervalId);
+        }
+        if (event.key === "ArrowRight" && player2Moving.direction === 'right') {
+            clearInterval(player2MovingIntervalId);
+        }
+        if (event.key === "ArrowDown" && player2Moving.direction === 'down') {
+            clearInterval(player2MovingIntervalId);
+        }
+        if (event.key === "ArrowUp" && player2Moving.direction === 'up') {
+            clearInterval(player2MovingIntervalId);
+        }
+    }
+});
