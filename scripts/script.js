@@ -28,7 +28,7 @@ const gameElems = {
 const gridArray = [];
 const clipSize = 6;
 const bulletSpeed = 40; // higher is sloweeeer
-const moveSpeed = 150; // lower is faaaaster
+const moveSpeed = 120; // lower is faaaaster
 const cellSize = 40; // read as px
 let isMuted = true;
 let canPlayer1Shoot = true;
@@ -155,6 +155,7 @@ class Cell {
                 const bulletElem = createElem('div', 'blkBulletX');
                 this.elem.appendChild(bulletElem);
     
+                // remove bullet after half a second
                 setTimeout(() => {
                     const cellChild = this.elem.querySelector(".blkBulletX");
                     cellChild.remove();
@@ -204,6 +205,7 @@ function createElem(tag, classOf) {
 function createPlayers() {
     // set usernames
     // handle usernames with spaces
+    // if name is blank default will take over
     gameElems.player1NameInput.value = gameElems.player1NameInput.value.trim();
     if (gameElems.player1NameInput.value != '') {
         player1Username = gameElems.player1NameInput.value;
@@ -455,7 +457,6 @@ function startGame() {
     gameElems.selectScrn.style.display = 'none';
     gameElems.gameScrn.style.display = 'flex';
     gameElems.homeBtn.style.display = 'none';
-
     
     // Audio
     if (!isMuted) {
@@ -501,30 +502,30 @@ function startGame() {
             // set up flipped tiles around player    }
             if ((r === (player1.y - 1) && c === (player1.x - 1)) ||
             (r === (player1.y) && c === (player1.x)) ||
-                (r === (player1.y - 1) && c === (player1.x)) ||
-                (r === (player1.y) && c === (player1.x - 1)) ||
-                (r === (player1.y - 2) && c === (player1.x - 2)) ||
-                (r === (player1.y - 1) && c === (player1.x - 2)) ||
-                (r === (player1.y) && c === (player1.x - 2)) ||
-                (r === (player1.y - 2) && c === (player1.x)) ||
-                (r === (player1.y - 2) && c === (player1.x - 1))) {
+            (r === (player1.y - 1) && c === (player1.x)) ||
+            (r === (player1.y) && c === (player1.x - 1)) ||
+            (r === (player1.y - 2) && c === (player1.x - 2)) ||
+            (r === (player1.y - 1) && c === (player1.x - 2)) ||
+            (r === (player1.y) && c === (player1.x - 2)) ||
+            (r === (player1.y - 2) && c === (player1.x)) ||
+            (r === (player1.y - 2) && c === (player1.x - 1))) {
                 gridArray[r][c].flip();
             } else if ((r === (player2.y - 1) && c === (player2.x - 1)) ||
             (r === (player2.y) && c === (player2.x)) ||
-                (r === (player2.y - 1) && c === (player2.x)) ||
-                (r === (player2.y) && c === (player2.x - 1)) ||
-                (r === (player2.y - 2) && c === (player2.x - 2)) ||
-                (r === (player2.y - 1) && c === (player2.x - 2)) ||
-                (r === (player2.y) && c === (player2.x - 2)) ||
-                (r === (player2.y - 2) && c === (player2.x)) ||
-                (r === (player2.y - 2) && c === (player2.x - 1))) {
-                    gridArray[r][c].flip();
-                }
-                
-                // place players
-                if (r === (player1.y) && c === (player1.x)) {
-                    drawPlayer(player1)
-                } else if (r === (player2.y) && c === (player2.x)) {
+            (r === (player2.y - 1) && c === (player2.x)) ||
+            (r === (player2.y) && c === (player2.x - 1)) ||
+            (r === (player2.y - 2) && c === (player2.x - 2)) ||
+            (r === (player2.y - 1) && c === (player2.x - 2)) ||
+            (r === (player2.y) && c === (player2.x - 2)) ||
+            (r === (player2.y - 2) && c === (player2.x)) ||
+            (r === (player2.y - 2) && c === (player2.x - 1))) {
+                gridArray[r][c].flip();
+            }
+            
+            // place players
+            if (r === (player1.y) && c === (player1.x)) {
+                drawPlayer(player1)
+            } else if (r === (player2.y) && c === (player2.x)) {
                 drawPlayer(player2);
             }
         }
@@ -653,7 +654,7 @@ function selectOption(selected, type) {
             btn.checked = false;
         });
         selected.checked = true;
-        // feed choice
+        // feed choice to var
         if (selected.name === "gridOption1") {
             colChoice = 24;
             rowChoice = 16;
@@ -811,7 +812,6 @@ document.addEventListener('keydown', (event) => {
                 canPlayer1Shoot = true;
             }, 50);
         } else if (event.key === "j" && canPlayer1Shoot) {
-            // debugger;
             canPlayer1Shoot = false;
             player1.shootRight();
             setTimeout(() => {
@@ -895,3 +895,5 @@ document.addEventListener('keyup', (event) => {
         }
     }
 });
+
+// Done!
