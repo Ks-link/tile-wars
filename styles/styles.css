@@ -218,6 +218,10 @@ main {
 	z-index: 1;
 } 
 
+.mobile-warning-msg {
+	display: none;
+}
+
 .title {
 	position: relative;
 	text-align: center;
@@ -350,12 +354,6 @@ main {
 	width: 14rem;
 }
 
-.name-row {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
 .icon {
 	margin: 0.5rem auto;
 	display: block;
@@ -372,7 +370,7 @@ main {
 }
 
 .textbox {
-	width: 30rem;
+	max-width: 26rem;
 	height: 4rem;
 	padding: 1rem;
 }
@@ -543,3 +541,24 @@ form p {
 
 /* Footer
 --------------------------------------------- */
+
+
+@media (max-width: 32rem) {
+	.title {
+		margin-top: 20rem;
+	}
+	.mobile-warning-msg {
+		display: block;
+		position: absolute;
+		z-index: 999;
+		width: 80%;
+		max-width: 35rem;
+		top: 1rem;
+		left: 1rem;
+		background-color: #cacacaec;
+		padding: 1rem 2rem;
+		margin: 2rem auto 8rem auto;
+		border-radius: 2rem;
+		border: 2px solid #000000;
+	}
+}
