@@ -1,0 +1,17 @@
+{
+  "name": "tile-wars",
+  "version": "1.0.0",
+  "description": "Multiplayer tile-based game with LAN support",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["game", "multiplayer", "socket.io"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.6.1"
+  }
+}
+

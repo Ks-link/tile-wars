@@ -175,6 +175,11 @@ main {
 	animation: 2s pageTransitionIn;
 }
 
+#mode-screen {
+	display: none;
+	animation: 2s pageTransitionIn;
+}
+
 #game-screen {
 	display: none;
 	justify-content: center;
@@ -407,6 +412,60 @@ form p {
 
 .play-again-btn:hover {
 	background-color: #fafafa;
+}
+
+/* Mode selection styles */
+.mode-selection {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2rem;
+	margin: 2rem 0;
+}
+
+.mode-btn {
+	margin: 1rem auto;
+	width: 20rem;
+}
+
+.connect-btn {
+	margin: 1rem auto;
+	width: 20rem;
+}
+
+.continue-btn {
+	margin: 1rem auto;
+	width: 20rem;
+	background-color: #4CAF50;
+	color: white;
+}
+
+.continue-btn:hover {
+	background-color: #45a049;
+}
+
+.back-mode-btn {
+	margin: 1rem auto;
+	width: 20rem;
+}
+
+#network-connection {
+	margin-top: 2rem;
+	text-align: center;
+}
+
+.connection-status {
+	font-size: 1.8rem;
+	font-family: "Days One", sans-serif;
+	padding: 1rem;
+	margin: 1rem 0;
+	background-color: #cacaca;
+	border: 2px solid #000000;
+	border-radius: 1rem;
+	min-height: 3rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .player1-bullet-in-clip {

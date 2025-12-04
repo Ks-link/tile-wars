@@ -32,6 +32,35 @@
                 <button class="btn start-btn">start</button>
             </section>
 
+            <section id="mode-screen">
+                <video autoplay muted loop class="video-background">
+                    <source src="media/moving-cubes.mp4" type="video/mp4">
+                </video>
+                <article class="misc-content">
+                    <h2 class="sm-title">Tile Wars</h2>
+                    <h3 class="sub-title">Select Game Mode</h3>
+                    <div class="mode-selection">
+                        <button class="btn mode-btn" id="local-mode-btn">Local Play</button>
+                        <button class="btn mode-btn" id="network-mode-btn">Network Play</button>
+                    </div>
+                    <div id="network-connection" style="display: none;">
+                        <div class="connection-status" id="connection-status">Enter server IP and click Connect</div>
+                        <label for="server-ip">
+                            <h4>Server IP Address:</h4>
+                            <p style="font-size: 1.2rem; padding: 0.5rem;">For same computer: localhost<br>For LAN:
+                                Enter the server's IP (shown in server console)</p>
+                        </label>
+                        <div class="name-row">
+                            <input placeholder="localhost" class="textbox" id="server-ip" name="server-ip" type="text">
+                        </div>
+                        <button class="btn connect-btn" id="connect-btn">Connect</button>
+                        <button class="btn continue-btn" id="continue-btn" style="display: none;">Continue to Game
+                            Options</button>
+                        <button class="btn back-mode-btn" id="back-mode-btn">Back</button>
+                    </div>
+                </article>
+            </section>
+
             <section id="how-screen">
                 <video autoplay muted loop class="video-background">
                     <source src="media/moving-cubes.mp4" type="video/mp4">
@@ -215,6 +244,7 @@
 
     </footer>
 
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
 </body>
 
 </html>
